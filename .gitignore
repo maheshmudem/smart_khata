@@ -43,3 +43,18 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Signing and secrets — never commit
+key.properties
+*.jks
+*.keystore
+*.p12
+.env
+.env.*
+
+# Local backup archives / fixtures that may hold real shop data
+*.skbak
+/test/fixtures/private/
+
+# Claude Code local settings
+.claude/settings.local.json
