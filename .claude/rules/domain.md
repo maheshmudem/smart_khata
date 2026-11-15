@@ -1,0 +1,20 @@
+---
+paths:
+  - "lib/**/domain/**"
+  - "lib/core/money/**"
+  - "lib/core/date_time/**"
+---
+
+# Domain rules
+
+- Plain Dart only. No imports of Flutter, Drift, BLoC, go_router, get_it, plugins, `dart:ui` or `dart:io`. The architecture test fails the build otherwise.
+- Amounts are `Money`. Never `double` or `num`. Use `Money.tryParse` for input and checked operators for arithmetic; `MoneyRangeError` means a bug or hostile input, not something to catch and ignore.
+- Time comes from an injected `Clock`; IDs from an injected `IdGenerator`. Never `DateTime.now()` or a literal UUID.
+- "Today" is the shop's `BusinessDate` in the shop time zone, not the UTC date.
+- A use case takes a typed command object, validates it, and returns `Result<T>`. It does not throw for expected problems and does not take a map of form fields.
+- Validation returns `ValidationFailure` with one `ValidationError` per field. Text for the owner is chosen in the presentation layer.
+- A party-account balance is the sum of signed ledger entries. Positive is the account's normal direction (customer owes shop; shop owes supplier), negative is an advance. Use `BalanceKind.of` to name it. Never add a customer balance to a supplier balance.
+- Allocation: oldest open charge first (by due date, then effective date, then ID) unless the owner overrides. Allocated total may not exceed the payment or any charge's open amount. The unallocated remainder is an advance and is never dropped.
+- Reversal: once per transaction, with a reason; release affected allocations first, then post exact opposite entries and movements.
+- Repository contracts live here as `abstract interface class`; implementations live in `data/`.
+- Every rule gets a unit test with at least one case that must be rejected.
