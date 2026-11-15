@@ -17,6 +17,7 @@ A decision that changes scope, data, accounting behaviour, security or a depende
 | [ADR-022](ADR-022-ledger-engine-rules.md) | Charges, credit-limit warning, running balance, reversal rules, totals after reversal | Accepted |
 | [ADR-023](ADR-023-payments-and-allocation-rules.md) | Payment posting, allocation rule and order, methods and money accounts, paid-now, returns | Accepted |
 | [ADR-024](ADR-024-cash-book-expenses-and-closing-rules.md) | Expense categories and posting, money accounts, adjustments, cash book periods, daily closing | Accepted |
+| [ADR-025](ADR-025-dashboard-reports-and-statements.md) | Dashboard figures, aging, period summary, statements as text and CSV, sharing; PDF deferred | Accepted |
 
 ## Writing a new ADR
 

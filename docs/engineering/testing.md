@@ -59,6 +59,8 @@ From `docs/product/04_Development_Testing_Plan.md` §5.2. Each one needs a passi
 
 Also enforced now: append-only tables reject UPDATE and DELETE; a repeated `operation_id` cannot post twice; a transaction can be reversed only once.
 
+Reports (Phase 5) add no invariant of their own; they are checked against the ledger instead: the dashboard total equals the aging total, advances are never netted against dues, reversed entries leave every total, a statement holds one party only, and CSV cells that look like formulas are made harmless (`reports_engine_test`, `report_cubits_test`, `csv_writer_test`, `report_flow_test`).
+
 ## Fixtures
 
 Use the worked examples in the test plan §5.3 (customer ₹300 + ₹1,500 + ₹500 − ₹1,000 = ₹1,300; excess receipt ₹800 against ₹600 leaves ₹200 advance; supplier ₹400 + ₹2,000 − ₹1,000 = ₹1,400; cash ₹2,000 + ₹800 − ₹300 − ₹500 = ₹2,000). Never real names, phones or shop data.

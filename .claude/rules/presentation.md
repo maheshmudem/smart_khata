@@ -31,6 +31,9 @@ paths:
 - Money-account balances can be negative: show them with `l10n.accountBalance`, not with a party-balance label.
 - One primary action per screen. Confirmation dialogs name the action on both buttons; no bare "OK".
 - Touch targets at least 48dp. Icon-only buttons have a `tooltip`. Layouts must survive Telugu at 2x text on a 320dp-wide screen: wrap text, avoid fixed heights, use `Flexible`/`Expanded`.
+- A report screen states its period or "as of" date, that amounts are in rupees, and whether it shows balances or totals (`ReportNote`). Use `PeriodFilter` for a period; do not build another date-range control.
+- Sharing goes through a cubit that mixes in `ShareActions`; a widget never calls `ShareService` or the plugin. Show no "sent" or "shared" message, only a failure to open the sheet. Build export text and CSV in `ReportExports` from the state on screen.
+- A label that also appears in the Quick Add sheet needs its own shorter key on Home; two widgets with the same text make taps and tests ambiguous.
 - Navigate with `AppRoutes` constants. Routes are declared only in `lib/app/router/app_router.dart`.
 - Never use the words Profit, Net worth, GST-compliant, Delivered, Synced or Cloud backup in V1 copy.
 - Widget tests: English and Telugu, text scale 1 and 2, and the failure state.

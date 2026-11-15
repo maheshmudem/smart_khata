@@ -23,5 +23,7 @@ paths:
 - A counted difference never posts by itself. It reaches the cash book only through `RecordAdjustment`, which needs a reason (ADR-024).
 - A money movement belongs to the business day its transaction is dated (`effective_at`), not the day it was typed.
 - An expense stores a snapshot of its category name; renaming or archiving a category must not change saved expenses.
+- Aging is of the unpaid part of each charge, from its due date or else its entry date, in the fixed buckets of `AgingBucket`. Dues and advances are separate figures and are never netted, per party or in a total (ADR-025).
+- A statement or export holds one party account only.
 - Repository contracts live here as `abstract interface class`; implementations live in `data/`.
 - Every rule gets a unit test with at least one case that must be rejected.

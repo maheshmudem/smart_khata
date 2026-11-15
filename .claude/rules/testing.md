@@ -17,6 +17,8 @@ paths:
 - Widget tests go through `pumpApp` so they get the real theme and translations. Compare against `l10nFor(locale)` strings, not literals. Cover Telugu and `textScale: 2, narrow: true` for anything with text.
 - A widget that animates forever (spinner) needs `pumpApp(..., settle: false)` and manual `pump` calls.
 - Full-app flows use `AppDriver` (`test/helpers/app_driver.dart`): `AppDriver.configure()` in `setUp`, `tester.pumpSmartKhata(env)`, `tapAndSettle`, `type`, `reveal` (lists build lazily, so scroll to off-screen content before asserting on it), `waitForSnackBarToGo`. A tap that misses its target fails the test.
+- In a full-app test, seed data with `pumpSmartKhata(env, seed: ...)`, before the app starts. Home keeps live queries open, and a database write made from `tester.runAsync` while they are listening never finishes (the test hangs until its timeout). Writes made through the UI are fine.
+- Sharing is tested through `env.share` (`RecordingShareService`): assert on what was handed over, and set `fail = true` for the failure path. Never call the real plugin in a test.
 - Add every new page to `party_pages_layout_test.dart` (English and Telugu, 2x text, 320dp) with its widest realistic content. It has caught real overflows.
 - A long form addressed by field position needs `pumpSmartKhata(env, tallScreen: true)`: lists build lazily and scrolling changes which fields exist. After returning to a scrolled page, `scrollToTop()` before asserting on its header.
 - To open a dropdown in a flow test, tap the `DropdownButtonFormField`, not its hint text (the hint does not take taps). To act on one row of a list, scope the finder to that row (`find.descendant(of: find.widgetWithText(ListTile, name), ...)`), never `.last`.

@@ -2,7 +2,7 @@
 
 An offline-first Android app that replaces the paper Khata book for Kirana and general stores in India: customer credit, supplier dues, payments, cash book, expenses, daily closing, reports and encrypted local backup. One shop, one owner, one phone. English and Telugu. No sign-in and no internet needed.
 
-**Status:** foundation, onboarding, parties, the ledger engine, payments, expenses, the cash book and daily closing are built. Dashboard, reports, statements, reminders, backup and app lock are not. See [Roadmap](#roadmap).
+**Status:** foundation, onboarding, parties, the ledger engine, payments, expenses, the cash book, daily closing, the dashboard, reports and statements (shared as text or CSV) are built. PDF statements, reminders, backup and app lock are not. See [Roadmap](#roadmap).
 
 ## Requirements
 
@@ -60,8 +60,8 @@ Each phase ends with a review. Backlog IDs refer to [`docs/product/07_Implementa
 | 2 | Ledger engine: credit, purchase, balances, reversal (E04) | Done |
 | 3 | Payments, allocations, returns (E05) | Done (cash refunds and cheques deferred) |
 | 4 | Expenses, cash book, daily closing (E06, E07) | Done |
-| 5 | Dashboard, reports, statements, PDF/CSV (E08, E09) | Next |
-| 6 | Reminders, backup and restore, app lock (E10, E11) | |
+| 5 | Dashboard, reports, statements, PDF/CSV (E08, E09) | Done, except PDF (waits for the Telugu PDF spike) |
+| 6 | Reminders, backup and restore, app lock (E10, E11) | Next |
 | 7 | Localization and accessibility pass, QA, pilot, release (E12, E13) | |
 
 Decisions that still need a person or a spike: [open decisions](docs/engineering/open-decisions.md).

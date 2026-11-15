@@ -76,11 +76,13 @@ lib/
     errors/                   Failure, Result, exception → failure mapping
     logging/                  AppLogger (redacting)
     database/                 Drift database, schema/*.drift, DAOs, converters
+    export/                   CsvWriter, ShareService contract (plain Dart)
     theme/ widgets/           design system
   features/<name>/            domain/ data/ presentation/ per feature
                               (built so far: onboarding, shop, parties, ledger incl.
                               payments, money incl. cash book, expenses,
-                              daily_closing, settings)
+                              daily_closing, reports incl. dashboard and
+                              statements, settings)
   l10n/                       app_en.arb, app_te.arb, generated/
 test/                         mirrors lib/, plus helpers/ and architecture/
 docs/product/                 approved product baseline (do not edit)

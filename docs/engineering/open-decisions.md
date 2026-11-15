@@ -26,7 +26,7 @@ Things that code cannot settle. Each blocks the phase named; none blocks the nex
 |---|---|---|---|
 | 13 | **Backup encryption and recovery** (SK-0004, SK-1104) | Backup (E11) | ADR-019 (proposed): passphrase → Argon2id → XChaCha20-Poly1305 via libsodium. Must be proven on a second phone. Adding a native crypto library must not add the INTERNET permission |
 | 14 | **Database encryption at rest** (SQLCipher or SQLite3MultipleCiphers) | Security hardening (E11) | Until decided, the app must not claim the local database is encrypted. App-private storage and disabled OS backup are in place |
-| 15 | **Telugu in PDFs**: an embeddable font and correct shaping in the `pdf` package (SK-0902) | Statements (E09) | Noto Sans Telugu (OFL) is already bundled. Telugu needs complex-script shaping; verify the output on real devices. Fallback: render the statement with Flutter and export as an image-based PDF |
+| 15 | **Telugu in PDFs**: an embeddable font and correct shaping in the `pdf` package (SK-0902). Still open after Phase 5: statements are shared as text or CSV until this is settled (ADR-025) | PDF statements and receipts | Noto Sans Telugu (OFL) is already bundled. Telugu needs complex-script shaping; verify the output on real devices. Fallback: render the statement with Flutter and export as an image-based PDF |
 | 16 | **Android file picker (SAF) for backup export** (SK-1105) | Backup (E11) | Choose a maintained plugin that supports create-document; test with local storage and Drive as destinations |
 | 17 | **Exact alarms / notification behaviour on Android 13–16** (SK-1001) | Reminders (E10) | `flutter_local_notifications`; prefer inexact scheduling to avoid the exact-alarm permission |
 | 18 | **PIN storage and throttling** (SK-0204, SK-1109) | App lock | Salted slow hash in `flutter_secure_storage` (Keystore-backed); biometrics through `local_auth`. No recovery promise for a forgotten PIN beyond restoring a backup |
@@ -61,6 +61,16 @@ For the accounting / merchant review:
 - An expense has one payment method; a split expense is two expenses.
 - Only today can be closed from the screen, and only the cash account is counted.
 - The default expense category names, in both languages, need merchant review.
+
+## Added by Phase 5 (ADR-025), for you and the reviews
+
+- PDF statements and receipts are not built; they wait for spike 15. Is text plus CSV enough for the pilot?
+- The dues report sorts by largest amount only. Is a sort by oldest due date wanted?
+- "Past due date" on Home counts only entries that were given a due date. Entries without one are never called overdue.
+- Aging buckets are fixed at 0–7, 8–15, 16–30 and more than 30 days.
+- Exported CSV files stay in the app's private cache until Android clears it. Should they be deleted when the app closes? (privacy review)
+- A statement does not include the party's phone number.
+- The new report and dashboard strings in Telugu are drafts like the rest.
 
 ## Decided during the foundation build
 

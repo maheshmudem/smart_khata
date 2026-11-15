@@ -20,6 +20,8 @@ paths:
 - Dynamic SQL (`customSelect`) lives only in a DAO, lists every table in `readsFrom`, binds every value as a variable, and builds ORDER BY / HAVING only from fixed strings in an enum. LIKE patterns are escaped.
 - Repositories expose live data as a `Stream` wrapped with `mapErrorsToFailures`, and one-shot reads as `Future<Result<T>>`.
 - Ledger ordering is `effective_at`, then `recorded_at`, then `id`.
+- Report queries live in `ReportsDao` and only read. Reuse its `_openCharges` and `_notReversed` fragments so that "unpaid" and "live" mean the same everywhere; totals leave reversed entries out, balances count every entry. Cap every list and return whether it was cut.
+- CSV is built only with `CsvWriter` (formula guard, quoting, byte-order mark); amounts go through `CsvWriter.amount` from paise.
 - Every posting to a party ledger goes through `DriftLedgerRepository` (and opening balances through `DriftPartyRepository`). A new posting type gets: idempotency check by `operation_id`, `_requirePostableAccount`, inserts only, `rebalance`, and a receipt.
 - Money-account and allocation rules that cross rows are checked in the repository inside the transaction (`_requireMoneyAccounts`, `AllocationPolicy.isValidManual`), not only in the form.
 - Test with `createTestDatabase()` (`test/helpers/test_database.dart`). For each composite write test: success, rollback when a late step fails, and a repeated `operation_id`.
