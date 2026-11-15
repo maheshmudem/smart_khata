@@ -6,9 +6,6 @@ Things that code cannot settle. Each blocks the phase named; none blocks the nex
 
 | # | Decision | Blocks | Recommendation |
 |---|---|---|---|
-| 1 | **Money accounts in V1**: Cash only, or Cash plus optional Bank/UPI accounts (schema open decision 2, SK-0003) | Payments (E05) | Create "Cash" at setup; let the owner add bank/UPI accounts. The schema already supports it and UPI payments need somewhere to land |
-| 2 | **Cash refunds for returns at launch** or in V1.1 (schema open decision 3) | Returns (SK-0510) | Launch with returns as credit notes only; add cash refund in V1.1. Fewer flows to get wrong in the pilot |
-| 3 | **Cheque** as a payment method (FR-PAY-004) | Payments (E05) | Defer to P1. The schema allows the code; the UI will not offer it |
 | 4 | **Reference device and minimum Android version** | Performance tests, release | minSdk 24 (Android 7.0) is set (ADR-018). Pick one real mid-range phone that pilot merchants use as the reference |
 | 5 | **Support contact and privacy policy URL** | Help screen (WF-083), Play listing | None exists yet. The app will not ship a made-up contact |
 | 6 | **Play Console account and app listing** | Release | Create the developer account early; identity verification can take days |
@@ -45,6 +42,17 @@ Things that code cannot settle. Each blocks the phase named; none blocks the nex
 - A reversal cannot itself be reversed; a mistaken reversal is fixed by posting the entry again.
 - After a reversal the app does not open a pre-filled replacement form; the owner adds the correct entry normally. Do merchants want the pre-filled form?
 - Telugu for "reverse / reversed" is drafted as రద్దు ("cancel"). Confirm it reads as "cancelled by a correcting entry", not "deleted".
+
+## Added by Phase 3 (ADR-023)
+
+Decisions 1, 2 and 3 of the original list were closed by building their recommendations: Cash plus owner-added bank/UPI accounts; returns as credit notes with cash refunds in V1.1; no cheque in the forms. Say so if any should change.
+
+For the accounting / merchant review:
+
+- A payment must settle dues before any of it can be an advance; the owner chooses which dues, not whether to settle.
+- Reversing a purchase leaves its "paid now" payment in place (it moves to the next due or becomes an advance).
+- A money account may go negative without a warning.
+- Receipt numbers are `RCP-0001…` and supplier payment vouchers `PAY-0001…`. Is that numbering acceptable?
 
 ## Decided during the foundation build
 

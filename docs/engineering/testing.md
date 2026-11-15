@@ -45,11 +45,11 @@ From `docs/product/04_Development_Testing_Plan.md` §5.2. Each one needs a passi
 | 1 | Customer balance = sum of signed customer ledger entries | derived query | ✅ `ledger_engine_test` |
 | 2 | Supplier payable = sum of signed supplier ledger entries | derived query | ✅ `ledger_engine_test` |
 | 3 | Customer and supplier accounts of one party are not netted | separate `party_accounts` | ✅ `schema_test`, party list and detail tests |
-| 4 | Allocations never exceed the payment | allocation trigger + domain | ✅ trigger; domain with E05 |
-| 5 | A charge is never allocated more than its open amount | allocation trigger + domain | ✅ trigger; domain with E05 |
-| 6 | Unallocated payment is an advance, never lost | negative balance | ✅ schema fixture; use case with E05 |
-| 7 | Customer receipt: ledger decrease and money inflow are atomic | one transaction | E05 |
-| 8 | Supplier payment: ledger decrease and money outflow are atomic | one transaction | E05 |
+| 4 | Allocations never exceed the payment | allocation trigger + domain | ✅ trigger, `allocation_policy_test`, `payment_engine_test` |
+| 5 | A charge is never allocated more than its open amount | allocation trigger + domain | ✅ trigger, policy tests, mixed-history check |
+| 6 | Unallocated payment is an advance, never lost | negative balance | ✅ `payment_engine_test` (excess receipt fixture) |
+| 7 | Customer receipt: ledger decrease and money inflow are atomic | one transaction | ✅ `payment_engine_test` (forced failure at two points) |
+| 8 | Supplier payment: ledger decrease and money outflow are atomic | one transaction | ✅ same posting path; paid-now pair tested for rollback |
 | 9 | Expense and money outflow are atomic | one transaction | E06 |
 | 10 | Reversal + original net to zero on every affected account | reversal service | ✅ party account and money account, incl. allocation release (`ledger_engine_test`) |
 | 11 | A failed operation leaves no partial rows | transaction rollback | ✅ shop setup, opening balance, charge, reversal; per use case as built |

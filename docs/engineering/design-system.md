@@ -67,7 +67,11 @@ Body line height is 1.5 because Telugu has marks above and below the line. Use `
 | `AppDateFormat` | Dates | Shop time zone, selected language |
 | `l10n.transactionTypeLabel`, `l10n.roleLabel` | Names of stored codes | Codes are stored; labels are looked up |
 
-Still to build with their features (wireframes §5): `PaymentSplitEditor`, `AllocationEditor`, `DateRangePicker`, `BackupStatusTile`. (`PartySearchField` is the party picker page; `TransactionListTile` is `LedgerLineTile`.)
+| `PaymentMethodPicker` | How a payment was made and through which account | In `features/money`; cash / UPI / bank transfer chips, account dropdown for non-cash, add a bank account inline |
+| `showAllocationEditor` | Choose which dues a payment settles | In `features/ledger`; one scrolling sheet, Done only when the amounts match |
+| `PartySelectorField` | The party of an entry form | In `features/parties`; opens the party picker |
+
+Still to build with their features (wireframes §5): `DateRangePicker`, `BackupStatusTile`. (`PartySearchField` is the party picker page; `TransactionListTile` is `LedgerLineTile`; `PaymentSplitEditor` is the rows of the payment form.)
 
 ## Money on screen
 
