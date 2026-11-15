@@ -38,6 +38,9 @@ final class BusinessDate implements Comparable<BusinessDate> {
   final int month;
   final int day;
 
+  /// Day of the week, Monday = 1 to Sunday = 7.
+  int get weekday => DateTime.utc(year, month, day).weekday;
+
   /// The stored form, e.g. `2026-11-14`.
   String toIso() =>
       '${year.toString().padLeft(4, '0')}-'

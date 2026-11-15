@@ -1,6 +1,7 @@
 import 'package:smart_khata/core/date_time/clock.dart';
 import 'package:smart_khata/core/errors/failure.dart';
 import 'package:smart_khata/core/errors/result.dart';
+import 'package:smart_khata/core/export/share_service.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
 import 'package:smart_khata/features/settings/domain/settings_repository.dart';
 
@@ -13,6 +14,54 @@ class FakeClock implements Clock {
 
   @override
   DateTime nowUtc() => now;
+}
+
+/// One thing handed to the share sheet.
+class SharedItem {
+  const SharedItem({
+    required this.content,
+    this.fileName,
+    this.mimeType,
+    this.subject,
+  });
+
+  final String content;
+  final String? fileName;
+  final String? mimeType;
+  final String? subject;
+
+  bool get isFile => fileName != null;
+}
+
+/// Records what would be handed to the share sheet. Set [fail] to make
+/// opening it fail.
+class RecordingShareService implements ShareService {
+  final List<SharedItem> shared = [];
+  bool fail = false;
+
+  @override
+  Future<void> shareText(String text, {String? subject}) async {
+    if (fail) throw StateError('share sheet unavailable');
+    shared.add(SharedItem(content: text, subject: subject));
+  }
+
+  @override
+  Future<void> shareFile({
+    required String fileName,
+    required String content,
+    required String mimeType,
+    String? subject,
+  }) async {
+    if (fail) throw StateError('share sheet unavailable');
+    shared.add(
+      SharedItem(
+        content: content,
+        fileName: fileName,
+        mimeType: mimeType,
+        subject: subject,
+      ),
+    );
+  }
 }
 
 /// Collects log records so tests can assert on them.

@@ -16,6 +16,7 @@ import 'package:smart_khata/features/money/domain/money_account.dart';
 import 'package:smart_khata/features/parties/data/drift_party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_commands.dart';
 import 'package:smart_khata/features/parties/domain/party_use_cases.dart';
+import 'package:smart_khata/features/reports/data/drift_reports_repository.dart';
 import 'package:smart_khata/features/shop/data/drift_shop_repository.dart';
 import 'package:smart_khata/features/shop/domain/create_shop.dart';
 import 'package:smart_khata/features/shop/domain/shop.dart';
@@ -92,6 +93,11 @@ class TestEnv {
     reverseTransaction = ReverseTransaction(ledger, clock);
     recordPayment = RecordPayment(ledger, clock);
     recordReturn = RecordReturn(ledger, clock);
+    reports = DriftReportsRepository(
+      dao: db.reportsDao,
+      shop: shops,
+      logger: logger,
+    );
     createShop = CreateShop(shops);
     saveParty = SaveParty(parties);
     findDuplicates = FindDuplicateParties(parties);
@@ -102,6 +108,7 @@ class TestEnv {
   final FakeClock clock = FakeClock();
   final SequentialIdGenerator ids = SequentialIdGenerator();
   final RecordingLogger logger = RecordingLogger();
+  final RecordingShareService share = RecordingShareService();
 
   late final DriftShopRepository shops;
   late final DriftPartyRepository parties;
@@ -119,6 +126,7 @@ class TestEnv {
   late final SaveExpenseCategory saveExpenseCategory;
   late final DriftDailyClosingRepository closings;
   late final CloseDay closeDay;
+  late final DriftReportsRepository reports;
   late final CreateShop createShop;
   late final SaveParty saveParty;
   late final FindDuplicateParties findDuplicates;

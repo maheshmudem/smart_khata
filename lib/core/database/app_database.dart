@@ -6,6 +6,7 @@ import 'package:smart_khata/core/database/daos/cash_dao.dart';
 import 'package:smart_khata/core/database/daos/ledger_dao.dart';
 import 'package:smart_khata/core/database/daos/money_dao.dart';
 import 'package:smart_khata/core/database/daos/parties_dao.dart';
+import 'package:smart_khata/core/database/daos/reports_dao.dart';
 import 'package:smart_khata/core/database/daos/settings_dao.dart';
 import 'package:smart_khata/core/database/daos/shop_dao.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
@@ -25,7 +26,15 @@ part 'app_database.g.dart';
     'schema/money.drift',
     'schema/operations.drift',
   },
-  daos: [SettingsDao, ShopDao, PartiesDao, LedgerDao, MoneyDao, CashDao],
+  daos: [
+    SettingsDao,
+    ShopDao,
+    PartiesDao,
+    LedgerDao,
+    MoneyDao,
+    CashDao,
+    ReportsDao,
+  ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
