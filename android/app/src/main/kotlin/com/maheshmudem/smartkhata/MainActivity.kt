@@ -1,4 +1,4 @@
-package com.example.smart_khata
+package com.maheshmudem.smartkhata
 
 import io.flutter.embedding.android.FlutterActivity
 
