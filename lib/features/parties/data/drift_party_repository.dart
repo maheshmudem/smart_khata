@@ -179,6 +179,7 @@ final class DriftPartyRepository implements PartyRepository {
                 amount: Money.fromPaise(row.amountPaise),
                 effectiveAt: row.effectiveAt,
                 description: row.description,
+                isReversed: row.isReversed,
               ),
           ],
         ),

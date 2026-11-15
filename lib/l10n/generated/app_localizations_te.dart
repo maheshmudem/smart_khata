@@ -544,4 +544,209 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get partyReactivatedSnack => 'ఖాతాదారు మళ్లీ యాక్టివ్ అయ్యారు';
+
+  @override
+  String get validationDueBeforeDate =>
+      'గడువు తేదీ ఎంట్రీ తేదీ కంటే ముందు ఉండకూడదు.';
+
+  @override
+  String get validationPartyRequired => 'కొనసాగడానికి ఖాతాదారును ఎంచుకోండి.';
+
+  @override
+  String get errorAlreadyReversed => 'ఈ ఎంట్రీ ఇప్పటికే రద్దు అయింది.';
+
+  @override
+  String get errorCannotReverseReversal =>
+      'రద్దు ఎంట్రీని మళ్లీ రద్దు చేయలేరు. కొత్త ఎంట్రీ జోడించండి.';
+
+  @override
+  String get giveCreditTitle => 'అప్పు ఇవ్వండి';
+
+  @override
+  String get addPurchaseTitle => 'కొనుగోలు జోడించండి';
+
+  @override
+  String get customerLabel => 'కస్టమర్';
+
+  @override
+  String get supplierLabel => 'సరఫరాదారు';
+
+  @override
+  String get chooseCustomer => 'కస్టమర్‌ను ఎంచుకోండి';
+
+  @override
+  String get chooseSupplier => 'సరఫరాదారును ఎంచుకోండి';
+
+  @override
+  String get dateLabel => 'తేదీ';
+
+  @override
+  String get dueDateLabel => 'గడువు తేదీ';
+
+  @override
+  String get dueDateNone => 'గడువు తేదీ లేదు';
+
+  @override
+  String get clearDueDateTooltip => 'గడువు తేదీ తొలగించు';
+
+  @override
+  String get descriptionLabel => 'వివరణ';
+
+  @override
+  String get reviewCreditAdded => 'జోడిస్తున్న అప్పు';
+
+  @override
+  String get reviewPurchaseAdded => 'జోడిస్తున్న కొనుగోలు';
+
+  @override
+  String get actionSaveCredit => 'అప్పు సేవ్ చేయి';
+
+  @override
+  String get actionSavePurchase => 'కొనుగోలు సేవ్ చేయి';
+
+  @override
+  String get chargeNoCashNote =>
+      'డబ్బు అందినట్టు లేదా చెల్లించినట్టు నమోదు కాదు.';
+
+  @override
+  String creditSaved(String balance) {
+    return 'అప్పు సేవ్ అయింది. $balance';
+  }
+
+  @override
+  String purchaseSaved(String balance) {
+    return 'కొనుగోలు సేవ్ అయింది. $balance';
+  }
+
+  @override
+  String creditLimitWarning(String amount) {
+    return 'దీని వల్ల కస్టమర్ అప్పు పరిమితి $amount దాటుతుంది.';
+  }
+
+  @override
+  String get creditLimitConfirmTitle => 'అప్పు పరిమితి దాటింది';
+
+  @override
+  String get actionSaveAnyway => 'అయినా సేవ్ చేయి';
+
+  @override
+  String get actionGoBack => 'వెనక్కి';
+
+  @override
+  String get pickPartySearchHint => 'పేరు లేదా ఫోన్ వెతకండి';
+
+  @override
+  String get actionAddNewCustomer => 'కొత్త కస్టమర్‌ను జోడించండి';
+
+  @override
+  String get actionAddNewSupplier => 'కొత్త సరఫరాదారును జోడించండి';
+
+  @override
+  String get actionGiveCredit => 'అప్పు ఇవ్వండి';
+
+  @override
+  String get actionAddPurchase => 'కొనుగోలు జోడించండి';
+
+  @override
+  String get actionViewLedger => 'ఖాతా చూడండి';
+
+  @override
+  String get ledgerTitle => 'ఖాతా';
+
+  @override
+  String ledgerBalanceAfter(String balance) {
+    return 'బాకీ: $balance';
+  }
+
+  @override
+  String ledgerDue(String date) {
+    return 'గడువు $date';
+  }
+
+  @override
+  String get ledgerReversedTag => 'రద్దు అయింది';
+
+  @override
+  String get ledgerEmptyTitle => 'ఇంకా ఎంట్రీలు లేవు';
+
+  @override
+  String get transactionTitle => 'ఎంట్రీ వివరాలు';
+
+  @override
+  String get transactionEffectiveDate => 'తేదీ';
+
+  @override
+  String get transactionRecordedDate => 'నమోదు చేసిన తేదీ';
+
+  @override
+  String get transactionReference => 'రిఫరెన్స్';
+
+  @override
+  String get transactionEffect => 'బాకీపై ప్రభావం';
+
+  @override
+  String get transactionCurrentBalance => 'ప్రస్తుత బాకీ';
+
+  @override
+  String get transactionReversedBanner =>
+      'ఈ ఎంట్రీ రద్దు అయింది. ఇది చరిత్రలో అలాగే ఉంటుంది.';
+
+  @override
+  String get transactionIsReversalBanner =>
+      'ఈ ఎంట్రీ ఇంతకు ముందు ఎంట్రీని రద్దు చేస్తుంది.';
+
+  @override
+  String get transactionReason => 'కారణం';
+
+  @override
+  String get actionViewOriginal => 'అసలు ఎంట్రీ చూడండి';
+
+  @override
+  String get actionViewReversal => 'రద్దు ఎంట్రీ చూడండి';
+
+  @override
+  String get actionReverse => 'ఈ ఎంట్రీని రద్దు చేయి';
+
+  @override
+  String get actionCopyReference => 'రిఫరెన్స్ కాపీ చేయి';
+
+  @override
+  String get referenceCopied => 'రిఫరెన్స్ కాపీ అయింది';
+
+  @override
+  String get reverseTitle => 'ఎంట్రీ రద్దు';
+
+  @override
+  String get reverseExplain =>
+      'సేవ్ అయిన ఎంట్రీని మార్చడం లేదా తొలగించడం జరగదు. రద్దు చేస్తే దాన్ని రద్దు చేసే కొత్త ఎంట్రీ జోడవుతుంది; రెండూ చరిత్రలో ఉంటాయి.';
+
+  @override
+  String get reverseOriginal => 'అసలు ఎంట్రీ';
+
+  @override
+  String get reasonLabel => 'కారణం';
+
+  @override
+  String get reasonHint => 'ఉదాహరణ: తప్పు మొత్తం';
+
+  @override
+  String get reverseBalanceAfter => 'రద్దు తర్వాత బాకీ';
+
+  @override
+  String get actionReviewReversal => 'ఎంట్రీ రద్దు చేయి';
+
+  @override
+  String get reverseConfirmTitle => 'ఈ ఎంట్రీని రద్దు చేయాలా?';
+
+  @override
+  String get reverseConfirmBody =>
+      'దీన్ని వెనక్కి తీసుకోలేరు. తర్వాత సరిచేయడానికి కొత్త ఎంట్రీ జోడించండి.';
+
+  @override
+  String get actionConfirmReverse => 'రద్దు చేయి';
+
+  @override
+  String reversalSaved(String balance) {
+    return 'ఎంట్రీ రద్దు అయింది. $balance';
+  }
 }

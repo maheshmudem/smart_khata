@@ -41,6 +41,8 @@ enum ValidationError {
   tooLong,
   roleRequired,
   dateInFuture,
+  dueBeforeDate,
+  partyRequired,
 }
 
 /// The same operation ID was already posted. The earlier write stands, so
@@ -123,6 +125,12 @@ enum RuleViolation {
 
   /// The party is archived; reactivate it before posting.
   partyArchived,
+
+  /// The transaction has already been reversed once.
+  transactionAlreadyReversed,
+
+  /// A reversal cannot itself be reversed; post a new entry instead.
+  cannotReverseReversal,
 }
 
 /// Anything not recognised above.

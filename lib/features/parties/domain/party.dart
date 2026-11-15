@@ -147,6 +147,7 @@ class LedgerEntrySummary extends Equatable {
     required this.transactionType,
     required this.amount,
     required this.effectiveAt,
+    this.isReversed = false,
     this.description,
   });
 
@@ -160,6 +161,9 @@ class LedgerEntrySummary extends Equatable {
   final DateTime effectiveAt;
   final String? description;
 
+  /// A later reversal has cancelled this entry. It stays in the history.
+  final bool isReversed;
+
   @override
   List<Object?> get props => [
     entryId,
@@ -169,5 +173,6 @@ class LedgerEntrySummary extends Equatable {
     amount,
     effectiveAt,
     description,
+    isReversed,
   ];
 }

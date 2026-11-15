@@ -231,5 +231,109 @@
   "actionSaveOpeningBalance": "Save opening balance",
   "openingSaved": "Opening balance saved",
   "partyArchivedSnack": "Party archived",
-  "partyReactivatedSnack": "Party reactivated"
+  "partyReactivatedSnack": "Party reactivated",
+  "validationDueBeforeDate": "The due date cannot be before the entry date.",
+  "validationPartyRequired": "Choose a party to continue.",
+  "errorAlreadyReversed": "This transaction is already reversed.",
+  "errorCannotReverseReversal": "A reversal cannot be reversed. Add a new entry instead.",
+  "giveCreditTitle": "Give credit",
+  "addPurchaseTitle": "Add purchase",
+  "customerLabel": "Customer",
+  "supplierLabel": "Supplier",
+  "chooseCustomer": "Choose customer",
+  "chooseSupplier": "Choose supplier",
+  "dateLabel": "Date",
+  "dueDateLabel": "Due date",
+  "dueDateNone": "No due date",
+  "clearDueDateTooltip": "Remove due date",
+  "descriptionLabel": "Description",
+  "reviewCreditAdded": "Credit being added",
+  "reviewPurchaseAdded": "Purchase being added",
+  "actionSaveCredit": "Save credit",
+  "actionSavePurchase": "Save purchase",
+  "chargeNoCashNote": "No money is recorded as received or paid.",
+  "creditSaved": "Credit saved. {balance}",
+  "@creditSaved": {
+    "placeholders": {
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "purchaseSaved": "Purchase saved. {balance}",
+  "@purchaseSaved": {
+    "placeholders": {
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "creditLimitWarning": "This takes the customer above the credit limit of {amount}.",
+  "@creditLimitWarning": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditLimitConfirmTitle": "Credit limit crossed",
+  "actionSaveAnyway": "Save anyway",
+  "actionGoBack": "Go back",
+  "pickPartySearchHint": "Search name or phone",
+  "actionAddNewCustomer": "Add new customer",
+  "actionAddNewSupplier": "Add new supplier",
+  "actionGiveCredit": "Give credit",
+  "actionAddPurchase": "Add purchase",
+  "actionViewLedger": "View ledger",
+  "ledgerTitle": "Ledger",
+  "ledgerBalanceAfter": "Balance: {balance}",
+  "@ledgerBalanceAfter": {
+    "placeholders": {
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "ledgerDue": "Due {date}",
+  "@ledgerDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "ledgerReversedTag": "Reversed",
+  "ledgerEmptyTitle": "No entries yet",
+  "transactionTitle": "Entry details",
+  "transactionEffectiveDate": "Date",
+  "transactionRecordedDate": "Recorded on",
+  "transactionReference": "Reference",
+  "transactionEffect": "Effect on balance",
+  "transactionCurrentBalance": "Balance now",
+  "transactionReversedBanner": "This entry was reversed. It stays in the history.",
+  "transactionIsReversalBanner": "This entry reverses an earlier entry.",
+  "transactionReason": "Reason",
+  "actionViewOriginal": "View original entry",
+  "actionViewReversal": "View reversing entry",
+  "actionReverse": "Reverse this entry",
+  "actionCopyReference": "Copy reference",
+  "referenceCopied": "Reference copied",
+  "reverseTitle": "Reverse entry",
+  "reverseExplain": "A saved entry is not edited or deleted. Reversing adds a new entry that cancels it; both stay in the history.",
+  "reverseOriginal": "Original entry",
+  "reasonLabel": "Reason",
+  "reasonHint": "For example: wrong amount",
+  "reverseBalanceAfter": "Balance after reversal",
+  "actionReviewReversal": "Reverse entry",
+  "reverseConfirmTitle": "Reverse this entry?",
+  "reverseConfirmBody": "This cannot be undone. To correct it afterwards, add a new entry.",
+  "actionConfirmReverse": "Reverse",
+  "reversalSaved": "Entry reversed. {balance}",
+  "@reversalSaved": {
+    "placeholders": {
+      "balance": {
+        "type": "String"
+      }
+    }
+  }
 }

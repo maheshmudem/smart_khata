@@ -75,6 +75,7 @@ class LedgerEntryRow {
     required this.amountPaise,
     required this.effectiveAt,
     required this.description,
+    required this.isReversed,
   });
 
   final String entryId;
@@ -84,6 +85,7 @@ class LedgerEntryRow {
   final int amountPaise;
   final DateTime effectiveAt;
   final String? description;
+  final bool isReversed;
 }
 
 const _roles = CodedEnumConverter<PartyRole>(PartyRole.values);
@@ -204,14 +206,23 @@ class PartiesDao extends DatabaseAccessor<AppDatabase> with _$PartiesDaoMixin {
         '''
     SELECT a.id AS account_id, a.role AS role,
            COALESCE(SUM(e.amount_paise), 0) AS balance_paise,
-           COALESCE(SUM(CASE WHEN e.amount_paise > 0
+           COALESCE(SUM(CASE WHEN e.live = 1 AND e.amount_paise > 0
                              THEN e.amount_paise END), 0) AS charges_paise,
-           COALESCE(SUM(CASE WHEN e.amount_paise < 0
+           COALESCE(SUM(CASE WHEN e.live = 1 AND e.amount_paise < 0
                              THEN -e.amount_paise END), 0) AS settlements_paise,
-           COALESCE(SUM(CASE WHEN e.entry_kind = 'opening'
+           COALESCE(SUM(CASE WHEN e.live = 1 AND e.entry_kind = 'opening'
                              THEN 1 END), 0) AS opening_count
     FROM party_accounts a
-    LEFT JOIN party_ledger_entries e ON e.party_account_id = a.id
+    LEFT JOIN (
+      -- "live" = neither a reversal nor an entry that has been reversed.
+      -- The balance counts every entry; the totals count live ones only.
+      SELECT x.party_account_id, x.amount_paise, x.entry_kind,
+             CASE WHEN x.entry_kind = 'reversal' OR EXISTS (
+               SELECT 1 FROM financial_transactions r
+               WHERE r.reversal_of_transaction_id = x.transaction_id
+             ) THEN 0 ELSE 1 END AS live
+      FROM party_ledger_entries x
+    ) e ON e.party_account_id = a.id
     WHERE a.shop_id = ? AND a.party_id = ?
     GROUP BY a.id
     ORDER BY a.role ASC
@@ -241,7 +252,9 @@ class PartiesDao extends DatabaseAccessor<AppDatabase> with _$PartiesDaoMixin {
     SELECT e.id AS entry_id, t.id AS transaction_id, e.entry_kind AS kind,
            t.transaction_type AS transaction_type,
            e.amount_paise AS amount_paise, t.effective_at AS effective_at,
-           t.description AS description
+           t.description AS description,
+           EXISTS (SELECT 1 FROM financial_transactions r
+                   WHERE r.reversal_of_transaction_id = t.id) AS is_reversed
     FROM party_ledger_entries e
     JOIN financial_transactions t ON t.id = e.transaction_id
     WHERE e.shop_id = ? AND e.party_account_id = ?
@@ -267,6 +280,7 @@ class PartiesDao extends DatabaseAccessor<AppDatabase> with _$PartiesDaoMixin {
               amountPaise: row.read<int>('amount_paise'),
               effectiveAt: _instants.fromSql(row.read<int>('effective_at')),
               description: row.readNullable<String>('description'),
+              isReversed: row.read<bool>('is_reversed'),
             ),
         ],
       );
@@ -307,16 +321,21 @@ class PartiesDao extends DatabaseAccessor<AppDatabase> with _$PartiesDaoMixin {
           ))
           .getSingleOrNull();
 
+  /// Whether the account has an opening balance that still stands (one
+  /// that was reversed no longer counts, so a corrected one can be posted).
   Future<bool> hasOpeningEntry(String accountId) async {
-    final row =
-        await (select(partyLedgerEntries)
-              ..where(
-                (t) =>
-                    t.partyAccountId.equals(accountId) &
-                    t.entryKind.equalsValue(LedgerEntryKind.opening),
-              )
-              ..limit(1))
-            .getSingleOrNull();
+    final row = await customSelect(
+      '''
+      SELECT 1 AS found FROM party_ledger_entries e
+      WHERE e.party_account_id = ? AND e.entry_kind = 'opening'
+        AND NOT EXISTS (
+          SELECT 1 FROM financial_transactions r
+          WHERE r.reversal_of_transaction_id = e.transaction_id
+        )
+      LIMIT 1
+      ''',
+      variables: [Variable.withString(accountId)],
+    ).getSingleOrNull();
     return row != null;
   }
 

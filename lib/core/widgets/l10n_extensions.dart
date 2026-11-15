@@ -31,6 +31,8 @@ extension FailureMessageX on AppLocalizations {
     RuleFailure(:final violation) => switch (violation) {
       RuleViolation.openingBalanceAlreadyRecorded => errorOpeningBalanceExists,
       RuleViolation.partyArchived => errorPartyArchived,
+      RuleViolation.transactionAlreadyReversed => errorAlreadyReversed,
+      RuleViolation.cannotReverseReversal => errorCannotReverseReversal,
     },
     UnexpectedFailure() => errorUnexpected,
   };
@@ -46,6 +48,8 @@ extension FailureMessageX on AppLocalizations {
     ValidationError.tooLong => validationTooLong,
     ValidationError.roleRequired => validationRoleRequired,
     ValidationError.dateInFuture => validationDateInFuture,
+    ValidationError.dueBeforeDate => validationDueBeforeDate,
+    ValidationError.partyRequired => validationPartyRequired,
   };
 
   /// The direction label shown next to a balance.

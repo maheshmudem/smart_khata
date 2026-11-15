@@ -1087,6 +1087,378 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Party reactivated'**
   String get partyReactivatedSnack;
+
+  /// No description provided for @validationDueBeforeDate.
+  ///
+  /// In en, this message translates to:
+  /// **'The due date cannot be before the entry date.'**
+  String get validationDueBeforeDate;
+
+  /// No description provided for @validationPartyRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a party to continue.'**
+  String get validationPartyRequired;
+
+  /// No description provided for @errorAlreadyReversed.
+  ///
+  /// In en, this message translates to:
+  /// **'This transaction is already reversed.'**
+  String get errorAlreadyReversed;
+
+  /// No description provided for @errorCannotReverseReversal.
+  ///
+  /// In en, this message translates to:
+  /// **'A reversal cannot be reversed. Add a new entry instead.'**
+  String get errorCannotReverseReversal;
+
+  /// No description provided for @giveCreditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Give credit'**
+  String get giveCreditTitle;
+
+  /// No description provided for @addPurchaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add purchase'**
+  String get addPurchaseTitle;
+
+  /// No description provided for @customerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get customerLabel;
+
+  /// No description provided for @supplierLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplier'**
+  String get supplierLabel;
+
+  /// No description provided for @chooseCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose customer'**
+  String get chooseCustomer;
+
+  /// No description provided for @chooseSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose supplier'**
+  String get chooseSupplier;
+
+  /// No description provided for @dateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get dateLabel;
+
+  /// No description provided for @dueDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date'**
+  String get dueDateLabel;
+
+  /// No description provided for @dueDateNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No due date'**
+  String get dueDateNone;
+
+  /// No description provided for @clearDueDateTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove due date'**
+  String get clearDueDateTooltip;
+
+  /// No description provided for @descriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get descriptionLabel;
+
+  /// No description provided for @reviewCreditAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit being added'**
+  String get reviewCreditAdded;
+
+  /// No description provided for @reviewPurchaseAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase being added'**
+  String get reviewPurchaseAdded;
+
+  /// No description provided for @actionSaveCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Save credit'**
+  String get actionSaveCredit;
+
+  /// No description provided for @actionSavePurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Save purchase'**
+  String get actionSavePurchase;
+
+  /// No description provided for @chargeNoCashNote.
+  ///
+  /// In en, this message translates to:
+  /// **'No money is recorded as received or paid.'**
+  String get chargeNoCashNote;
+
+  /// No description provided for @creditSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit saved. {balance}'**
+  String creditSaved(String balance);
+
+  /// No description provided for @purchaseSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase saved. {balance}'**
+  String purchaseSaved(String balance);
+
+  /// No description provided for @creditLimitWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This takes the customer above the credit limit of {amount}.'**
+  String creditLimitWarning(String amount);
+
+  /// No description provided for @creditLimitConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit limit crossed'**
+  String get creditLimitConfirmTitle;
+
+  /// No description provided for @actionSaveAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Save anyway'**
+  String get actionSaveAnyway;
+
+  /// No description provided for @actionGoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back'**
+  String get actionGoBack;
+
+  /// No description provided for @pickPartySearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search name or phone'**
+  String get pickPartySearchHint;
+
+  /// No description provided for @actionAddNewCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new customer'**
+  String get actionAddNewCustomer;
+
+  /// No description provided for @actionAddNewSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new supplier'**
+  String get actionAddNewSupplier;
+
+  /// No description provided for @actionGiveCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Give credit'**
+  String get actionGiveCredit;
+
+  /// No description provided for @actionAddPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Add purchase'**
+  String get actionAddPurchase;
+
+  /// No description provided for @actionViewLedger.
+  ///
+  /// In en, this message translates to:
+  /// **'View ledger'**
+  String get actionViewLedger;
+
+  /// No description provided for @ledgerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ledger'**
+  String get ledgerTitle;
+
+  /// No description provided for @ledgerBalanceAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance: {balance}'**
+  String ledgerBalanceAfter(String balance);
+
+  /// No description provided for @ledgerDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due {date}'**
+  String ledgerDue(String date);
+
+  /// No description provided for @ledgerReversedTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Reversed'**
+  String get ledgerReversedTag;
+
+  /// No description provided for @ledgerEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries yet'**
+  String get ledgerEmptyTitle;
+
+  /// No description provided for @transactionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry details'**
+  String get transactionTitle;
+
+  /// No description provided for @transactionEffectiveDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get transactionEffectiveDate;
+
+  /// No description provided for @transactionRecordedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded on'**
+  String get transactionRecordedDate;
+
+  /// No description provided for @transactionReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference'**
+  String get transactionReference;
+
+  /// No description provided for @transactionEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'Effect on balance'**
+  String get transactionEffect;
+
+  /// No description provided for @transactionCurrentBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance now'**
+  String get transactionCurrentBalance;
+
+  /// No description provided for @transactionReversedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This entry was reversed. It stays in the history.'**
+  String get transactionReversedBanner;
+
+  /// No description provided for @transactionIsReversalBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This entry reverses an earlier entry.'**
+  String get transactionIsReversalBanner;
+
+  /// No description provided for @transactionReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get transactionReason;
+
+  /// No description provided for @actionViewOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'View original entry'**
+  String get actionViewOriginal;
+
+  /// No description provided for @actionViewReversal.
+  ///
+  /// In en, this message translates to:
+  /// **'View reversing entry'**
+  String get actionViewReversal;
+
+  /// No description provided for @actionReverse.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse this entry'**
+  String get actionReverse;
+
+  /// No description provided for @actionCopyReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy reference'**
+  String get actionCopyReference;
+
+  /// No description provided for @referenceCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference copied'**
+  String get referenceCopied;
+
+  /// No description provided for @reverseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse entry'**
+  String get reverseTitle;
+
+  /// No description provided for @reverseExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'A saved entry is not edited or deleted. Reversing adds a new entry that cancels it; both stay in the history.'**
+  String get reverseExplain;
+
+  /// No description provided for @reverseOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Original entry'**
+  String get reverseOriginal;
+
+  /// No description provided for @reasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get reasonLabel;
+
+  /// No description provided for @reasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: wrong amount'**
+  String get reasonHint;
+
+  /// No description provided for @reverseBalanceAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance after reversal'**
+  String get reverseBalanceAfter;
+
+  /// No description provided for @actionReviewReversal.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse entry'**
+  String get actionReviewReversal;
+
+  /// No description provided for @reverseConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse this entry?'**
+  String get reverseConfirmTitle;
+
+  /// No description provided for @reverseConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone. To correct it afterwards, add a new entry.'**
+  String get reverseConfirmBody;
+
+  /// No description provided for @actionConfirmReverse.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse'**
+  String get actionConfirmReverse;
+
+  /// No description provided for @reversalSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry reversed. {balance}'**
+  String reversalSaved(String balance);
 }
 
 class _AppLocalizationsDelegate

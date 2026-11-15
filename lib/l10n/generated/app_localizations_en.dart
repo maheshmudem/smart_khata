@@ -543,4 +543,208 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partyReactivatedSnack => 'Party reactivated';
+
+  @override
+  String get validationDueBeforeDate =>
+      'The due date cannot be before the entry date.';
+
+  @override
+  String get validationPartyRequired => 'Choose a party to continue.';
+
+  @override
+  String get errorAlreadyReversed => 'This transaction is already reversed.';
+
+  @override
+  String get errorCannotReverseReversal =>
+      'A reversal cannot be reversed. Add a new entry instead.';
+
+  @override
+  String get giveCreditTitle => 'Give credit';
+
+  @override
+  String get addPurchaseTitle => 'Add purchase';
+
+  @override
+  String get customerLabel => 'Customer';
+
+  @override
+  String get supplierLabel => 'Supplier';
+
+  @override
+  String get chooseCustomer => 'Choose customer';
+
+  @override
+  String get chooseSupplier => 'Choose supplier';
+
+  @override
+  String get dateLabel => 'Date';
+
+  @override
+  String get dueDateLabel => 'Due date';
+
+  @override
+  String get dueDateNone => 'No due date';
+
+  @override
+  String get clearDueDateTooltip => 'Remove due date';
+
+  @override
+  String get descriptionLabel => 'Description';
+
+  @override
+  String get reviewCreditAdded => 'Credit being added';
+
+  @override
+  String get reviewPurchaseAdded => 'Purchase being added';
+
+  @override
+  String get actionSaveCredit => 'Save credit';
+
+  @override
+  String get actionSavePurchase => 'Save purchase';
+
+  @override
+  String get chargeNoCashNote => 'No money is recorded as received or paid.';
+
+  @override
+  String creditSaved(String balance) {
+    return 'Credit saved. $balance';
+  }
+
+  @override
+  String purchaseSaved(String balance) {
+    return 'Purchase saved. $balance';
+  }
+
+  @override
+  String creditLimitWarning(String amount) {
+    return 'This takes the customer above the credit limit of $amount.';
+  }
+
+  @override
+  String get creditLimitConfirmTitle => 'Credit limit crossed';
+
+  @override
+  String get actionSaveAnyway => 'Save anyway';
+
+  @override
+  String get actionGoBack => 'Go back';
+
+  @override
+  String get pickPartySearchHint => 'Search name or phone';
+
+  @override
+  String get actionAddNewCustomer => 'Add new customer';
+
+  @override
+  String get actionAddNewSupplier => 'Add new supplier';
+
+  @override
+  String get actionGiveCredit => 'Give credit';
+
+  @override
+  String get actionAddPurchase => 'Add purchase';
+
+  @override
+  String get actionViewLedger => 'View ledger';
+
+  @override
+  String get ledgerTitle => 'Ledger';
+
+  @override
+  String ledgerBalanceAfter(String balance) {
+    return 'Balance: $balance';
+  }
+
+  @override
+  String ledgerDue(String date) {
+    return 'Due $date';
+  }
+
+  @override
+  String get ledgerReversedTag => 'Reversed';
+
+  @override
+  String get ledgerEmptyTitle => 'No entries yet';
+
+  @override
+  String get transactionTitle => 'Entry details';
+
+  @override
+  String get transactionEffectiveDate => 'Date';
+
+  @override
+  String get transactionRecordedDate => 'Recorded on';
+
+  @override
+  String get transactionReference => 'Reference';
+
+  @override
+  String get transactionEffect => 'Effect on balance';
+
+  @override
+  String get transactionCurrentBalance => 'Balance now';
+
+  @override
+  String get transactionReversedBanner =>
+      'This entry was reversed. It stays in the history.';
+
+  @override
+  String get transactionIsReversalBanner =>
+      'This entry reverses an earlier entry.';
+
+  @override
+  String get transactionReason => 'Reason';
+
+  @override
+  String get actionViewOriginal => 'View original entry';
+
+  @override
+  String get actionViewReversal => 'View reversing entry';
+
+  @override
+  String get actionReverse => 'Reverse this entry';
+
+  @override
+  String get actionCopyReference => 'Copy reference';
+
+  @override
+  String get referenceCopied => 'Reference copied';
+
+  @override
+  String get reverseTitle => 'Reverse entry';
+
+  @override
+  String get reverseExplain =>
+      'A saved entry is not edited or deleted. Reversing adds a new entry that cancels it; both stay in the history.';
+
+  @override
+  String get reverseOriginal => 'Original entry';
+
+  @override
+  String get reasonLabel => 'Reason';
+
+  @override
+  String get reasonHint => 'For example: wrong amount';
+
+  @override
+  String get reverseBalanceAfter => 'Balance after reversal';
+
+  @override
+  String get actionReviewReversal => 'Reverse entry';
+
+  @override
+  String get reverseConfirmTitle => 'Reverse this entry?';
+
+  @override
+  String get reverseConfirmBody =>
+      'This cannot be undone. To correct it afterwards, add a new entry.';
+
+  @override
+  String get actionConfirmReverse => 'Reverse';
+
+  @override
+  String reversalSaved(String balance) {
+    return 'Entry reversed. $balance';
+  }
 }

@@ -2,6 +2,8 @@ import 'package:drift/drift.dart' show Variable;
 import 'package:smart_khata/core/database/app_database.dart' show AppDatabase;
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/features/ledger/data/drift_ledger_repository.dart';
+import 'package:smart_khata/features/ledger/domain/ledger_use_cases.dart';
 import 'package:smart_khata/features/parties/data/drift_party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_commands.dart';
 import 'package:smart_khata/features/parties/domain/party_use_cases.dart';
@@ -36,6 +38,15 @@ class TestEnv {
       ids: ids,
       logger: logger,
     );
+    ledger = DriftLedgerRepository(
+      dao: db.ledgerDao,
+      shop: shops,
+      clock: clock,
+      ids: ids,
+      logger: logger,
+    );
+    recordCharge = RecordCharge(ledger, clock);
+    reverseTransaction = ReverseTransaction(ledger, clock);
     createShop = CreateShop(shops);
     saveParty = SaveParty(parties);
     findDuplicates = FindDuplicateParties(parties);
@@ -49,6 +60,9 @@ class TestEnv {
 
   late final DriftShopRepository shops;
   late final DriftPartyRepository parties;
+  late final DriftLedgerRepository ledger;
+  late final RecordCharge recordCharge;
+  late final ReverseTransaction reverseTransaction;
   late final CreateShop createShop;
   late final SaveParty saveParty;
   late final FindDuplicateParties findDuplicates;
