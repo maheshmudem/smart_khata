@@ -1,0 +1,152 @@
+-- Append-only financial source of truth: transaction headers, party ledger
+-- lines and allocation events. Corrections are new rows (ADR-006, ADR-007).
+
+import '../converters.dart';
+import '../../domain/ledger_enums.dart';
+import 'parties.drift';
+
+CREATE TABLE financial_transactions (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  party_account_id TEXT REFERENCES party_accounts(id) ON DELETE RESTRICT,
+  transaction_type TEXT NOT NULL CHECK(transaction_type IN (
+    'opening_balance','customer_credit','customer_payment','customer_sales_return',
+    'supplier_purchase','supplier_payment','supplier_purchase_return',
+    'customer_refund','supplier_refund','expense',
+    'cash_adjustment','bank_adjustment','party_adjustment','transaction_reversal'
+  )) MAPPED BY `const CodedEnumConverter<TransactionType>(TransactionType.values)`,
+  amount_paise INTEGER NOT NULL CHECK(amount_paise > 0),
+  effective_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  recorded_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  business_date TEXT NOT NULL CHECK(length(business_date) = 10),
+  description TEXT,
+  reference_number TEXT,
+  -- Idempotency key: a repeated tap or retry cannot post twice.
+  operation_id TEXT NOT NULL UNIQUE,
+  related_transaction_id TEXT REFERENCES financial_transactions(id) ON DELETE RESTRICT,
+  -- Unique, so a transaction can be fully reversed only once. "Reversed" is
+  -- derived from this link; the source row itself is never updated.
+  reversal_of_transaction_id TEXT REFERENCES financial_transactions(id) ON DELETE RESTRICT,
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  UNIQUE(reversal_of_transaction_id),
+  UNIQUE(id, shop_id),
+  FOREIGN KEY(party_account_id, shop_id) REFERENCES party_accounts(id, shop_id) ON DELETE RESTRICT
+);
+
+-- amount_paise is signed: positive raises the account's normal balance
+-- (customer owes shop / shop owes supplier), negative lowers it or creates
+-- an advance. Balance = SUM(amount_paise) per party account.
+CREATE TABLE party_ledger_entries (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  party_account_id TEXT NOT NULL REFERENCES party_accounts(id) ON DELETE RESTRICT,
+  transaction_id TEXT NOT NULL REFERENCES financial_transactions(id) ON DELETE RESTRICT,
+  entry_kind TEXT NOT NULL
+    CHECK(entry_kind IN ('opening','charge','payment','return','adjustment','reversal'))
+    MAPPED BY `const CodedEnumConverter<LedgerEntryKind>(LedgerEntryKind.values)`,
+  amount_paise INTEGER NOT NULL CHECK(amount_paise <> 0),
+  due_at INTEGER MAPPED BY `const EpochMsConverter()`,
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  UNIQUE(transaction_id, party_account_id),
+  UNIQUE(id, party_account_id),
+  UNIQUE(id, shop_id),
+  FOREIGN KEY(party_account_id, shop_id) REFERENCES party_accounts(id, shop_id) ON DELETE RESTRICT,
+  FOREIGN KEY(transaction_id, shop_id) REFERENCES financial_transactions(id, shop_id) ON DELETE RESTRICT
+);
+
+-- A settlement (negative source entry) applied to a charge (positive target
+-- entry). Undone by a 'release' event, never by deleting the row.
+CREATE TABLE ledger_allocation_events (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  party_account_id TEXT NOT NULL REFERENCES party_accounts(id) ON DELETE RESTRICT,
+  source_entry_id TEXT NOT NULL,
+  target_entry_id TEXT NOT NULL,
+  event_type TEXT NOT NULL CHECK(event_type IN ('allocate','release'))
+    MAPPED BY `const CodedEnumConverter<AllocationEventType>(AllocationEventType.values)`,
+  amount_paise INTEGER NOT NULL CHECK(amount_paise > 0),
+  reverses_event_id TEXT,
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  UNIQUE(id, shop_id),
+  CHECK((event_type = 'allocate' AND reverses_event_id IS NULL) OR
+        (event_type = 'release' AND reverses_event_id IS NOT NULL)),
+  FOREIGN KEY(party_account_id, shop_id) REFERENCES party_accounts(id, shop_id) ON DELETE RESTRICT,
+  FOREIGN KEY(source_entry_id, party_account_id) REFERENCES party_ledger_entries(id, party_account_id) ON DELETE RESTRICT,
+  FOREIGN KEY(target_entry_id, party_account_id) REFERENCES party_ledger_entries(id, party_account_id) ON DELETE RESTRICT,
+  FOREIGN KEY(source_entry_id, shop_id) REFERENCES party_ledger_entries(id, shop_id) ON DELETE RESTRICT,
+  FOREIGN KEY(target_entry_id, shop_id) REFERENCES party_ledger_entries(id, shop_id) ON DELETE RESTRICT,
+  FOREIGN KEY(reverses_event_id, shop_id) REFERENCES ledger_allocation_events(id, shop_id) ON DELETE RESTRICT
+);
+
+CREATE INDEX transactions_shop_effective_idx ON financial_transactions(shop_id, effective_at DESC);
+CREATE INDEX transactions_party_effective_idx ON financial_transactions(party_account_id, effective_at DESC);
+CREATE INDEX ledger_account_created_idx ON party_ledger_entries(party_account_id, created_at DESC);
+CREATE INDEX ledger_account_due_idx ON party_ledger_entries(party_account_id, due_at);
+CREATE INDEX allocation_source_idx ON ledger_allocation_events(source_entry_id, created_at);
+CREATE INDEX allocation_target_idx ON ledger_allocation_events(target_entry_id, created_at);
+CREATE INDEX allocation_reverses_idx ON ledger_allocation_events(reverses_event_id);
+
+-- Allocation guards: row signs, same account, and no over-allocation.
+CREATE TRIGGER allocation_event_validate_insert
+BEFORE INSERT ON ledger_allocation_events
+BEGIN
+  SELECT CASE WHEN NOT EXISTS (
+    SELECT 1 FROM party_ledger_entries s
+    JOIN party_ledger_entries t ON t.id = NEW.target_entry_id
+    WHERE s.id = NEW.source_entry_id
+      AND s.party_account_id = NEW.party_account_id
+      AND t.party_account_id = NEW.party_account_id
+      AND s.amount_paise < 0
+      AND t.amount_paise > 0
+  ) THEN RAISE(ABORT, 'allocation source/target signs or account are invalid') END;
+
+  SELECT CASE WHEN NEW.event_type = 'allocate' AND (
+    COALESCE((SELECT SUM(CASE WHEN event_type = 'allocate' THEN amount_paise ELSE -amount_paise END)
+              FROM ledger_allocation_events WHERE source_entry_id = NEW.source_entry_id), 0) + NEW.amount_paise
+      > ABS((SELECT amount_paise FROM party_ledger_entries WHERE id = NEW.source_entry_id))
+    OR
+    COALESCE((SELECT SUM(CASE WHEN event_type = 'allocate' THEN amount_paise ELSE -amount_paise END)
+              FROM ledger_allocation_events WHERE target_entry_id = NEW.target_entry_id), 0) + NEW.amount_paise
+      > (SELECT amount_paise FROM party_ledger_entries WHERE id = NEW.target_entry_id)
+  ) THEN RAISE(ABORT, 'allocation exceeds source or target open amount') END;
+
+  SELECT CASE WHEN NEW.event_type = 'release' AND NOT EXISTS (
+    SELECT 1 FROM ledger_allocation_events original
+    WHERE original.id = NEW.reverses_event_id
+      AND original.event_type = 'allocate'
+      AND original.source_entry_id = NEW.source_entry_id
+      AND original.target_entry_id = NEW.target_entry_id
+      AND original.party_account_id = NEW.party_account_id
+      AND original.shop_id = NEW.shop_id
+      AND NEW.amount_paise <= original.amount_paise - COALESCE((
+        SELECT SUM(amount_paise) FROM ledger_allocation_events release_event
+        WHERE release_event.event_type = 'release' AND release_event.reverses_event_id = original.id
+      ), 0)
+  ) THEN RAISE(ABORT, 'allocation release is invalid or exceeds remaining allocation') END;
+END;
+
+-- Append-only guards.
+CREATE TRIGGER financial_transactions_no_update
+BEFORE UPDATE ON financial_transactions BEGIN
+  SELECT RAISE(ABORT, 'financial_transactions are append-only');
+END;
+CREATE TRIGGER financial_transactions_no_delete
+BEFORE DELETE ON financial_transactions BEGIN
+  SELECT RAISE(ABORT, 'financial_transactions are append-only');
+END;
+CREATE TRIGGER party_ledger_entries_no_update
+BEFORE UPDATE ON party_ledger_entries BEGIN
+  SELECT RAISE(ABORT, 'party_ledger_entries are append-only');
+END;
+CREATE TRIGGER party_ledger_entries_no_delete
+BEFORE DELETE ON party_ledger_entries BEGIN
+  SELECT RAISE(ABORT, 'party_ledger_entries are append-only');
+END;
+CREATE TRIGGER ledger_allocation_events_no_update
+BEFORE UPDATE ON ledger_allocation_events BEGIN
+  SELECT RAISE(ABORT, 'ledger_allocation_events are append-only');
+END;
+CREATE TRIGGER ledger_allocation_events_no_delete
+BEFORE DELETE ON ledger_allocation_events BEGIN
+  SELECT RAISE(ABORT, 'ledger_allocation_events are append-only');
+END;

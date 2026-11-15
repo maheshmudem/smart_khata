@@ -1,0 +1,74 @@
+{
+  "@@locale": "te",
+  "@@comment": "DRAFT Telugu. Not reviewed by a native Telugu-speaking merchant. Must be reviewed before release (SK-0005, SK-1202).",
+  "appTitle": "స్మార్ట్ ఖాతా",
+
+  "navHome": "హోమ్",
+  "navParties": "ఖాతాదారులు",
+  "navQuickAdd": "జోడించు",
+  "navReports": "రిపోర్టులు",
+  "navMore": "మరిన్ని",
+
+  "actionSave": "సేవ్ చేయి",
+  "actionCancel": "రద్దు",
+  "actionRetry": "మళ్లీ ప్రయత్నించు",
+  "actionContinue": "కొనసాగించు",
+  "actionClose": "మూసివేయి",
+  "actionDiscard": "వదిలేయి",
+  "actionKeepEditing": "మార్పులు కొనసాగించు",
+
+  "balanceCustomerOwes": "కస్టమర్ బాకీ",
+  "balanceCustomerAdvance": "కస్టమర్ అడ్వాన్స్",
+  "balanceYouOweSupplier": "సరఫరాదారుకు మీరు చెల్లించాల్సింది",
+  "balanceSupplierAdvance": "సరఫరాదారు వద్ద మీ అడ్వాన్స్",
+  "balanceSettled": "బాకీ లేదు",
+
+  "amountLabel": "మొత్తం",
+  "amountSemantics": "{label}: {amount}",
+
+  "validationRequired": "ఇది తప్పనిసరి.",
+  "validationAmountPositive": "సున్నా కంటే ఎక్కువ మొత్తం నమోదు చేయండి.",
+  "validationAmountInvalid": "రూపాయల్లో మొత్తం నమోదు చేయండి, అవసరమైతే పైసలతో. ఉదాహరణ: 150.50",
+  "validationAmountTooLarge": "ఈ మొత్తం చాలా ఎక్కువ.",
+  "validationInvalidPhone": "సరైన మొబైల్ నంబర్ నమోదు చేయండి.",
+  "validationSplitMismatch": "చెల్లింపు భాగాల మొత్తం అందిన మొత్తానికి సమానంగా ఉండాలి.",
+  "validationEndBeforeStart": "ముగింపు తేదీ ప్రారంభ తేదీ కంటే ముందు ఉండకూడదు.",
+
+  "errorSaveFailed": "ఈ ఎంట్రీ సేవ్ కాలేదు. మీరు నమోదు చేసిన వివరాలు ఇక్కడే ఉన్నాయి. దయచేసి మళ్లీ ప్రయత్నించండి.",
+  "errorLoadFailed": "మీ రికార్డులు చూపించలేకపోయాం. ఏదీ మారలేదు. దయచేసి మళ్లీ ప్రయత్నించండి.",
+  "errorStorageFull": "ఈ ఫోన్‌లో ఖాళీ స్థలం లేదు. ఏదీ సేవ్ కాలేదు. కొంత స్థలం ఖాళీ చేసి మళ్లీ ప్రయత్నించండి.",
+  "errorAlreadySaved": "ఈ ఎంట్రీ ఇప్పటికే సేవ్ అయింది.",
+  "errorNotFound": "ఈ రికార్డు ఇప్పుడు అందుబాటులో లేదు.",
+  "errorUnexpected": "ఏదో పొరపాటు జరిగింది. ఏదీ మారలేదు. దయచేసి మళ్లీ ప్రయత్నించండి.",
+  "errorSectionUnavailable": "స్క్రీన్‌లోని ఈ భాగం చూపించలేకపోయాం.",
+  "errorStartupTitle": "స్మార్ట్ ఖాతా మీ రికార్డులను తెరవలేకపోయింది",
+  "errorStartupBody": "మీ రికార్డులు మారలేదు. యాప్‌ను మూసి మళ్లీ తెరవండి. యాప్‌ను అన్‌ఇన్‌స్టాల్ చేయవద్దు: బ్యాకప్ చేయని రికార్డులు పోతాయి.",
+
+  "discardTitle": "నమోదు చేసినది వదిలేయాలా?",
+  "discardBody": "ఇది ఇంకా సేవ్ కాలేదు.",
+
+  "loadingLabel": "లోడ్ అవుతోంది",
+  "offlineReady": "ఇంటర్నెట్ లేకుండా పనిచేస్తుంది",
+
+  "languageTitle": "మీ భాషను ఎంచుకోండి",
+  "languageEnglish": "English",
+  "languageTelugu": "తెలుగు",
+  "settingsLanguage": "భాష",
+
+  "quickAddTitle": "ఎంట్రీ జోడించండి",
+  "quickAddGiveCredit": "కస్టమర్‌కు అప్పు ఇవ్వండి",
+  "quickAddGiveCreditHint": "కస్టమర్ సరుకు తీసుకుని తర్వాత చెల్లిస్తారు",
+  "quickAddReceivePayment": "కస్టమర్ చెల్లింపు తీసుకోండి",
+  "quickAddReceivePaymentHint": "కస్టమర్ మీకు డబ్బు చెల్లిస్తారు",
+  "quickAddSupplierPurchase": "సరఫరాదారు కొనుగోలు జోడించండి",
+  "quickAddSupplierPurchaseHint": "మీరు సరఫరాదారు నుంచి సరుకు తీసుకుని తర్వాత చెల్లిస్తారు",
+  "quickAddPaySupplier": "సరఫరాదారుకు చెల్లించండి",
+  "quickAddPaySupplierHint": "మీరు సరఫరాదారుకు డబ్బు చెల్లిస్తారు",
+  "quickAddExpense": "దుకాణం ఖర్చు జోడించండి",
+  "quickAddExpenseHint": "అద్దె, కరెంటు, రవాణా మరియు ఇతర ఖర్చులు",
+  "quickAddCashCount": "నగదు లెక్క / రోజు ముగింపు",
+  "quickAddCashCountHint": "గల్లాలోని నగదు లెక్కించి రోజును ముగించండి",
+
+  "featureNotReadyTitle": "ఈ బిల్డ్‌లో అందుబాటులో లేదు",
+  "featureNotReadyBody": "ఈ స్క్రీన్ తర్వాతి బిల్డ్‌లో వస్తుంది."
+}

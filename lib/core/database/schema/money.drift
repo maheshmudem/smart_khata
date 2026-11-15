@@ -1,0 +1,108 @@
+-- Money accounts (where money is held), movements, expenses and optional
+-- informational item lines / attachments.
+
+import '../converters.dart';
+import '../../domain/ledger_enums.dart';
+import 'parties.drift';
+import 'ledger.drift';
+
+CREATE TABLE money_accounts (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  name TEXT NOT NULL CHECK(length(trim(name)) > 0),
+  account_type TEXT NOT NULL CHECK(account_type IN ('cash','bank','upi_settlement','other'))
+    MAPPED BY `const CodedEnumConverter<MoneyAccountType>(MoneyAccountType.values)`,
+  opening_balance_paise INTEGER NOT NULL DEFAULT 0,
+  opening_effective_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE CHECK(is_active IN (0,1)),
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  UNIQUE(id, shop_id)
+);
+
+-- Account balance = opening balance + inflows - outflows. Payment method and
+-- destination account are separate facts (UPI is a method; the money lands
+-- in a bank account).
+CREATE TABLE money_movements (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  transaction_id TEXT NOT NULL REFERENCES financial_transactions(id) ON DELETE RESTRICT,
+  money_account_id TEXT NOT NULL REFERENCES money_accounts(id) ON DELETE RESTRICT,
+  payment_method TEXT NOT NULL
+    CHECK(payment_method IN ('cash','upi','bank_transfer','cheque','other'))
+    MAPPED BY `const CodedEnumConverter<PaymentMethod>(PaymentMethod.values)`,
+  direction TEXT NOT NULL CHECK(direction IN ('inflow','outflow'))
+    MAPPED BY `const CodedEnumConverter<MovementDirection>(MovementDirection.values)`,
+  amount_paise INTEGER NOT NULL CHECK(amount_paise > 0),
+  reference_number TEXT,
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  FOREIGN KEY(transaction_id, shop_id) REFERENCES financial_transactions(id, shop_id) ON DELETE RESTRICT,
+  FOREIGN KEY(money_account_id, shop_id) REFERENCES money_accounts(id, shop_id) ON DELETE RESTRICT
+);
+
+CREATE TABLE expense_categories (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  name TEXT NOT NULL CHECK(length(trim(name)) > 0),
+  normalized_name TEXT NOT NULL,
+  is_default BOOLEAN NOT NULL DEFAULT FALSE CHECK(is_default IN (0,1)),
+  is_active BOOLEAN NOT NULL DEFAULT TRUE CHECK(is_active IN (0,1)),
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  updated_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  UNIQUE(id, shop_id)
+);
+
+-- category_name_snapshot keeps old expenses readable after a category is
+-- renamed or archived.
+CREATE TABLE expenses (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  transaction_id TEXT NOT NULL UNIQUE REFERENCES financial_transactions(id) ON DELETE RESTRICT,
+  category_id TEXT REFERENCES expense_categories(id) ON DELETE RESTRICT,
+  category_name_snapshot TEXT NOT NULL,
+  payee TEXT,
+  note TEXT,
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  FOREIGN KEY(transaction_id, shop_id) REFERENCES financial_transactions(id, shop_id) ON DELETE RESTRICT,
+  FOREIGN KEY(category_id, shop_id) REFERENCES expense_categories(id, shop_id) ON DELETE RESTRICT
+);
+
+-- Informational only (P1); never changes stock.
+CREATE TABLE transaction_items (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  transaction_id TEXT NOT NULL,
+  description TEXT NOT NULL,
+  quantity_micros INTEGER NOT NULL CHECK(quantity_micros >= 0),
+  unit_name TEXT,
+  unit_price_paise INTEGER NOT NULL CHECK(unit_price_paise >= 0),
+  line_total_paise INTEGER NOT NULL CHECK(line_total_paise >= 0),
+  line_number INTEGER NOT NULL CHECK(line_number > 0),
+  FOREIGN KEY(transaction_id, shop_id) REFERENCES financial_transactions(id, shop_id) ON DELETE RESTRICT
+);
+
+CREATE TABLE attachments (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  transaction_id TEXT NOT NULL REFERENCES financial_transactions(id) ON DELETE RESTRICT,
+  relative_path TEXT NOT NULL UNIQUE,
+  mime_type TEXT NOT NULL,
+  size_bytes INTEGER NOT NULL CHECK(size_bytes > 0),
+  sha256 TEXT NOT NULL,
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  FOREIGN KEY(transaction_id, shop_id) REFERENCES financial_transactions(id, shop_id) ON DELETE RESTRICT
+);
+
+CREATE INDEX movements_account_created_idx ON money_movements(money_account_id, created_at DESC);
+CREATE INDEX movements_transaction_idx ON money_movements(transaction_id);
+CREATE INDEX expenses_shop_created_idx ON expenses(shop_id, created_at DESC);
+CREATE UNIQUE INDEX expense_category_active_name_uq
+  ON expense_categories(shop_id, normalized_name) WHERE is_active = 1;
+
+CREATE TRIGGER money_movements_no_update
+BEFORE UPDATE ON money_movements BEGIN
+  SELECT RAISE(ABORT, 'money_movements are append-only');
+END;
+CREATE TRIGGER money_movements_no_delete
+BEFORE DELETE ON money_movements BEGIN
+  SELECT RAISE(ABORT, 'money_movements are append-only');
+END;

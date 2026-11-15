@@ -1,0 +1,3395 @@
+{
+  "_meta": {
+    "description": "This file contains a serialized version of schema entities for drift.",
+    "version": "1.3.0"
+  },
+  "options": {
+    "store_date_time_values_as_text": false
+  },
+  "entities": [
+    {
+      "id": 0,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "shops",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "name",
+            "getter_name": "name",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (length(trim(name)) > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "owner_name",
+            "getter_name": "ownerName",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "phone",
+            "getter_name": "phone",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "address",
+            "getter_name": "address",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "locality",
+            "getter_name": "locality",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "locale_code",
+            "getter_name": "localeCode",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT 'en' CHECK (locale_code IN ('en', 'te'))",
+            "default_dart": "const CustomExpression('\\'en\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "currency_code",
+            "getter_name": "currencyCode",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT 'INR' CHECK (currency_code = 'INR')",
+            "default_dart": "const CustomExpression('\\'INR\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "time_zone",
+            "getter_name": "timeZone",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 1,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "parties",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "display_name",
+            "getter_name": "displayName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (length(trim(display_name)) > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "normalized_name",
+            "getter_name": "normalizedName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "primary_phone",
+            "getter_name": "primaryPhone",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "normalized_phone",
+            "getter_name": "normalizedPhone",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "alternate_phone",
+            "getter_name": "alternatePhone",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "address",
+            "getter_name": "address",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "locality",
+            "getter_name": "locality",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "notes",
+            "getter_name": "notes",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "customer_credit_limit_paise",
+            "getter_name": "customerCreditLimitPaise",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "CHECK (customer_credit_limit_paise IS NULL OR customer_credit_limit_paise >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "status",
+            "getter_name": "status",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'archived'))",
+            "default_dart": "const CustomExpression('\\'active\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<PartyStatus>(PartyStatus.values)",
+              "dart_type_name": "PartyStatus"
+            }
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "archived_at",
+            "getter_name": "archivedAt",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(id, shop_id)"
+        ],
+        "unique_keys": [
+          [
+            "id",
+            "shop_id"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "references": [
+        0,
+        1
+      ],
+      "type": "table",
+      "data": {
+        "name": "party_accounts",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "party_id",
+            "getter_name": "partyId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES parties(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "parties",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "role",
+            "getter_name": "role",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (role IN ('customer', 'supplier'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<PartyRole>(PartyRole.values)",
+              "dart_type_name": "PartyRole"
+            }
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(party_id, role)",
+          "UNIQUE(id, shop_id)",
+          "FOREIGN KEY(party_id, shop_id)REFERENCES parties(id, shop_id)ON DELETE RESTRICT"
+        ],
+        "unique_keys": [
+          [
+            "party_id",
+            "role"
+          ],
+          [
+            "id",
+            "shop_id"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "references": [
+        0,
+        2
+      ],
+      "type": "table",
+      "data": {
+        "name": "financial_transactions",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "party_account_id",
+            "getter_name": "partyAccountId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "REFERENCES party_accounts(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "party_accounts",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "transaction_type",
+            "getter_name": "transactionType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (transaction_type IN ('opening_balance', 'customer_credit', 'customer_payment', 'customer_sales_return', 'supplier_purchase', 'supplier_payment', 'supplier_purchase_return', 'customer_refund', 'supplier_refund', 'expense', 'cash_adjustment', 'bank_adjustment', 'party_adjustment', 'transaction_reversal'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<TransactionType>(TransactionType.values)",
+              "dart_type_name": "TransactionType"
+            }
+          },
+          {
+            "name": "amount_paise",
+            "getter_name": "amountPaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (amount_paise > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "effective_at",
+            "getter_name": "effectiveAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "recorded_at",
+            "getter_name": "recordedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "business_date",
+            "getter_name": "businessDate",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (length(business_date) = 10)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "description",
+            "getter_name": "description",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "reference_number",
+            "getter_name": "referenceNumber",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "operation_id",
+            "getter_name": "operationId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL UNIQUE",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "unique"
+            ]
+          },
+          {
+            "name": "related_transaction_id",
+            "getter_name": "relatedTransactionId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "REFERENCES financial_transactions(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "financial_transactions",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "reversal_of_transaction_id",
+            "getter_name": "reversalOfTransactionId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "REFERENCES financial_transactions(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "financial_transactions",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(reversal_of_transaction_id)",
+          "UNIQUE(id, shop_id)",
+          "FOREIGN KEY(party_account_id, shop_id)REFERENCES party_accounts(id, shop_id)ON DELETE RESTRICT"
+        ],
+        "unique_keys": [
+          [
+            "reversal_of_transaction_id"
+          ],
+          [
+            "id",
+            "shop_id"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "references": [
+        0,
+        2,
+        3
+      ],
+      "type": "table",
+      "data": {
+        "name": "party_ledger_entries",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "party_account_id",
+            "getter_name": "partyAccountId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES party_accounts(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "party_accounts",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "transaction_id",
+            "getter_name": "transactionId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES financial_transactions(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "financial_transactions",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "entry_kind",
+            "getter_name": "entryKind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (entry_kind IN ('opening', 'charge', 'payment', 'return', 'adjustment', 'reversal'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<LedgerEntryKind>(LedgerEntryKind.values)",
+              "dart_type_name": "LedgerEntryKind"
+            }
+          },
+          {
+            "name": "amount_paise",
+            "getter_name": "amountPaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (amount_paise <> 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "due_at",
+            "getter_name": "dueAt",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(transaction_id, party_account_id)",
+          "UNIQUE(id, party_account_id)",
+          "UNIQUE(id, shop_id)",
+          "FOREIGN KEY(party_account_id, shop_id)REFERENCES party_accounts(id, shop_id)ON DELETE RESTRICT",
+          "FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT"
+        ],
+        "unique_keys": [
+          [
+            "transaction_id",
+            "party_account_id"
+          ],
+          [
+            "id",
+            "party_account_id"
+          ],
+          [
+            "id",
+            "shop_id"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "references": [
+        0,
+        1,
+        4
+      ],
+      "type": "table",
+      "data": {
+        "name": "reminders",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "party_id",
+            "getter_name": "partyId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "REFERENCES parties(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "parties",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "source_ledger_entry_id",
+            "getter_name": "sourceLedgerEntryId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "reminder_type",
+            "getter_name": "reminderType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (reminder_type IN ('customer_due', 'supplier_due', 'backup'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<ReminderType>(ReminderType.values)",
+              "dart_type_name": "ReminderType"
+            }
+          },
+          {
+            "name": "scheduled_at",
+            "getter_name": "scheduledAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "notification_id",
+            "getter_name": "notificationId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "status",
+            "getter_name": "status",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (status IN ('scheduled', 'cancelled', 'triggered', 'share_sheet_opened'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<ReminderStatus>(ReminderStatus.values)",
+              "dart_type_name": "ReminderStatus"
+            }
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "FOREIGN KEY(party_id, shop_id)REFERENCES parties(id, shop_id)ON DELETE RESTRICT",
+          "FOREIGN KEY(source_ledger_entry_id, shop_id)REFERENCES party_ledger_entries(id, shop_id)ON DELETE RESTRICT"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "money_accounts",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "getter_name": "name",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (length(trim(name)) > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "account_type",
+            "getter_name": "accountType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (account_type IN ('cash', 'bank', 'upi_settlement', 'other'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<MoneyAccountType>(MoneyAccountType.values)",
+              "dart_type_name": "MoneyAccountType"
+            }
+          },
+          {
+            "name": "opening_balance_paise",
+            "getter_name": "openingBalancePaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT 0",
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "opening_effective_at",
+            "getter_name": "openingEffectiveAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "is_active",
+            "getter_name": "isActive",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT TRUE CHECK (is_active IN (0, 1))",
+            "default_dart": "const CustomExpression('TRUE')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(id, shop_id)"
+        ],
+        "unique_keys": [
+          [
+            "id",
+            "shop_id"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "references": [
+        0,
+        6
+      ],
+      "type": "table",
+      "data": {
+        "name": "daily_closings",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "money_account_id",
+            "getter_name": "moneyAccountId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES money_accounts(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "money_accounts",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "business_date",
+            "getter_name": "businessDate",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (length(business_date) = 10)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "expected_cash_paise",
+            "getter_name": "expectedCashPaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "counted_cash_paise",
+            "getter_name": "countedCashPaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (counted_cash_paise >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "variance_paise",
+            "getter_name": "variancePaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "denomination_counts_json",
+            "getter_name": "denominationCountsJson",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "note",
+            "getter_name": "note",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "revision_number",
+            "getter_name": "revisionNumber",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (revision_number > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "supersedes_closing_id",
+            "getter_name": "supersedesClosingId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "REFERENCES daily_closings(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "daily_closings",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(money_account_id, business_date, revision_number)",
+          "FOREIGN KEY(money_account_id, shop_id)REFERENCES money_accounts(id, shop_id)ON DELETE RESTRICT"
+        ],
+        "unique_keys": [
+          [
+            "money_account_id",
+            "business_date",
+            "revision_number"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "audit_logs",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "entity_type",
+            "getter_name": "entityType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "entity_id",
+            "getter_name": "entityId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "action",
+            "getter_name": "action",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "reason",
+            "getter_name": "reason",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "metadata_json",
+            "getter_name": "metadataJson",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 9,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "backup_history",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "backup_id",
+            "getter_name": "backupId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL UNIQUE",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "unique"
+            ]
+          },
+          {
+            "name": "schema_version",
+            "getter_name": "schemaVersion",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "app_version",
+            "getter_name": "appVersion",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "record_counts_json",
+            "getter_name": "recordCountsJson",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "checksum_sha256",
+            "getter_name": "checksumSha256",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "destination_label",
+            "getter_name": "destinationLabel",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "status",
+            "getter_name": "status",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (status IN ('created', 'verified', 'failed'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<BackupStatus>(BackupStatus.values)",
+              "dart_type_name": "BackupStatus"
+            }
+          },
+          {
+            "name": "failure_code",
+            "getter_name": "failureCode",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 10,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "app_settings",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "key",
+            "getter_name": "key",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "value",
+            "getter_name": "value",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": []
+      }
+    },
+    {
+      "id": 11,
+      "references": [
+        5
+      ],
+      "type": "index",
+      "data": {
+        "on": 5,
+        "name": "reminders_status_schedule_idx",
+        "sql": "CREATE INDEX reminders_status_schedule_idx ON reminders(shop_id, status, scheduled_at);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 12,
+      "references": [
+        7
+      ],
+      "type": "index",
+      "data": {
+        "on": 7,
+        "name": "closings_account_date_idx",
+        "sql": "CREATE INDEX closings_account_date_idx ON daily_closings(money_account_id, business_date, revision_number DESC);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 13,
+      "references": [
+        8
+      ],
+      "type": "index",
+      "data": {
+        "on": 8,
+        "name": "audit_entity_created_idx",
+        "sql": "CREATE INDEX audit_entity_created_idx ON audit_logs(entity_type, entity_id, created_at DESC);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 14,
+      "references": [
+        7
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 7,
+        "references_in_body": [
+          7
+        ],
+        "name": "daily_closings_no_update",
+        "sql": "CREATE TRIGGER daily_closings_no_update\nBEFORE UPDATE ON daily_closings BEGIN\n  SELECT RAISE(ABORT, 'daily_closings are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 15,
+      "references": [
+        7
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 7,
+        "references_in_body": [
+          7
+        ],
+        "name": "daily_closings_no_delete",
+        "sql": "CREATE TRIGGER daily_closings_no_delete\nBEFORE DELETE ON daily_closings BEGIN\n  SELECT RAISE(ABORT, 'daily_closings are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 16,
+      "references": [
+        8
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 8,
+        "references_in_body": [
+          8
+        ],
+        "name": "audit_logs_no_update",
+        "sql": "CREATE TRIGGER audit_logs_no_update\nBEFORE UPDATE ON audit_logs BEGIN\n  SELECT RAISE(ABORT, 'audit_logs are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 17,
+      "references": [
+        8
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 8,
+        "references_in_body": [
+          8
+        ],
+        "name": "audit_logs_no_delete",
+        "sql": "CREATE TRIGGER audit_logs_no_delete\nBEFORE DELETE ON audit_logs BEGIN\n  SELECT RAISE(ABORT, 'audit_logs are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 18,
+      "references": [
+        0,
+        3,
+        6
+      ],
+      "type": "table",
+      "data": {
+        "name": "money_movements",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "transaction_id",
+            "getter_name": "transactionId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES financial_transactions(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "financial_transactions",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "money_account_id",
+            "getter_name": "moneyAccountId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES money_accounts(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "money_accounts",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "payment_method",
+            "getter_name": "paymentMethod",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (payment_method IN ('cash', 'upi', 'bank_transfer', 'cheque', 'other'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<PaymentMethod>(PaymentMethod.values)",
+              "dart_type_name": "PaymentMethod"
+            }
+          },
+          {
+            "name": "direction",
+            "getter_name": "direction",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (direction IN ('inflow', 'outflow'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<MovementDirection>(MovementDirection.values)",
+              "dart_type_name": "MovementDirection"
+            }
+          },
+          {
+            "name": "amount_paise",
+            "getter_name": "amountPaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (amount_paise > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "reference_number",
+            "getter_name": "referenceNumber",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT",
+          "FOREIGN KEY(money_account_id, shop_id)REFERENCES money_accounts(id, shop_id)ON DELETE RESTRICT"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "expense_categories",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "name",
+            "getter_name": "name",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (length(trim(name)) > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "normalized_name",
+            "getter_name": "normalizedName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "is_default",
+            "getter_name": "isDefault",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT FALSE CHECK (is_default IN (0, 1))",
+            "default_dart": "const CustomExpression('FALSE')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "is_active",
+            "getter_name": "isActive",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": "NOT NULL DEFAULT TRUE CHECK (is_active IN (0, 1))",
+            "default_dart": "const CustomExpression('TRUE')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(id, shop_id)"
+        ],
+        "unique_keys": [
+          [
+            "id",
+            "shop_id"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "references": [
+        0,
+        3,
+        19
+      ],
+      "type": "table",
+      "data": {
+        "name": "expenses",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "transaction_id",
+            "getter_name": "transactionId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL UNIQUE REFERENCES financial_transactions(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "unique",
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "financial_transactions",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "category_id",
+            "getter_name": "categoryId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "REFERENCES expense_categories(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "expense_categories",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "category_name_snapshot",
+            "getter_name": "categoryNameSnapshot",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "payee",
+            "getter_name": "payee",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "note",
+            "getter_name": "note",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT",
+          "FOREIGN KEY(category_id, shop_id)REFERENCES expense_categories(id, shop_id)ON DELETE RESTRICT"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "references": [
+        0,
+        3
+      ],
+      "type": "table",
+      "data": {
+        "name": "transaction_items",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "transaction_id",
+            "getter_name": "transactionId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "description",
+            "getter_name": "description",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "quantity_micros",
+            "getter_name": "quantityMicros",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (quantity_micros >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_name",
+            "getter_name": "unitName",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "unit_price_paise",
+            "getter_name": "unitPricePaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (unit_price_paise >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "line_total_paise",
+            "getter_name": "lineTotalPaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (line_total_paise >= 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "line_number",
+            "getter_name": "lineNumber",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (line_number > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT"
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "references": [
+        0,
+        3
+      ],
+      "type": "table",
+      "data": {
+        "name": "attachments",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "transaction_id",
+            "getter_name": "transactionId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES financial_transactions(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "financial_transactions",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "relative_path",
+            "getter_name": "relativePath",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL UNIQUE",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "unique"
+            ]
+          },
+          {
+            "name": "mime_type",
+            "getter_name": "mimeType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "size_bytes",
+            "getter_name": "sizeBytes",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (size_bytes > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "sha256",
+            "getter_name": "sha256",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "references": [
+        18
+      ],
+      "type": "index",
+      "data": {
+        "on": 18,
+        "name": "movements_account_created_idx",
+        "sql": "CREATE INDEX movements_account_created_idx ON money_movements(money_account_id, created_at DESC);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 24,
+      "references": [
+        18
+      ],
+      "type": "index",
+      "data": {
+        "on": 18,
+        "name": "movements_transaction_idx",
+        "sql": "CREATE INDEX movements_transaction_idx ON money_movements(transaction_id);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 25,
+      "references": [
+        20
+      ],
+      "type": "index",
+      "data": {
+        "on": 20,
+        "name": "expenses_shop_created_idx",
+        "sql": "CREATE INDEX expenses_shop_created_idx ON expenses(shop_id, created_at DESC);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 26,
+      "references": [
+        19
+      ],
+      "type": "index",
+      "data": {
+        "on": 19,
+        "name": "expense_category_active_name_uq",
+        "sql": "CREATE UNIQUE INDEX expense_category_active_name_uq\n  ON expense_categories(shop_id, normalized_name) WHERE is_active = 1;",
+        "unique": true,
+        "columns": []
+      }
+    },
+    {
+      "id": 27,
+      "references": [
+        18
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 18,
+        "references_in_body": [
+          18
+        ],
+        "name": "money_movements_no_update",
+        "sql": "CREATE TRIGGER money_movements_no_update\nBEFORE UPDATE ON money_movements BEGIN\n  SELECT RAISE(ABORT, 'money_movements are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 28,
+      "references": [
+        18
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 18,
+        "references_in_body": [
+          18
+        ],
+        "name": "money_movements_no_delete",
+        "sql": "CREATE TRIGGER money_movements_no_delete\nBEFORE DELETE ON money_movements BEGIN\n  SELECT RAISE(ABORT, 'money_movements are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 29,
+      "references": [
+        0,
+        2,
+        4
+      ],
+      "type": "table",
+      "data": {
+        "name": "ledger_allocation_events",
+        "was_declared_in_moor": true,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "PRIMARY KEY NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "primary-key"
+            ]
+          },
+          {
+            "name": "shop_id",
+            "getter_name": "shopId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES shops(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "shops",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "party_account_id",
+            "getter_name": "partyAccountId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL REFERENCES party_accounts(id)ON DELETE RESTRICT",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "party_accounts",
+                    "column": "id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "restrict"
+                }
+              }
+            ]
+          },
+          {
+            "name": "source_entry_id",
+            "getter_name": "sourceEntryId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "target_entry_id",
+            "getter_name": "targetEntryId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "event_type",
+            "getter_name": "eventType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (event_type IN ('allocate', 'release'))",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodedEnumConverter<AllocationEventType>(AllocationEventType.values)",
+              "dart_type_name": "AllocationEventType"
+            }
+          },
+          {
+            "name": "amount_paise",
+            "getter_name": "amountPaise",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL CHECK (amount_paise > 0)",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "reverses_event_id",
+            "getter_name": "reversesEventId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": "NOT NULL",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const EpochMsConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "UNIQUE(id, shop_id)",
+          "CHECK((event_type = 'allocate' AND reverses_event_id IS NULL)OR(event_type = 'release' AND reverses_event_id IS NOT NULL))",
+          "FOREIGN KEY(party_account_id, shop_id)REFERENCES party_accounts(id, shop_id)ON DELETE RESTRICT",
+          "FOREIGN KEY(source_entry_id, party_account_id)REFERENCES party_ledger_entries(id, party_account_id)ON DELETE RESTRICT",
+          "FOREIGN KEY(target_entry_id, party_account_id)REFERENCES party_ledger_entries(id, party_account_id)ON DELETE RESTRICT",
+          "FOREIGN KEY(source_entry_id, shop_id)REFERENCES party_ledger_entries(id, shop_id)ON DELETE RESTRICT",
+          "FOREIGN KEY(target_entry_id, shop_id)REFERENCES party_ledger_entries(id, shop_id)ON DELETE RESTRICT",
+          "FOREIGN KEY(reverses_event_id, shop_id)REFERENCES ledger_allocation_events(id, shop_id)ON DELETE RESTRICT"
+        ],
+        "unique_keys": [
+          [
+            "id",
+            "shop_id"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "transactions_shop_effective_idx",
+        "sql": "CREATE INDEX transactions_shop_effective_idx ON financial_transactions(shop_id, effective_at DESC);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 31,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "transactions_party_effective_idx",
+        "sql": "CREATE INDEX transactions_party_effective_idx ON financial_transactions(party_account_id, effective_at DESC);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 32,
+      "references": [
+        4
+      ],
+      "type": "index",
+      "data": {
+        "on": 4,
+        "name": "ledger_account_created_idx",
+        "sql": "CREATE INDEX ledger_account_created_idx ON party_ledger_entries(party_account_id, created_at DESC);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 33,
+      "references": [
+        4
+      ],
+      "type": "index",
+      "data": {
+        "on": 4,
+        "name": "ledger_account_due_idx",
+        "sql": "CREATE INDEX ledger_account_due_idx ON party_ledger_entries(party_account_id, due_at);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 34,
+      "references": [
+        29
+      ],
+      "type": "index",
+      "data": {
+        "on": 29,
+        "name": "allocation_source_idx",
+        "sql": "CREATE INDEX allocation_source_idx ON ledger_allocation_events(source_entry_id, created_at);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 35,
+      "references": [
+        29
+      ],
+      "type": "index",
+      "data": {
+        "on": 29,
+        "name": "allocation_target_idx",
+        "sql": "CREATE INDEX allocation_target_idx ON ledger_allocation_events(target_entry_id, created_at);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 36,
+      "references": [
+        29
+      ],
+      "type": "index",
+      "data": {
+        "on": 29,
+        "name": "allocation_reverses_idx",
+        "sql": "CREATE INDEX allocation_reverses_idx ON ledger_allocation_events(reverses_event_id);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 37,
+      "references": [
+        29,
+        4
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 29,
+        "references_in_body": [
+          29,
+          4
+        ],
+        "name": "allocation_event_validate_insert",
+        "sql": "CREATE TRIGGER allocation_event_validate_insert\nBEFORE INSERT ON ledger_allocation_events\nBEGIN\n  SELECT CASE WHEN NOT EXISTS (\n    SELECT 1 FROM party_ledger_entries s\n    JOIN party_ledger_entries t ON t.id = NEW.target_entry_id\n    WHERE s.id = NEW.source_entry_id\n      AND s.party_account_id = NEW.party_account_id\n      AND t.party_account_id = NEW.party_account_id\n      AND s.amount_paise < 0\n      AND t.amount_paise > 0\n  ) THEN RAISE(ABORT, 'allocation source/target signs or account are invalid') END;\n\n  SELECT CASE WHEN NEW.event_type = 'allocate' AND (\n    COALESCE((SELECT SUM(CASE WHEN event_type = 'allocate' THEN amount_paise ELSE -amount_paise END)\n              FROM ledger_allocation_events WHERE source_entry_id = NEW.source_entry_id), 0) + NEW.amount_paise\n      > ABS((SELECT amount_paise FROM party_ledger_entries WHERE id = NEW.source_entry_id))\n    OR\n    COALESCE((SELECT SUM(CASE WHEN event_type = 'allocate' THEN amount_paise ELSE -amount_paise END)\n              FROM ledger_allocation_events WHERE target_entry_id = NEW.target_entry_id), 0) + NEW.amount_paise\n      > (SELECT amount_paise FROM party_ledger_entries WHERE id = NEW.target_entry_id)\n  ) THEN RAISE(ABORT, 'allocation exceeds source or target open amount') END;\n\n  SELECT CASE WHEN NEW.event_type = 'release' AND NOT EXISTS (\n    SELECT 1 FROM ledger_allocation_events original\n    WHERE original.id = NEW.reverses_event_id\n      AND original.event_type = 'allocate'\n      AND original.source_entry_id = NEW.source_entry_id\n      AND original.target_entry_id = NEW.target_entry_id\n      AND original.party_account_id = NEW.party_account_id\n      AND original.shop_id = NEW.shop_id\n      AND NEW.amount_paise <= original.amount_paise - COALESCE((\n        SELECT SUM(amount_paise) FROM ledger_allocation_events release_event\n        WHERE release_event.event_type = 'release' AND release_event.reverses_event_id = original.id\n      ), 0)\n  ) THEN RAISE(ABORT, 'allocation release is invalid or exceeds remaining allocation') END;\nEND;"
+      }
+    },
+    {
+      "id": 38,
+      "references": [
+        3
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 3,
+        "references_in_body": [
+          3
+        ],
+        "name": "financial_transactions_no_update",
+        "sql": "CREATE TRIGGER financial_transactions_no_update\nBEFORE UPDATE ON financial_transactions BEGIN\n  SELECT RAISE(ABORT, 'financial_transactions are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 39,
+      "references": [
+        3
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 3,
+        "references_in_body": [
+          3
+        ],
+        "name": "financial_transactions_no_delete",
+        "sql": "CREATE TRIGGER financial_transactions_no_delete\nBEFORE DELETE ON financial_transactions BEGIN\n  SELECT RAISE(ABORT, 'financial_transactions are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 40,
+      "references": [
+        4
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 4,
+        "references_in_body": [
+          4
+        ],
+        "name": "party_ledger_entries_no_update",
+        "sql": "CREATE TRIGGER party_ledger_entries_no_update\nBEFORE UPDATE ON party_ledger_entries BEGIN\n  SELECT RAISE(ABORT, 'party_ledger_entries are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 41,
+      "references": [
+        4
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 4,
+        "references_in_body": [
+          4
+        ],
+        "name": "party_ledger_entries_no_delete",
+        "sql": "CREATE TRIGGER party_ledger_entries_no_delete\nBEFORE DELETE ON party_ledger_entries BEGIN\n  SELECT RAISE(ABORT, 'party_ledger_entries are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 42,
+      "references": [
+        29
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 29,
+        "references_in_body": [
+          29
+        ],
+        "name": "ledger_allocation_events_no_update",
+        "sql": "CREATE TRIGGER ledger_allocation_events_no_update\nBEFORE UPDATE ON ledger_allocation_events BEGIN\n  SELECT RAISE(ABORT, 'ledger_allocation_events are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 43,
+      "references": [
+        29
+      ],
+      "type": "trigger",
+      "data": {
+        "on": 29,
+        "references_in_body": [
+          29
+        ],
+        "name": "ledger_allocation_events_no_delete",
+        "sql": "CREATE TRIGGER ledger_allocation_events_no_delete\nBEFORE DELETE ON ledger_allocation_events BEGIN\n  SELECT RAISE(ABORT, 'ledger_allocation_events are append-only');\nEND;"
+      }
+    },
+    {
+      "id": 44,
+      "references": [
+        1
+      ],
+      "type": "index",
+      "data": {
+        "on": 1,
+        "name": "parties_shop_name_idx",
+        "sql": "CREATE INDEX parties_shop_name_idx ON parties(shop_id, normalized_name);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 45,
+      "references": [
+        1
+      ],
+      "type": "index",
+      "data": {
+        "on": 1,
+        "name": "parties_shop_phone_idx",
+        "sql": "CREATE INDEX parties_shop_phone_idx ON parties(shop_id, normalized_phone);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 46,
+      "references": [
+        1
+      ],
+      "type": "index",
+      "data": {
+        "on": 1,
+        "name": "parties_shop_status_idx",
+        "sql": "CREATE INDEX parties_shop_status_idx ON parties(shop_id, status);",
+        "unique": false,
+        "columns": []
+      }
+    },
+    {
+      "id": 47,
+      "references": [
+        2
+      ],
+      "type": "index",
+      "data": {
+        "on": 2,
+        "name": "party_accounts_shop_role_idx",
+        "sql": "CREATE INDEX party_accounts_shop_role_idx ON party_accounts(shop_id, role, party_id);",
+        "unique": false,
+        "columns": []
+      }
+    }
+  ],
+  "fixed_sql": [
+    {
+      "name": "shops",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"shops\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"name\" TEXT NOT NULL CHECK (length(trim(name)) > 0), \"owner_name\" TEXT, \"phone\" TEXT, \"address\" TEXT, \"locality\" TEXT, \"locale_code\" TEXT NOT NULL DEFAULT 'en' CHECK (locale_code IN ('en', 'te')), \"currency_code\" TEXT NOT NULL DEFAULT 'INR' CHECK (currency_code = 'INR'), \"time_zone\" TEXT NOT NULL, \"created_at\" INTEGER NOT NULL, \"updated_at\" INTEGER NOT NULL);"
+        }
+      ]
+    },
+    {
+      "name": "parties",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"parties\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"display_name\" TEXT NOT NULL CHECK (length(trim(display_name)) > 0), \"normalized_name\" TEXT NOT NULL, \"primary_phone\" TEXT, \"normalized_phone\" TEXT, \"alternate_phone\" TEXT, \"address\" TEXT, \"locality\" TEXT, \"notes\" TEXT, \"customer_credit_limit_paise\" INTEGER CHECK (customer_credit_limit_paise IS NULL OR customer_credit_limit_paise >= 0), \"status\" TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'archived')), \"created_at\" INTEGER NOT NULL, \"updated_at\" INTEGER NOT NULL, \"archived_at\" INTEGER, UNIQUE(id, shop_id));"
+        }
+      ]
+    },
+    {
+      "name": "party_accounts",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"party_accounts\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"party_id\" TEXT NOT NULL REFERENCES parties(id)ON DELETE RESTRICT, \"role\" TEXT NOT NULL CHECK (role IN ('customer', 'supplier')), \"created_at\" INTEGER NOT NULL, UNIQUE(party_id, role), UNIQUE(id, shop_id), FOREIGN KEY(party_id, shop_id)REFERENCES parties(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "financial_transactions",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"financial_transactions\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"party_account_id\" TEXT REFERENCES party_accounts(id)ON DELETE RESTRICT, \"transaction_type\" TEXT NOT NULL CHECK (transaction_type IN ('opening_balance', 'customer_credit', 'customer_payment', 'customer_sales_return', 'supplier_purchase', 'supplier_payment', 'supplier_purchase_return', 'customer_refund', 'supplier_refund', 'expense', 'cash_adjustment', 'bank_adjustment', 'party_adjustment', 'transaction_reversal')), \"amount_paise\" INTEGER NOT NULL CHECK (amount_paise > 0), \"effective_at\" INTEGER NOT NULL, \"recorded_at\" INTEGER NOT NULL, \"business_date\" TEXT NOT NULL CHECK (length(business_date) = 10), \"description\" TEXT, \"reference_number\" TEXT, \"operation_id\" TEXT NOT NULL UNIQUE, \"related_transaction_id\" TEXT REFERENCES financial_transactions(id)ON DELETE RESTRICT, \"reversal_of_transaction_id\" TEXT REFERENCES financial_transactions(id)ON DELETE RESTRICT, \"created_at\" INTEGER NOT NULL, UNIQUE(reversal_of_transaction_id), UNIQUE(id, shop_id), FOREIGN KEY(party_account_id, shop_id)REFERENCES party_accounts(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "party_ledger_entries",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"party_ledger_entries\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"party_account_id\" TEXT NOT NULL REFERENCES party_accounts(id)ON DELETE RESTRICT, \"transaction_id\" TEXT NOT NULL REFERENCES financial_transactions(id)ON DELETE RESTRICT, \"entry_kind\" TEXT NOT NULL CHECK (entry_kind IN ('opening', 'charge', 'payment', 'return', 'adjustment', 'reversal')), \"amount_paise\" INTEGER NOT NULL CHECK (amount_paise <> 0), \"due_at\" INTEGER, \"created_at\" INTEGER NOT NULL, UNIQUE(transaction_id, party_account_id), UNIQUE(id, party_account_id), UNIQUE(id, shop_id), FOREIGN KEY(party_account_id, shop_id)REFERENCES party_accounts(id, shop_id)ON DELETE RESTRICT, FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "reminders",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"reminders\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"party_id\" TEXT REFERENCES parties(id)ON DELETE RESTRICT, \"source_ledger_entry_id\" TEXT, \"reminder_type\" TEXT NOT NULL CHECK (reminder_type IN ('customer_due', 'supplier_due', 'backup')), \"scheduled_at\" INTEGER NOT NULL, \"notification_id\" INTEGER NOT NULL, \"status\" TEXT NOT NULL CHECK (status IN ('scheduled', 'cancelled', 'triggered', 'share_sheet_opened')), \"created_at\" INTEGER NOT NULL, \"updated_at\" INTEGER NOT NULL, FOREIGN KEY(party_id, shop_id)REFERENCES parties(id, shop_id)ON DELETE RESTRICT, FOREIGN KEY(source_ledger_entry_id, shop_id)REFERENCES party_ledger_entries(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "money_accounts",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"money_accounts\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"name\" TEXT NOT NULL CHECK (length(trim(name)) > 0), \"account_type\" TEXT NOT NULL CHECK (account_type IN ('cash', 'bank', 'upi_settlement', 'other')), \"opening_balance_paise\" INTEGER NOT NULL DEFAULT 0, \"opening_effective_at\" INTEGER NOT NULL, \"is_active\" INTEGER NOT NULL DEFAULT TRUE CHECK (is_active IN (0, 1)), \"created_at\" INTEGER NOT NULL, UNIQUE(id, shop_id));"
+        }
+      ]
+    },
+    {
+      "name": "daily_closings",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"daily_closings\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"money_account_id\" TEXT NOT NULL REFERENCES money_accounts(id)ON DELETE RESTRICT, \"business_date\" TEXT NOT NULL CHECK (length(business_date) = 10), \"expected_cash_paise\" INTEGER NOT NULL, \"counted_cash_paise\" INTEGER NOT NULL CHECK (counted_cash_paise >= 0), \"variance_paise\" INTEGER NOT NULL, \"denomination_counts_json\" TEXT NOT NULL, \"note\" TEXT, \"revision_number\" INTEGER NOT NULL CHECK (revision_number > 0), \"supersedes_closing_id\" TEXT REFERENCES daily_closings(id)ON DELETE RESTRICT, \"created_at\" INTEGER NOT NULL, UNIQUE(money_account_id, business_date, revision_number), FOREIGN KEY(money_account_id, shop_id)REFERENCES money_accounts(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "audit_logs",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"audit_logs\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"entity_type\" TEXT NOT NULL, \"entity_id\" TEXT NOT NULL, \"action\" TEXT NOT NULL, \"reason\" TEXT, \"metadata_json\" TEXT, \"created_at\" INTEGER NOT NULL);"
+        }
+      ]
+    },
+    {
+      "name": "backup_history",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"backup_history\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"backup_id\" TEXT NOT NULL UNIQUE, \"schema_version\" INTEGER NOT NULL, \"app_version\" TEXT NOT NULL, \"created_at\" INTEGER NOT NULL, \"record_counts_json\" TEXT NOT NULL, \"checksum_sha256\" TEXT NOT NULL, \"destination_label\" TEXT, \"status\" TEXT NOT NULL CHECK (status IN ('created', 'verified', 'failed')), \"failure_code\" TEXT);"
+        }
+      ]
+    },
+    {
+      "name": "app_settings",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"app_settings\" (\"key\" TEXT PRIMARY KEY NOT NULL, \"value\" TEXT NOT NULL, \"updated_at\" INTEGER NOT NULL);"
+        }
+      ]
+    },
+    {
+      "name": "reminders_status_schedule_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX reminders_status_schedule_idx ON reminders (shop_id, status, scheduled_at)"
+        }
+      ]
+    },
+    {
+      "name": "closings_account_date_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX closings_account_date_idx ON daily_closings (money_account_id, business_date, revision_number DESC)"
+        }
+      ]
+    },
+    {
+      "name": "audit_entity_created_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX audit_entity_created_idx ON audit_logs (entity_type, entity_id, created_at DESC)"
+        }
+      ]
+    },
+    {
+      "name": "daily_closings_no_update",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER daily_closings_no_update BEFORE UPDATE ON daily_closings BEGIN SELECT RAISE (ABORT, 'daily_closings are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "daily_closings_no_delete",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER daily_closings_no_delete BEFORE DELETE ON daily_closings BEGIN SELECT RAISE (ABORT, 'daily_closings are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "audit_logs_no_update",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER audit_logs_no_update BEFORE UPDATE ON audit_logs BEGIN SELECT RAISE (ABORT, 'audit_logs are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "audit_logs_no_delete",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER audit_logs_no_delete BEFORE DELETE ON audit_logs BEGIN SELECT RAISE (ABORT, 'audit_logs are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "money_movements",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"money_movements\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"transaction_id\" TEXT NOT NULL REFERENCES financial_transactions(id)ON DELETE RESTRICT, \"money_account_id\" TEXT NOT NULL REFERENCES money_accounts(id)ON DELETE RESTRICT, \"payment_method\" TEXT NOT NULL CHECK (payment_method IN ('cash', 'upi', 'bank_transfer', 'cheque', 'other')), \"direction\" TEXT NOT NULL CHECK (direction IN ('inflow', 'outflow')), \"amount_paise\" INTEGER NOT NULL CHECK (amount_paise > 0), \"reference_number\" TEXT, \"created_at\" INTEGER NOT NULL, FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT, FOREIGN KEY(money_account_id, shop_id)REFERENCES money_accounts(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "expense_categories",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"expense_categories\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"name\" TEXT NOT NULL CHECK (length(trim(name)) > 0), \"normalized_name\" TEXT NOT NULL, \"is_default\" INTEGER NOT NULL DEFAULT FALSE CHECK (is_default IN (0, 1)), \"is_active\" INTEGER NOT NULL DEFAULT TRUE CHECK (is_active IN (0, 1)), \"created_at\" INTEGER NOT NULL, \"updated_at\" INTEGER NOT NULL, UNIQUE(id, shop_id));"
+        }
+      ]
+    },
+    {
+      "name": "expenses",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"expenses\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"transaction_id\" TEXT NOT NULL UNIQUE REFERENCES financial_transactions(id)ON DELETE RESTRICT, \"category_id\" TEXT REFERENCES expense_categories(id)ON DELETE RESTRICT, \"category_name_snapshot\" TEXT NOT NULL, \"payee\" TEXT, \"note\" TEXT, \"created_at\" INTEGER NOT NULL, FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT, FOREIGN KEY(category_id, shop_id)REFERENCES expense_categories(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "transaction_items",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"transaction_items\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"transaction_id\" TEXT NOT NULL, \"description\" TEXT NOT NULL, \"quantity_micros\" INTEGER NOT NULL CHECK (quantity_micros >= 0), \"unit_name\" TEXT, \"unit_price_paise\" INTEGER NOT NULL CHECK (unit_price_paise >= 0), \"line_total_paise\" INTEGER NOT NULL CHECK (line_total_paise >= 0), \"line_number\" INTEGER NOT NULL CHECK (line_number > 0), FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "attachments",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"attachments\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"transaction_id\" TEXT NOT NULL REFERENCES financial_transactions(id)ON DELETE RESTRICT, \"relative_path\" TEXT NOT NULL UNIQUE, \"mime_type\" TEXT NOT NULL, \"size_bytes\" INTEGER NOT NULL CHECK (size_bytes > 0), \"sha256\" TEXT NOT NULL, \"created_at\" INTEGER NOT NULL, FOREIGN KEY(transaction_id, shop_id)REFERENCES financial_transactions(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "movements_account_created_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX movements_account_created_idx ON money_movements (money_account_id, created_at DESC)"
+        }
+      ]
+    },
+    {
+      "name": "movements_transaction_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX movements_transaction_idx ON money_movements (transaction_id)"
+        }
+      ]
+    },
+    {
+      "name": "expenses_shop_created_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX expenses_shop_created_idx ON expenses (shop_id, created_at DESC)"
+        }
+      ]
+    },
+    {
+      "name": "expense_category_active_name_uq",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE UNIQUE INDEX expense_category_active_name_uq ON expense_categories (shop_id, normalized_name) WHERE is_active = 1"
+        }
+      ]
+    },
+    {
+      "name": "money_movements_no_update",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER money_movements_no_update BEFORE UPDATE ON money_movements BEGIN SELECT RAISE (ABORT, 'money_movements are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "money_movements_no_delete",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER money_movements_no_delete BEFORE DELETE ON money_movements BEGIN SELECT RAISE (ABORT, 'money_movements are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "ledger_allocation_events",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"ledger_allocation_events\" (\"id\" TEXT PRIMARY KEY NOT NULL, \"shop_id\" TEXT NOT NULL REFERENCES shops(id)ON DELETE RESTRICT, \"party_account_id\" TEXT NOT NULL REFERENCES party_accounts(id)ON DELETE RESTRICT, \"source_entry_id\" TEXT NOT NULL, \"target_entry_id\" TEXT NOT NULL, \"event_type\" TEXT NOT NULL CHECK (event_type IN ('allocate', 'release')), \"amount_paise\" INTEGER NOT NULL CHECK (amount_paise > 0), \"reverses_event_id\" TEXT, \"created_at\" INTEGER NOT NULL, UNIQUE(id, shop_id), CHECK((event_type = 'allocate' AND reverses_event_id IS NULL)OR(event_type = 'release' AND reverses_event_id IS NOT NULL)), FOREIGN KEY(party_account_id, shop_id)REFERENCES party_accounts(id, shop_id)ON DELETE RESTRICT, FOREIGN KEY(source_entry_id, party_account_id)REFERENCES party_ledger_entries(id, party_account_id)ON DELETE RESTRICT, FOREIGN KEY(target_entry_id, party_account_id)REFERENCES party_ledger_entries(id, party_account_id)ON DELETE RESTRICT, FOREIGN KEY(source_entry_id, shop_id)REFERENCES party_ledger_entries(id, shop_id)ON DELETE RESTRICT, FOREIGN KEY(target_entry_id, shop_id)REFERENCES party_ledger_entries(id, shop_id)ON DELETE RESTRICT, FOREIGN KEY(reverses_event_id, shop_id)REFERENCES ledger_allocation_events(id, shop_id)ON DELETE RESTRICT);"
+        }
+      ]
+    },
+    {
+      "name": "transactions_shop_effective_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX transactions_shop_effective_idx ON financial_transactions (shop_id, effective_at DESC)"
+        }
+      ]
+    },
+    {
+      "name": "transactions_party_effective_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX transactions_party_effective_idx ON financial_transactions (party_account_id, effective_at DESC)"
+        }
+      ]
+    },
+    {
+      "name": "ledger_account_created_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX ledger_account_created_idx ON party_ledger_entries (party_account_id, created_at DESC)"
+        }
+      ]
+    },
+    {
+      "name": "ledger_account_due_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX ledger_account_due_idx ON party_ledger_entries (party_account_id, due_at)"
+        }
+      ]
+    },
+    {
+      "name": "allocation_source_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX allocation_source_idx ON ledger_allocation_events (source_entry_id, created_at)"
+        }
+      ]
+    },
+    {
+      "name": "allocation_target_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX allocation_target_idx ON ledger_allocation_events (target_entry_id, created_at)"
+        }
+      ]
+    },
+    {
+      "name": "allocation_reverses_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX allocation_reverses_idx ON ledger_allocation_events (reverses_event_id)"
+        }
+      ]
+    },
+    {
+      "name": "allocation_event_validate_insert",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER allocation_event_validate_insert BEFORE INSERT ON ledger_allocation_events BEGIN SELECT CASE WHEN NOT EXISTS (SELECT 1 FROM party_ledger_entries AS s JOIN party_ledger_entries AS t ON t.id = NEW.target_entry_id WHERE s.id = NEW.source_entry_id AND s.party_account_id = NEW.party_account_id AND t.party_account_id = NEW.party_account_id AND s.amount_paise < 0 AND t.amount_paise > 0) THEN RAISE (ABORT, 'allocation source/target signs or account are invalid') END;SELECT CASE WHEN NEW.event_type = 'allocate' AND(COALESCE((SELECT SUM(CASE WHEN event_type = 'allocate' THEN amount_paise ELSE -amount_paise END) FROM ledger_allocation_events WHERE source_entry_id = NEW.source_entry_id), 0) + NEW.amount_paise > ABS((SELECT amount_paise FROM party_ledger_entries WHERE id = NEW.source_entry_id)) OR COALESCE((SELECT SUM(CASE WHEN event_type = 'allocate' THEN amount_paise ELSE -amount_paise END) FROM ledger_allocation_events WHERE target_entry_id = NEW.target_entry_id), 0) + NEW.amount_paise > (SELECT amount_paise FROM party_ledger_entries WHERE id = NEW.target_entry_id))THEN RAISE (ABORT, 'allocation exceeds source or target open amount') END;SELECT CASE WHEN NEW.event_type = 'release' AND NOT EXISTS (SELECT 1 FROM ledger_allocation_events AS original WHERE original.id = NEW.reverses_event_id AND original.event_type = 'allocate' AND original.source_entry_id = NEW.source_entry_id AND original.target_entry_id = NEW.target_entry_id AND original.party_account_id = NEW.party_account_id AND original.shop_id = NEW.shop_id AND NEW.amount_paise <= original.amount_paise - COALESCE((SELECT SUM(amount_paise) FROM ledger_allocation_events AS release_event WHERE release_event.event_type = 'release' AND release_event.reverses_event_id = original.id), 0)) THEN RAISE (ABORT, 'allocation release is invalid or exceeds remaining allocation') END;END"
+        }
+      ]
+    },
+    {
+      "name": "financial_transactions_no_update",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER financial_transactions_no_update BEFORE UPDATE ON financial_transactions BEGIN SELECT RAISE (ABORT, 'financial_transactions are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "financial_transactions_no_delete",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER financial_transactions_no_delete BEFORE DELETE ON financial_transactions BEGIN SELECT RAISE (ABORT, 'financial_transactions are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "party_ledger_entries_no_update",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER party_ledger_entries_no_update BEFORE UPDATE ON party_ledger_entries BEGIN SELECT RAISE (ABORT, 'party_ledger_entries are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "party_ledger_entries_no_delete",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER party_ledger_entries_no_delete BEFORE DELETE ON party_ledger_entries BEGIN SELECT RAISE (ABORT, 'party_ledger_entries are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "ledger_allocation_events_no_update",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER ledger_allocation_events_no_update BEFORE UPDATE ON ledger_allocation_events BEGIN SELECT RAISE (ABORT, 'ledger_allocation_events are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "ledger_allocation_events_no_delete",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TRIGGER ledger_allocation_events_no_delete BEFORE DELETE ON ledger_allocation_events BEGIN SELECT RAISE (ABORT, 'ledger_allocation_events are append-only');END"
+        }
+      ]
+    },
+    {
+      "name": "parties_shop_name_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX parties_shop_name_idx ON parties (shop_id, normalized_name)"
+        }
+      ]
+    },
+    {
+      "name": "parties_shop_phone_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX parties_shop_phone_idx ON parties (shop_id, normalized_phone)"
+        }
+      ]
+    },
+    {
+      "name": "parties_shop_status_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX parties_shop_status_idx ON parties (shop_id, status)"
+        }
+      ]
+    },
+    {
+      "name": "party_accounts_shop_role_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX party_accounts_shop_role_idx ON party_accounts (shop_id, role, party_id)"
+        }
+      ]
+    }
+  ]
+}

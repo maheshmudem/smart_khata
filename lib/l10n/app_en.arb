@@ -1,0 +1,80 @@
+{
+  "@@locale": "en",
+  "appTitle": "Smart Khata",
+
+  "navHome": "Home",
+  "navParties": "Parties",
+  "navQuickAdd": "Add",
+  "navReports": "Reports",
+  "navMore": "More",
+
+  "actionSave": "Save",
+  "actionCancel": "Cancel",
+  "actionRetry": "Try again",
+  "actionContinue": "Continue",
+  "actionClose": "Close",
+  "actionDiscard": "Discard",
+  "actionKeepEditing": "Keep editing",
+
+  "balanceCustomerOwes": "Customer owes",
+  "balanceCustomerAdvance": "Customer advance",
+  "balanceYouOweSupplier": "You owe supplier",
+  "balanceSupplierAdvance": "Supplier advance",
+  "balanceSettled": "Nothing due",
+
+  "amountLabel": "Amount",
+  "amountSemantics": "{label}: {amount}",
+  "@amountSemantics": {
+    "description": "Screen-reader text for a labelled amount, e.g. 'Customer owes: ₹1,800'.",
+    "placeholders": {
+      "label": {"type": "String"},
+      "amount": {"type": "String"}
+    }
+  },
+
+  "validationRequired": "This is required.",
+  "validationAmountPositive": "Enter an amount greater than zero.",
+  "validationAmountInvalid": "Enter an amount in rupees, with paise if needed. Example: 150.50",
+  "validationAmountTooLarge": "This amount is too large.",
+  "validationInvalidPhone": "Enter a valid mobile number.",
+  "validationSplitMismatch": "The payment split must add up to the amount received.",
+  "validationEndBeforeStart": "The end date cannot be before the start date.",
+
+  "errorSaveFailed": "This entry could not be saved. Your information is still here. Please try again.",
+  "errorLoadFailed": "Your records could not be shown. Nothing was changed. Please try again.",
+  "errorStorageFull": "This phone has no free storage. Nothing was saved. Free some space and try again.",
+  "errorAlreadySaved": "This entry was already saved.",
+  "errorNotFound": "This record is no longer available.",
+  "errorUnexpected": "Something went wrong. Nothing was changed. Please try again.",
+  "errorSectionUnavailable": "This part of the screen could not be shown.",
+  "errorStartupTitle": "Smart Khata could not open your records",
+  "errorStartupBody": "Your records have not been changed. Close the app and open it again. Do not uninstall the app: uninstalling removes records that are not backed up.",
+
+  "discardTitle": "Discard what you entered?",
+  "discardBody": "It has not been saved.",
+
+  "loadingLabel": "Loading",
+  "offlineReady": "Works without internet",
+
+  "languageTitle": "Choose your language",
+  "languageEnglish": "English",
+  "languageTelugu": "తెలుగు",
+  "settingsLanguage": "Language",
+
+  "quickAddTitle": "Add entry",
+  "quickAddGiveCredit": "Give customer credit",
+  "quickAddGiveCreditHint": "A customer takes goods and will pay later",
+  "quickAddReceivePayment": "Receive customer payment",
+  "quickAddReceivePaymentHint": "A customer pays you",
+  "quickAddSupplierPurchase": "Add supplier purchase",
+  "quickAddSupplierPurchaseHint": "You take goods from a supplier and will pay later",
+  "quickAddPaySupplier": "Pay supplier",
+  "quickAddPaySupplierHint": "You pay a supplier",
+  "quickAddExpense": "Add shop expense",
+  "quickAddExpenseHint": "Rent, electricity, transport and other costs",
+  "quickAddCashCount": "Cash count / Daily close",
+  "quickAddCashCountHint": "Count the cash drawer and close the day",
+
+  "featureNotReadyTitle": "Not available in this build",
+  "featureNotReadyBody": "This screen is added in a later build."
+}

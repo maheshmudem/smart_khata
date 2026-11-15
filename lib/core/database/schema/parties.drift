@@ -1,0 +1,59 @@
+-- Shop and party master data.
+-- Canonical reference: docs/product/schema_v1.sql. Money is integer paise;
+-- timestamps are UTC epoch milliseconds.
+
+import '../converters.dart';
+import '../../domain/ledger_enums.dart';
+
+CREATE TABLE shops (
+  id TEXT PRIMARY KEY NOT NULL,
+  name TEXT NOT NULL CHECK(length(trim(name)) > 0),
+  owner_name TEXT,
+  phone TEXT,
+  address TEXT,
+  locality TEXT,
+  locale_code TEXT NOT NULL DEFAULT 'en' CHECK(locale_code IN ('en','te')),
+  currency_code TEXT NOT NULL DEFAULT 'INR' CHECK(currency_code = 'INR'),
+  time_zone TEXT NOT NULL,
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  updated_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`
+);
+
+CREATE TABLE parties (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  display_name TEXT NOT NULL CHECK(length(trim(display_name)) > 0),
+  normalized_name TEXT NOT NULL,
+  primary_phone TEXT,
+  normalized_phone TEXT,
+  alternate_phone TEXT,
+  address TEXT,
+  locality TEXT,
+  notes TEXT,
+  customer_credit_limit_paise INTEGER
+    CHECK(customer_credit_limit_paise IS NULL OR customer_credit_limit_paise >= 0),
+  status TEXT NOT NULL DEFAULT 'active' CHECK(status IN ('active','archived'))
+    MAPPED BY `const CodedEnumConverter<PartyStatus>(PartyStatus.values)`,
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  updated_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  archived_at INTEGER MAPPED BY `const EpochMsConverter()`,
+  UNIQUE(id, shop_id)
+);
+
+-- One row per party role; customer and supplier balances are never netted.
+CREATE TABLE party_accounts (
+  id TEXT PRIMARY KEY NOT NULL,
+  shop_id TEXT NOT NULL REFERENCES shops(id) ON DELETE RESTRICT,
+  party_id TEXT NOT NULL REFERENCES parties(id) ON DELETE RESTRICT,
+  role TEXT NOT NULL CHECK(role IN ('customer','supplier'))
+    MAPPED BY `const CodedEnumConverter<PartyRole>(PartyRole.values)`,
+  created_at INTEGER NOT NULL MAPPED BY `const EpochMsConverter()`,
+  UNIQUE(party_id, role),
+  UNIQUE(id, shop_id),
+  FOREIGN KEY(party_id, shop_id) REFERENCES parties(id, shop_id) ON DELETE RESTRICT
+);
+
+CREATE INDEX parties_shop_name_idx ON parties(shop_id, normalized_name);
+CREATE INDEX parties_shop_phone_idx ON parties(shop_id, normalized_phone);
+CREATE INDEX parties_shop_status_idx ON parties(shop_id, status);
+CREATE INDEX party_accounts_shop_role_idx ON party_accounts(shop_id, role, party_id);
