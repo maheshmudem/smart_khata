@@ -74,6 +74,17 @@ abstract final class AppRoutes {
   static const String dailyClose = '/daily-close';
   static const String closingHistory = '/closing-history';
 
+  static const String outstandingPattern = '/reports/outstanding/:role';
+  static const String periodReport = '/reports/period';
+  static const String statementPattern = '/party/:partyId/statement/:accountId';
+
+  /// Dues and aging for customers or suppliers.
+  static String outstanding(PartyRole role) =>
+      '/reports/outstanding/${role.code}';
+
+  static String statement(String partyId, String accountId) =>
+      '/party/$partyId/statement/$accountId';
+
   static const String accountIdParam = 'account';
   static const String directionParam = 'direction';
   static const String amountPaiseParam = 'paise';

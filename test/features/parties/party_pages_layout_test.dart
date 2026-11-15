@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_khata/app/localization/locale_cubit.dart';
 import 'package:smart_khata/core/date_time/business_date.dart';
+import 'package:smart_khata/core/date_time/date_range.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/core/money/money.dart';
 import 'package:smart_khata/features/daily_closing/domain/daily_closing.dart';
@@ -38,6 +39,9 @@ import 'package:smart_khata/features/parties/presentation/pages/parties_page.dar
 import 'package:smart_khata/features/parties/presentation/pages/party_detail_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_form_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_picker_page.dart';
+import 'package:smart_khata/features/reports/presentation/dashboard_page.dart';
+import 'package:smart_khata/features/reports/presentation/report_cubits.dart';
+import 'package:smart_khata/features/reports/presentation/reports_pages.dart';
 
 import '../../helpers/fakes.dart';
 import '../../helpers/pump_app.dart';
@@ -365,6 +369,51 @@ void main() {
         transactionId: 'txn-e2',
       ),
       child: const TransactionDetailPage(),
+    ),
+    'dashboard': () => BlocProvider(
+      create: (_) => DashboardCubit(
+        reports: env.reports,
+        shops: env.shops,
+        today: () => BusinessDate(2026, 11, 15),
+      ),
+      child: const DashboardPage(),
+    ),
+    'reports home': () => const ReportsHomePage(),
+    'dues and aging': () => BlocProvider(
+      create: (_) => OutstandingCubit(
+        reports: env.reports,
+        shareService: env.share,
+        shareLogger: env.logger,
+        today: BusinessDate(2026, 11, 15),
+        role: PartyRole.customer,
+      ),
+      child: const OutstandingPage(),
+    ),
+    'period summary with chosen dates': () => BlocProvider(
+      create: (_) =>
+          PeriodReportCubit(
+            reports: env.reports,
+            today: BusinessDate(2026, 11, 15),
+          )..periodSelected(
+            PeriodSelection.custom(
+              DateRange(
+                start: BusinessDate(2026, 10, 1),
+                end: BusinessDate(2026, 11, 15),
+              ),
+            ),
+          ),
+      child: const PeriodReportPage(),
+    ),
+    'statement': () => BlocProvider(
+      create: (_) => StatementCubit(
+        reports: env.reports,
+        shops: env.shops,
+        shareService: env.share,
+        shareLogger: env.logger,
+        accountId: customerAccountId,
+        today: BusinessDate(2026, 11, 15),
+      ),
+      child: const StatementPage(),
     ),
     'reverse entry': () => BlocProvider(
       create: (_) => ReverseTransactionCubit(

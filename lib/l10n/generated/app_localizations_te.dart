@@ -1216,4 +1216,286 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get moreClosingHistory => 'రోజు ముగింపుల చరిత్ర';
+
+  @override
+  String get rangeYesterday => 'నిన్న';
+
+  @override
+  String get rangeThisWeek => 'ఈ వారం';
+
+  @override
+  String get rangeLastMonth => 'గత నెల';
+
+  @override
+  String get rangeCustom => 'తేదీలు ఎంచుకోండి';
+
+  @override
+  String get fromDateLabel => 'ఈ తేదీ నుండి';
+
+  @override
+  String get toDateLabel => 'ఈ తేదీ వరకు';
+
+  @override
+  String periodLabel(String period) {
+    return 'కాలం: $period.';
+  }
+
+  @override
+  String periodBetween(String start, String end) {
+    return '$start నుండి $end వరకు';
+  }
+
+  @override
+  String periodUpTo(String end) {
+    return '$end వరకు అన్ని ఎంట్రీలు';
+  }
+
+  @override
+  String get periodBothIncluded => 'మొదటి రోజు, చివరి రోజు రెండూ కలిపి.';
+
+  @override
+  String get totalLabel => 'మొత్తం';
+
+  @override
+  String get dashNoBackup => 'ఇంకా బ్యాకప్ ఎగుమతి చేయలేదు';
+
+  @override
+  String get dashFirstRunTitle => 'మీ ఖాతా మొదలుపెట్టండి';
+
+  @override
+  String get dashFirstRunBody =>
+      'అప్పు, చెల్లింపులు రాయడం మొదలుపెట్టడానికి మీ మొదటి కస్టమర్ లేదా సరఫరాదారును జోడించండి.';
+
+  @override
+  String get dashCustomerOutstanding => 'కస్టమర్ల నుండి రావాల్సింది';
+
+  @override
+  String dashCustomersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count మంది కస్టమర్లు',
+      one: '1 కస్టమర్',
+      zero: 'బాకీ ఉన్న కస్టమర్లు లేరు',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String dashSuppliersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count మంది సరఫరాదారులు',
+      one: '1 సరఫరాదారు',
+      zero: 'చెల్లించాల్సిన సరఫరాదారులు లేరు',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String dashOverdueCount(int count) {
+    return '$count గడువు దాటినవి';
+  }
+
+  @override
+  String get dashCustomerAdvances => 'మీ వద్ద ఉన్న కస్టమర్ అడ్వాన్సులు';
+
+  @override
+  String get dashSupplierPayable => 'సరఫరాదారులకు మీరు చెల్లించాల్సింది';
+
+  @override
+  String get dashSupplierAdvances => 'సరఫరాదారుల వద్ద మీ అడ్వాన్సులు';
+
+  @override
+  String get dashTodayCollected => 'వసూలైంది';
+
+  @override
+  String get dashTodayExpenses => 'ఖర్చులు';
+
+  @override
+  String get dashQuickActions => 'త్వరిత పనులు';
+
+  @override
+  String get dashQuickExpense => 'ఖర్చు జోడించండి';
+
+  @override
+  String get dashQuickCashCount => 'నగదు లెక్క';
+
+  @override
+  String get dashRecentActivity => 'ఇటీవలి ఎంట్రీలు';
+
+  @override
+  String get dashInfoTitle => 'ఈ అంకెల అర్థం';
+
+  @override
+  String get dashInfoCustomers =>
+      'కస్టమర్ల నుండి రావాల్సింది: కస్టమర్లు దుకాణానికి ఇంకా ఇవ్వాల్సిన మొత్తం. కస్టమర్లు ఇచ్చిన అడ్వాన్సులు విడిగా చూపబడతాయి; ఈ మొత్తం నుండి తీసివేయబడవు.';
+
+  @override
+  String get dashInfoSuppliers =>
+      'సరఫరాదారులకు చెల్లించాల్సింది: దుకాణం సరఫరాదారులకు ఇంకా చెల్లించాల్సిన మొత్తం. మీరు సరఫరాదారులకు ఇచ్చిన అడ్వాన్సులు విడిగా చూపబడతాయి.';
+
+  @override
+  String get dashInfoToday =>
+      'ఈ రోజు: ఈ రోజు తేదీతో ఉన్న ఎంట్రీలు. వసూలైంది అంటే కస్టమర్ల నుండి ఏ పద్ధతిలోనైనా అందిన డబ్బు. అది దుకాణం ఆదాయం కాదు.';
+
+  @override
+  String get dashInfoCurrency =>
+      'అన్ని మొత్తాలు భారతీయ రూపాయల్లో (₹). రద్దు చేసిన ఎంట్రీలు లెక్కలోకి రావు.';
+
+  @override
+  String get reportsCustomerDues => 'కస్టమర్ బాకీలు, ఎన్ని రోజులుగా';
+
+  @override
+  String get reportsCustomerDuesHint => 'ఎవరు ఎంత ఇవ్వాలి, ఎప్పటి నుండి';
+
+  @override
+  String get reportsSupplierDues => 'సరఫరాదారు బాకీలు, ఎన్ని రోజులుగా';
+
+  @override
+  String get reportsSupplierDuesHint => 'మీరు ఎవరికి ఎంత ఇవ్వాలి, ఎప్పటి నుండి';
+
+  @override
+  String get periodReportTitle => 'ఒక కాలానికి సారాంశం';
+
+  @override
+  String get reportsPeriodHint =>
+      'ఇచ్చిన అప్పు, చెల్లింపులు, కొనుగోళ్లు, ఖర్చులు';
+
+  @override
+  String get reportsCashBookHint => 'ప్రతి ఖాతాలో వచ్చిన, పోయిన డబ్బు';
+
+  @override
+  String get reportsClosingHint => 'రోజువారీ లెక్కించిన నగదు, తేడాలు';
+
+  @override
+  String get reportsInfoNote =>
+      'ఈ నివేదికలు ఈ ఫోన్‌లోని ఎంట్రీల నుండి మీ సమాచారం కోసం తయారవుతాయి. ఇవి ఆడిట్ చేసిన లెక్కలు కావు.';
+
+  @override
+  String get outstandingTitle => 'బాకీలు, ఎన్ని రోజులుగా';
+
+  @override
+  String asOfLabel(String date) {
+    return '$date నాటికి';
+  }
+
+  @override
+  String get agingUpTo7 => '0–7 రోజులు';
+
+  @override
+  String get aging8To15 => '8–15 రోజులు';
+
+  @override
+  String get aging16To30 => '16–30 రోజులు';
+
+  @override
+  String get agingOver30 => '30 రోజులకు పైగా';
+
+  @override
+  String get outstandingMeasureCustomer =>
+      'చెల్లింపుల తర్వాత కస్టమర్లు ఇంకా ఇవ్వాల్సిన మొత్తాలు (₹), గడువు తేదీ నుండి (గడువు లేకపోతే ఎంట్రీ తేదీ నుండి) గడిచిన రోజుల ప్రకారం.';
+
+  @override
+  String get outstandingMeasureSupplier =>
+      'మీ చెల్లింపుల తర్వాత సరఫరాదారులకు ఇంకా ఇవ్వాల్సిన మొత్తాలు (₹), గడువు తేదీ నుండి (గడువు లేకపోతే ఎంట్రీ తేదీ నుండి) గడిచిన రోజుల ప్రకారం.';
+
+  @override
+  String get outstandingEmptyCustomers => 'ఏ కస్టమర్ మీకు బాకీ లేరు';
+
+  @override
+  String get outstandingEmptySuppliers => 'మీరు ఏ సరఫరాదారుకూ బాకీ లేరు';
+
+  @override
+  String outstandingRowDetail(int count, String date) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count చెల్లించని ఎంట్రీలు',
+      one: '1 చెల్లించని ఎంట్రీ',
+    );
+    return '$_temp0 · అతి పాతది $date';
+  }
+
+  @override
+  String outstandingTruncated(int count) {
+    return 'అతి పెద్ద $count మాత్రమే చూపబడ్డాయి. మొత్తాల్లో అందరూ ఉన్నారు.';
+  }
+
+  @override
+  String get advancesNotNettedNote =>
+      'అడ్వాన్సులు విడిగా చూపబడ్డాయి; పై బాకీల నుండి తీసివేయలేదు.';
+
+  @override
+  String get actionExportCsv => 'CSV ఎగుమతి';
+
+  @override
+  String get actionShareText => 'టెక్స్ట్‌గా పంచుకోండి';
+
+  @override
+  String get shareFailed => 'పంచుకోవడం తెరవలేకపోయాం. ఏదీ పంచుకోబడలేదు.';
+
+  @override
+  String get periodExpensesByCategory => 'వర్గాల వారీగా ఖర్చులు';
+
+  @override
+  String get periodMeasure =>
+      'ఈ కాలంలోని తేదీలతో ఉన్న ఎంట్రీల మొత్తాలు (₹). రద్దు చేసిన ఎంట్రీలు లెక్కలోకి రావు. ఇవి మొత్తాలు మాత్రమే; నిల్వలు కావు.';
+
+  @override
+  String get periodByDay => 'రోజువారీగా';
+
+  @override
+  String periodMoreDays(int count) {
+    return 'చివరి $count రోజులు మాత్రమే చూపబడ్డాయి. మొత్తాలు పూర్తి కాలానికి.';
+  }
+
+  @override
+  String get periodNoEntries => 'ఈ కాలంలో ఎంట్రీలు లేవు';
+
+  @override
+  String get statementTitle => 'స్టేట్‌మెంట్';
+
+  @override
+  String get statementOpening => 'ఈ కాలానికి ముందు నిల్వ';
+
+  @override
+  String get statementClosing => 'ఈ కాలం చివర నిల్వ';
+
+  @override
+  String get statementCurrencyNote =>
+      'మొత్తాలు భారతీయ రూపాయల్లో (₹), ఈ దుకాణం ఖాతాలో రాసిన ప్రకారం.';
+
+  @override
+  String statementTruncated(int count) {
+    return 'చివరి $count ఎంట్రీలు మాత్రమే చూపబడ్డాయి. నిల్వలు పూర్తి కాలానికి.';
+  }
+
+  @override
+  String get csvDate => 'తేదీ';
+
+  @override
+  String get csvType => 'ఎంట్రీ';
+
+  @override
+  String get csvChange => 'మార్పు';
+
+  @override
+  String get csvBalance => 'నిల్వ';
+
+  @override
+  String get csvBalanceMeaning => 'నిల్వ అర్థం';
+
+  @override
+  String get csvParty => 'పార్టీ';
+
+  @override
+  String get csvTotalDue => 'మొత్తం బాకీ';
+
+  @override
+  String get csvOldestDate => 'అతి పాత గడువు తేదీ';
+
+  @override
+  String get csvOpenEntries => 'చెల్లించని ఎంట్రీలు';
 }

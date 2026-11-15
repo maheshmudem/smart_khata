@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_khata/core/date_time/business_date.dart';
+import 'package:smart_khata/core/date_time/date_range.dart';
 import 'package:smart_khata/core/date_time/shop_time_zone.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/l10n/generated/app_localizations.dart';
@@ -23,6 +24,16 @@ abstract final class AppDateFormat {
 }
 
 extension LedgerLabelsX on AppLocalizations {
+  String rangeName(DateRangePreset preset) => switch (preset) {
+    DateRangePreset.today => rangeToday,
+    DateRangePreset.yesterday => rangeYesterday,
+    DateRangePreset.last7Days => rangeLast7Days,
+    DateRangePreset.thisWeek => rangeThisWeek,
+    DateRangePreset.thisMonth => rangeThisMonth,
+    DateRangePreset.lastMonth => rangeLastMonth,
+    DateRangePreset.allTime => rangeAllTime,
+  };
+
   String roleLabel(PartyRole role) => switch (role) {
     PartyRole.customer => roleCustomer,
     PartyRole.supplier => roleSupplier,

@@ -1,7 +1,9 @@
 import 'package:get_it/get_it.dart';
+import 'package:smart_khata/app/share/platform_share_service.dart';
 import 'package:smart_khata/core/database/app_database.dart';
 import 'package:smart_khata/core/date_time/clock.dart';
 import 'package:smart_khata/core/domain/shop_context.dart';
+import 'package:smart_khata/core/export/share_service.dart';
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
 import 'package:smart_khata/features/daily_closing/data/drift_daily_closing_repository.dart';
@@ -19,6 +21,8 @@ import 'package:smart_khata/features/money/domain/money_account.dart';
 import 'package:smart_khata/features/parties/data/drift_party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_use_cases.dart';
+import 'package:smart_khata/features/reports/data/drift_reports_repository.dart';
+import 'package:smart_khata/features/reports/domain/reports.dart';
 import 'package:smart_khata/features/settings/data/drift_settings_repository.dart';
 import 'package:smart_khata/features/settings/domain/settings_repository.dart';
 import 'package:smart_khata/features/shop/data/drift_shop_repository.dart';
@@ -40,6 +44,7 @@ void configureDependencies({
   AppLogger? logger,
   Clock? clock,
   IdGenerator? idGenerator,
+  ShareService? shareService,
 }) {
   getIt
     // Core
@@ -169,5 +174,16 @@ void configureDependencies({
     )
     ..registerFactory<CloseDay>(
       () => CloseDay(getIt<DailyClosingRepository>(), getIt<Clock>()),
+    )
+    // Reports and sharing
+    ..registerLazySingleton<ReportsRepository>(
+      () => DriftReportsRepository(
+        dao: getIt<AppDatabase>().reportsDao,
+        shop: getIt<ShopContext>(),
+        logger: getIt<AppLogger>(),
+      ),
+    )
+    ..registerSingleton<ShareService>(
+      shareService ?? const PlatformShareService(),
     );
 }

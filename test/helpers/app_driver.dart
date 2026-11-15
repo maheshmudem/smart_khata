@@ -34,6 +34,7 @@ extension AppDriver on WidgetTester {
       logger: env.logger,
       clock: env.clock,
       idGenerator: env.ids,
+      shareService: env.share,
     );
     return env;
   }
@@ -41,10 +42,15 @@ extension AppDriver on WidgetTester {
   /// Starts the app. With [onboarded] the shop already exists and setup is
   /// finished. [tallScreen] gives a very tall window so that a long form is
   /// built in full; use it when a test addresses fields by position.
+  ///
+  /// [seed] runs after shop setup and before the app starts. Seed there,
+  /// not later: Home keeps live queries open, and a database write made
+  /// from `runAsync` while they are listening never finishes.
   Future<void> pumpSmartKhata(
     TestEnv env, {
     bool onboarded = true,
     bool tallScreen = false,
+    Future<void> Function()? seed,
   }) async {
     if (tallScreen) {
       view.physicalSize = const Size(800, 4000);
@@ -55,6 +61,7 @@ extension AppDriver on WidgetTester {
       await runAsync(() async {
         await env.setUpShop();
         await getIt<SettingsRepository>().markOnboardingComplete();
+        await seed?.call();
       });
     }
     await pumpWidget(

@@ -30,6 +30,18 @@ class LedgerPage extends StatelessWidget {
             title: Text(
               state.partyName.isEmpty ? l10n.ledgerTitle : state.partyName,
             ),
+            actions: [
+              // WF-023: the statement for sharing opens from the ledger.
+              IconButton(
+                tooltip: l10n.statementTitle,
+                icon: const Icon(Icons.description_outlined),
+                onPressed: () => unawaited(
+                  context.push(
+                    AppRoutes.statement(cubit.partyId, cubit.accountId),
+                  ),
+                ),
+              ),
+            ],
           ),
           body: switch (state.status) {
             LoadStatus.loading => const LoadingView(),

@@ -34,13 +34,6 @@ extension MoneyLabelsX on AppLocalizations {
     MoneyAccountType.other => accountTypeOther,
   };
 
-  String rangeName(DateRangePreset preset) => switch (preset) {
-    DateRangePreset.today => rangeToday,
-    DateRangePreset.last7Days => rangeLast7Days,
-    DateRangePreset.thisMonth => rangeThisMonth,
-    DateRangePreset.allTime => rangeAllTime,
-  };
-
   /// A money-account balance. It can be below zero, so the sign is kept.
   String accountBalance(Money balance) => MoneyFormatter.format(balance);
 }
@@ -119,7 +112,7 @@ class CashBookPage extends StatelessWidget {
                       ),
                     const SizedBox(height: AppSpacing.sm),
                     _Chips<DateRangePreset>(
-                      values: DateRangePreset.values,
+                      values: CashBookCubit.presets,
                       selected: state.preset,
                       labelOf: l10n.rangeName,
                       onSelected: cubit.presetSelected,

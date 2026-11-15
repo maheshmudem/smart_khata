@@ -92,6 +92,14 @@ class CashBookCubit extends Cubit<CashBookState> {
 
   static const int pageSize = 50;
 
+  /// The periods the cash book offers.
+  static const List<DateRangePreset> presets = [
+    DateRangePreset.today,
+    DateRangePreset.last7Days,
+    DateRangePreset.thisMonth,
+    DateRangePreset.allTime,
+  ];
+
   final MoneyAccountRepository _accounts;
   final CashBookRepository _cashBook;
 

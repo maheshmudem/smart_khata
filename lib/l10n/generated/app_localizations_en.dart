@@ -1215,4 +1215,286 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moreClosingHistory => 'Daily closing history';
+
+  @override
+  String get rangeYesterday => 'Yesterday';
+
+  @override
+  String get rangeThisWeek => 'This week';
+
+  @override
+  String get rangeLastMonth => 'Last month';
+
+  @override
+  String get rangeCustom => 'Choose dates';
+
+  @override
+  String get fromDateLabel => 'From';
+
+  @override
+  String get toDateLabel => 'To';
+
+  @override
+  String periodLabel(String period) {
+    return 'Period: $period.';
+  }
+
+  @override
+  String periodBetween(String start, String end) {
+    return '$start to $end';
+  }
+
+  @override
+  String periodUpTo(String end) {
+    return 'All entries up to $end';
+  }
+
+  @override
+  String get periodBothIncluded => 'Both days are included.';
+
+  @override
+  String get totalLabel => 'Total';
+
+  @override
+  String get dashNoBackup => 'No exported backup yet';
+
+  @override
+  String get dashFirstRunTitle => 'Start your Khata';
+
+  @override
+  String get dashFirstRunBody =>
+      'Add your first customer or supplier to start recording credit and payments.';
+
+  @override
+  String get dashCustomerOutstanding => 'Customers owe you';
+
+  @override
+  String dashCustomersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count customers',
+      one: '1 customer',
+      zero: 'No customer has dues',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String dashSuppliersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count suppliers',
+      one: '1 supplier',
+      zero: 'No supplier to pay',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String dashOverdueCount(int count) {
+    return '$count past due date';
+  }
+
+  @override
+  String get dashCustomerAdvances => 'Customer advances with you';
+
+  @override
+  String get dashSupplierPayable => 'You owe suppliers';
+
+  @override
+  String get dashSupplierAdvances => 'Your advances with suppliers';
+
+  @override
+  String get dashTodayCollected => 'Collected';
+
+  @override
+  String get dashTodayExpenses => 'Expenses';
+
+  @override
+  String get dashQuickActions => 'Quick actions';
+
+  @override
+  String get dashQuickExpense => 'Add expense';
+
+  @override
+  String get dashQuickCashCount => 'Cash count';
+
+  @override
+  String get dashRecentActivity => 'Recent entries';
+
+  @override
+  String get dashInfoTitle => 'What these numbers mean';
+
+  @override
+  String get dashInfoCustomers =>
+      'Customers owe you: the total that customers still owe the shop. Advances paid by customers are shown separately and are not taken off this total.';
+
+  @override
+  String get dashInfoSuppliers =>
+      'You owe suppliers: the total the shop still has to pay its suppliers. Advances you paid to suppliers are shown separately.';
+
+  @override
+  String get dashInfoToday =>
+      'Today: entries dated today. Collected is money received from customers by any method. It is not the shop\'s income.';
+
+  @override
+  String get dashInfoCurrency =>
+      'All amounts are in Indian rupees (₹). Reversed entries are not counted.';
+
+  @override
+  String get reportsCustomerDues => 'Customer dues and aging';
+
+  @override
+  String get reportsCustomerDuesHint => 'Who owes you, and for how long';
+
+  @override
+  String get reportsSupplierDues => 'Supplier dues and aging';
+
+  @override
+  String get reportsSupplierDuesHint => 'Whom you owe, and for how long';
+
+  @override
+  String get periodReportTitle => 'Summary for a period';
+
+  @override
+  String get reportsPeriodHint =>
+      'Credit given, payments, purchases and expenses';
+
+  @override
+  String get reportsCashBookHint => 'Money in and out of each account';
+
+  @override
+  String get reportsClosingHint => 'Counted cash and differences by day';
+
+  @override
+  String get reportsInfoNote =>
+      'Reports are made from the entries on this phone, for your own information. They are not audited accounts.';
+
+  @override
+  String get outstandingTitle => 'Dues and aging';
+
+  @override
+  String asOfLabel(String date) {
+    return 'As of $date';
+  }
+
+  @override
+  String get agingUpTo7 => '0–7 days';
+
+  @override
+  String get aging8To15 => '8–15 days';
+
+  @override
+  String get aging16To30 => '16–30 days';
+
+  @override
+  String get agingOver30 => 'More than 30 days';
+
+  @override
+  String get outstandingMeasureCustomer =>
+      'Amounts in ₹ that customers still owe after their payments, by days since the due date (or the entry date when no due date was set).';
+
+  @override
+  String get outstandingMeasureSupplier =>
+      'Amounts in ₹ that you still owe suppliers after your payments, by days since the due date (or the entry date when no due date was set).';
+
+  @override
+  String get outstandingEmptyCustomers => 'No customer owes you anything';
+
+  @override
+  String get outstandingEmptySuppliers => 'You do not owe any supplier';
+
+  @override
+  String outstandingRowDetail(int count, String date) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unpaid entries',
+      one: '1 unpaid entry',
+    );
+    return '$_temp0 · oldest $date';
+  }
+
+  @override
+  String outstandingTruncated(int count) {
+    return 'Only the $count largest are listed. The totals include everyone.';
+  }
+
+  @override
+  String get advancesNotNettedNote =>
+      'Advances are listed separately and are not taken off the dues above.';
+
+  @override
+  String get actionExportCsv => 'Export CSV';
+
+  @override
+  String get actionShareText => 'Share as text';
+
+  @override
+  String get shareFailed => 'Sharing could not be opened. Nothing was shared.';
+
+  @override
+  String get periodExpensesByCategory => 'Expenses by category';
+
+  @override
+  String get periodMeasure =>
+      'Totals in ₹ of entries dated in this period. Reversed entries are not counted. These are totals, not balances.';
+
+  @override
+  String get periodByDay => 'Day by day';
+
+  @override
+  String periodMoreDays(int count) {
+    return 'Only the latest $count days are listed. The totals cover the whole period.';
+  }
+
+  @override
+  String get periodNoEntries => 'No entries in this period';
+
+  @override
+  String get statementTitle => 'Statement';
+
+  @override
+  String get statementOpening => 'Balance before this period';
+
+  @override
+  String get statementClosing => 'Balance at the end of this period';
+
+  @override
+  String get statementCurrencyNote =>
+      'Amounts are in Indian rupees (₹), as recorded in this shop\'s Khata.';
+
+  @override
+  String statementTruncated(int count) {
+    return 'Only the latest $count entries are listed. The balances cover the whole period.';
+  }
+
+  @override
+  String get csvDate => 'Date';
+
+  @override
+  String get csvType => 'Entry';
+
+  @override
+  String get csvChange => 'Change';
+
+  @override
+  String get csvBalance => 'Balance';
+
+  @override
+  String get csvBalanceMeaning => 'Balance meaning';
+
+  @override
+  String get csvParty => 'Party';
+
+  @override
+  String get csvTotalDue => 'Total due';
+
+  @override
+  String get csvOldestDate => 'Oldest due date';
+
+  @override
+  String get csvOpenEntries => 'Unpaid entries';
 }

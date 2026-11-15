@@ -572,5 +572,164 @@
   "moreCashBook": "Cash book",
   "moreMoneyAccounts": "Money accounts",
   "moreExpenseCategories": "Expense categories",
-  "moreClosingHistory": "Daily closing history"
+  "moreClosingHistory": "Daily closing history",
+  "rangeYesterday": "Yesterday",
+  "rangeThisWeek": "This week",
+  "rangeLastMonth": "Last month",
+  "rangeCustom": "Choose dates",
+  "fromDateLabel": "From",
+  "toDateLabel": "To",
+  "periodLabel": "Period: {period}.",
+  "@periodLabel": {
+    "placeholders": {
+      "period": {
+        "type": "String"
+      }
+    }
+  },
+  "periodBetween": "{start} to {end}",
+  "@periodBetween": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "periodUpTo": "All entries up to {end}",
+  "@periodUpTo": {
+    "placeholders": {
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "periodBothIncluded": "Both days are included.",
+  "totalLabel": "Total",
+  "dashNoBackup": "No exported backup yet",
+  "dashFirstRunTitle": "Start your Khata",
+  "dashFirstRunBody": "Add your first customer or supplier to start recording credit and payments.",
+  "dashCustomerOutstanding": "Customers owe you",
+  "dashCustomersCount": "{count, plural, =0{No customer has dues} =1{1 customer} other{{count} customers}}",
+  "@dashCustomersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dashSuppliersCount": "{count, plural, =0{No supplier to pay} =1{1 supplier} other{{count} suppliers}}",
+  "@dashSuppliersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dashOverdueCount": "{count} past due date",
+  "@dashOverdueCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dashCustomerAdvances": "Customer advances with you",
+  "dashSupplierPayable": "You owe suppliers",
+  "dashSupplierAdvances": "Your advances with suppliers",
+  "dashTodayCollected": "Collected",
+  "dashTodayExpenses": "Expenses",
+  "dashQuickActions": "Quick actions",
+  "dashQuickExpense": "Add expense",
+  "dashQuickCashCount": "Cash count",
+  "dashRecentActivity": "Recent entries",
+  "dashInfoTitle": "What these numbers mean",
+  "dashInfoCustomers": "Customers owe you: the total that customers still owe the shop. Advances paid by customers are shown separately and are not taken off this total.",
+  "dashInfoSuppliers": "You owe suppliers: the total the shop still has to pay its suppliers. Advances you paid to suppliers are shown separately.",
+  "dashInfoToday": "Today: entries dated today. Collected is money received from customers by any method. It is not the shop's income.",
+  "dashInfoCurrency": "All amounts are in Indian rupees (₹). Reversed entries are not counted.",
+  "reportsCustomerDues": "Customer dues and aging",
+  "reportsCustomerDuesHint": "Who owes you, and for how long",
+  "reportsSupplierDues": "Supplier dues and aging",
+  "reportsSupplierDuesHint": "Whom you owe, and for how long",
+  "periodReportTitle": "Summary for a period",
+  "reportsPeriodHint": "Credit given, payments, purchases and expenses",
+  "reportsCashBookHint": "Money in and out of each account",
+  "reportsClosingHint": "Counted cash and differences by day",
+  "reportsInfoNote": "Reports are made from the entries on this phone, for your own information. They are not audited accounts.",
+  "outstandingTitle": "Dues and aging",
+  "asOfLabel": "As of {date}",
+  "@asOfLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "agingUpTo7": "0–7 days",
+  "aging8To15": "8–15 days",
+  "aging16To30": "16–30 days",
+  "agingOver30": "More than 30 days",
+  "outstandingMeasureCustomer": "Amounts in ₹ that customers still owe after their payments, by days since the due date (or the entry date when no due date was set).",
+  "outstandingMeasureSupplier": "Amounts in ₹ that you still owe suppliers after your payments, by days since the due date (or the entry date when no due date was set).",
+  "outstandingEmptyCustomers": "No customer owes you anything",
+  "outstandingEmptySuppliers": "You do not owe any supplier",
+  "outstandingRowDetail": "{count, plural, =1{1 unpaid entry} other{{count} unpaid entries}} · oldest {date}",
+  "@outstandingRowDetail": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "outstandingTruncated": "Only the {count} largest are listed. The totals include everyone.",
+  "@outstandingTruncated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "advancesNotNettedNote": "Advances are listed separately and are not taken off the dues above.",
+  "actionExportCsv": "Export CSV",
+  "actionShareText": "Share as text",
+  "shareFailed": "Sharing could not be opened. Nothing was shared.",
+  "periodExpensesByCategory": "Expenses by category",
+  "periodMeasure": "Totals in ₹ of entries dated in this period. Reversed entries are not counted. These are totals, not balances.",
+  "periodByDay": "Day by day",
+  "periodMoreDays": "Only the latest {count} days are listed. The totals cover the whole period.",
+  "@periodMoreDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "periodNoEntries": "No entries in this period",
+  "statementTitle": "Statement",
+  "statementOpening": "Balance before this period",
+  "statementClosing": "Balance at the end of this period",
+  "statementCurrencyNote": "Amounts are in Indian rupees (₹), as recorded in this shop's Khata.",
+  "statementTruncated": "Only the latest {count} entries are listed. The balances cover the whole period.",
+  "@statementTruncated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "csvDate": "Date",
+  "csvType": "Entry",
+  "csvChange": "Change",
+  "csvBalance": "Balance",
+  "csvBalanceMeaning": "Balance meaning",
+  "csvParty": "Party",
+  "csvTotalDue": "Total due",
+  "csvOldestDate": "Oldest due date",
+  "csvOpenEntries": "Unpaid entries"
 }

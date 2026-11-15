@@ -2317,6 +2317,462 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Daily closing history'**
   String get moreClosingHistory;
+
+  /// No description provided for @rangeYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get rangeYesterday;
+
+  /// No description provided for @rangeThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get rangeThisWeek;
+
+  /// No description provided for @rangeLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last month'**
+  String get rangeLastMonth;
+
+  /// No description provided for @rangeCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose dates'**
+  String get rangeCustom;
+
+  /// No description provided for @fromDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get fromDateLabel;
+
+  /// No description provided for @toDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get toDateLabel;
+
+  /// No description provided for @periodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Period: {period}.'**
+  String periodLabel(String period);
+
+  /// No description provided for @periodBetween.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} to {end}'**
+  String periodBetween(String start, String end);
+
+  /// No description provided for @periodUpTo.
+  ///
+  /// In en, this message translates to:
+  /// **'All entries up to {end}'**
+  String periodUpTo(String end);
+
+  /// No description provided for @periodBothIncluded.
+  ///
+  /// In en, this message translates to:
+  /// **'Both days are included.'**
+  String get periodBothIncluded;
+
+  /// No description provided for @totalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get totalLabel;
+
+  /// No description provided for @dashNoBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'No exported backup yet'**
+  String get dashNoBackup;
+
+  /// No description provided for @dashFirstRunTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your Khata'**
+  String get dashFirstRunTitle;
+
+  /// No description provided for @dashFirstRunBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first customer or supplier to start recording credit and payments.'**
+  String get dashFirstRunBody;
+
+  /// No description provided for @dashCustomerOutstanding.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers owe you'**
+  String get dashCustomerOutstanding;
+
+  /// No description provided for @dashCustomersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No customer has dues} =1{1 customer} other{{count} customers}}'**
+  String dashCustomersCount(int count);
+
+  /// No description provided for @dashSuppliersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No supplier to pay} =1{1 supplier} other{{count} suppliers}}'**
+  String dashSuppliersCount(int count);
+
+  /// No description provided for @dashOverdueCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} past due date'**
+  String dashOverdueCount(int count);
+
+  /// No description provided for @dashCustomerAdvances.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer advances with you'**
+  String get dashCustomerAdvances;
+
+  /// No description provided for @dashSupplierPayable.
+  ///
+  /// In en, this message translates to:
+  /// **'You owe suppliers'**
+  String get dashSupplierPayable;
+
+  /// No description provided for @dashSupplierAdvances.
+  ///
+  /// In en, this message translates to:
+  /// **'Your advances with suppliers'**
+  String get dashSupplierAdvances;
+
+  /// No description provided for @dashTodayCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'Collected'**
+  String get dashTodayCollected;
+
+  /// No description provided for @dashTodayExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get dashTodayExpenses;
+
+  /// No description provided for @dashQuickActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick actions'**
+  String get dashQuickActions;
+
+  /// No description provided for @dashQuickExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expense'**
+  String get dashQuickExpense;
+
+  /// No description provided for @dashQuickCashCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash count'**
+  String get dashQuickCashCount;
+
+  /// No description provided for @dashRecentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent entries'**
+  String get dashRecentActivity;
+
+  /// No description provided for @dashInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What these numbers mean'**
+  String get dashInfoTitle;
+
+  /// No description provided for @dashInfoCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers owe you: the total that customers still owe the shop. Advances paid by customers are shown separately and are not taken off this total.'**
+  String get dashInfoCustomers;
+
+  /// No description provided for @dashInfoSuppliers.
+  ///
+  /// In en, this message translates to:
+  /// **'You owe suppliers: the total the shop still has to pay its suppliers. Advances you paid to suppliers are shown separately.'**
+  String get dashInfoSuppliers;
+
+  /// No description provided for @dashInfoToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today: entries dated today. Collected is money received from customers by any method. It is not the shop\'s income.'**
+  String get dashInfoToday;
+
+  /// No description provided for @dashInfoCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'All amounts are in Indian rupees (₹). Reversed entries are not counted.'**
+  String get dashInfoCurrency;
+
+  /// No description provided for @reportsCustomerDues.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer dues and aging'**
+  String get reportsCustomerDues;
+
+  /// No description provided for @reportsCustomerDuesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who owes you, and for how long'**
+  String get reportsCustomerDuesHint;
+
+  /// No description provided for @reportsSupplierDues.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplier dues and aging'**
+  String get reportsSupplierDues;
+
+  /// No description provided for @reportsSupplierDuesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Whom you owe, and for how long'**
+  String get reportsSupplierDuesHint;
+
+  /// No description provided for @periodReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary for a period'**
+  String get periodReportTitle;
+
+  /// No description provided for @reportsPeriodHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit given, payments, purchases and expenses'**
+  String get reportsPeriodHint;
+
+  /// No description provided for @reportsCashBookHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Money in and out of each account'**
+  String get reportsCashBookHint;
+
+  /// No description provided for @reportsClosingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Counted cash and differences by day'**
+  String get reportsClosingHint;
+
+  /// No description provided for @reportsInfoNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports are made from the entries on this phone, for your own information. They are not audited accounts.'**
+  String get reportsInfoNote;
+
+  /// No description provided for @outstandingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dues and aging'**
+  String get outstandingTitle;
+
+  /// No description provided for @asOfLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'As of {date}'**
+  String asOfLabel(String date);
+
+  /// No description provided for @agingUpTo7.
+  ///
+  /// In en, this message translates to:
+  /// **'0–7 days'**
+  String get agingUpTo7;
+
+  /// No description provided for @aging8To15.
+  ///
+  /// In en, this message translates to:
+  /// **'8–15 days'**
+  String get aging8To15;
+
+  /// No description provided for @aging16To30.
+  ///
+  /// In en, this message translates to:
+  /// **'16–30 days'**
+  String get aging16To30;
+
+  /// No description provided for @agingOver30.
+  ///
+  /// In en, this message translates to:
+  /// **'More than 30 days'**
+  String get agingOver30;
+
+  /// No description provided for @outstandingMeasureCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Amounts in ₹ that customers still owe after their payments, by days since the due date (or the entry date when no due date was set).'**
+  String get outstandingMeasureCustomer;
+
+  /// No description provided for @outstandingMeasureSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Amounts in ₹ that you still owe suppliers after your payments, by days since the due date (or the entry date when no due date was set).'**
+  String get outstandingMeasureSupplier;
+
+  /// No description provided for @outstandingEmptyCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'No customer owes you anything'**
+  String get outstandingEmptyCustomers;
+
+  /// No description provided for @outstandingEmptySuppliers.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not owe any supplier'**
+  String get outstandingEmptySuppliers;
+
+  /// No description provided for @outstandingRowDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 unpaid entry} other{{count} unpaid entries}} · oldest {date}'**
+  String outstandingRowDetail(int count, String date);
+
+  /// No description provided for @outstandingTruncated.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the {count} largest are listed. The totals include everyone.'**
+  String outstandingTruncated(int count);
+
+  /// No description provided for @advancesNotNettedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Advances are listed separately and are not taken off the dues above.'**
+  String get advancesNotNettedNote;
+
+  /// No description provided for @actionExportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV'**
+  String get actionExportCsv;
+
+  /// No description provided for @actionShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as text'**
+  String get actionShareText;
+
+  /// No description provided for @shareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing could not be opened. Nothing was shared.'**
+  String get shareFailed;
+
+  /// No description provided for @periodExpensesByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses by category'**
+  String get periodExpensesByCategory;
+
+  /// No description provided for @periodMeasure.
+  ///
+  /// In en, this message translates to:
+  /// **'Totals in ₹ of entries dated in this period. Reversed entries are not counted. These are totals, not balances.'**
+  String get periodMeasure;
+
+  /// No description provided for @periodByDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day by day'**
+  String get periodByDay;
+
+  /// No description provided for @periodMoreDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the latest {count} days are listed. The totals cover the whole period.'**
+  String periodMoreDays(int count);
+
+  /// No description provided for @periodNoEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries in this period'**
+  String get periodNoEntries;
+
+  /// No description provided for @statementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statement'**
+  String get statementTitle;
+
+  /// No description provided for @statementOpening.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance before this period'**
+  String get statementOpening;
+
+  /// No description provided for @statementClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance at the end of this period'**
+  String get statementClosing;
+
+  /// No description provided for @statementCurrencyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Amounts are in Indian rupees (₹), as recorded in this shop\'s Khata.'**
+  String get statementCurrencyNote;
+
+  /// No description provided for @statementTruncated.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the latest {count} entries are listed. The balances cover the whole period.'**
+  String statementTruncated(int count);
+
+  /// No description provided for @csvDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get csvDate;
+
+  /// No description provided for @csvType.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry'**
+  String get csvType;
+
+  /// No description provided for @csvChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get csvChange;
+
+  /// No description provided for @csvBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get csvBalance;
+
+  /// No description provided for @csvBalanceMeaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance meaning'**
+  String get csvBalanceMeaning;
+
+  /// No description provided for @csvParty.
+  ///
+  /// In en, this message translates to:
+  /// **'Party'**
+  String get csvParty;
+
+  /// No description provided for @csvTotalDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Total due'**
+  String get csvTotalDue;
+
+  /// No description provided for @csvOldestDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest due date'**
+  String get csvOldestDate;
+
+  /// No description provided for @csvOpenEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpaid entries'**
+  String get csvOpenEntries;
 }
 
 class _AppLocalizationsDelegate

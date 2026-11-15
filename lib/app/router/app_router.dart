@@ -12,10 +12,10 @@ import 'package:smart_khata/core/date_time/business_date.dart';
 import 'package:smart_khata/core/date_time/clock.dart';
 import 'package:smart_khata/core/date_time/shop_time_zone.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
+import 'package:smart_khata/core/export/share_service.dart';
 import 'package:smart_khata/core/ids/id_generator.dart';
+import 'package:smart_khata/core/logging/app_logger.dart';
 import 'package:smart_khata/core/money/money.dart';
-import 'package:smart_khata/core/widgets/feature_not_ready_page.dart';
-import 'package:smart_khata/core/widgets/l10n_extensions.dart';
 import 'package:smart_khata/features/daily_closing/domain/daily_closing.dart';
 import 'package:smart_khata/features/daily_closing/presentation/closing_cubits.dart';
 import 'package:smart_khata/features/daily_closing/presentation/closing_pages.dart';
@@ -53,6 +53,10 @@ import 'package:smart_khata/features/parties/presentation/pages/parties_page.dar
 import 'package:smart_khata/features/parties/presentation/pages/party_detail_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_form_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_picker_page.dart';
+import 'package:smart_khata/features/reports/domain/reports.dart';
+import 'package:smart_khata/features/reports/presentation/dashboard_page.dart';
+import 'package:smart_khata/features/reports/presentation/report_cubits.dart';
+import 'package:smart_khata/features/reports/presentation/reports_pages.dart';
 import 'package:smart_khata/features/settings/presentation/pages/more_page.dart';
 import 'package:smart_khata/features/shop/domain/create_shop.dart';
 import 'package:smart_khata/features/shop/domain/shop_repository.dart';
@@ -103,8 +107,14 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
             routes: [
               GoRoute(
                 path: AppRoutes.home,
-                builder: (context, state) =>
-                    FeatureNotReadyPage(title: context.l10n.navHome),
+                builder: (context, state) => BlocProvider(
+                  create: (_) => DashboardCubit(
+                    reports: getIt<ReportsRepository>(),
+                    shops: getIt<ShopRepository>(),
+                    today: _today,
+                  ),
+                  child: const DashboardPage(),
+                ),
               ),
             ],
           ),
@@ -124,8 +134,7 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
             routes: [
               GoRoute(
                 path: AppRoutes.reports,
-                builder: (context, state) =>
-                    FeatureNotReadyPage(title: context.l10n.navReports),
+                builder: (context, state) => const ReportsHomePage(),
               ),
             ],
           ),
@@ -223,6 +232,48 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
             accountId: state.pathParameters['accountId']!,
           ),
           child: const LedgerPage(),
+        ),
+      ),
+
+      GoRoute(
+        path: AppRoutes.statementPattern,
+        builder: (context, state) => BlocProvider(
+          create: (_) => StatementCubit(
+            reports: getIt<ReportsRepository>(),
+            shops: getIt<ShopRepository>(),
+            shareService: getIt<ShareService>(),
+            shareLogger: getIt<AppLogger>(),
+            accountId: state.pathParameters['accountId']!,
+            today: _today(),
+          ),
+          child: const StatementPage(),
+        ),
+      ),
+
+      // ---- Reports ---------------------------------------------------------
+      GoRoute(
+        path: AppRoutes.outstandingPattern,
+        builder: (context, state) => BlocProvider(
+          create: (_) => OutstandingCubit(
+            reports: getIt<ReportsRepository>(),
+            shareService: getIt<ShareService>(),
+            shareLogger: getIt<AppLogger>(),
+            today: _today(),
+            role:
+                AppRoutes.roleFromQuery(state.pathParameters['role']) ??
+                PartyRole.customer,
+          ),
+          child: const OutstandingPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.periodReport,
+        builder: (context, state) => BlocProvider(
+          create: (_) => PeriodReportCubit(
+            reports: getIt<ReportsRepository>(),
+            today: _today(),
+          ),
+          child: const PeriodReportPage(),
         ),
       ),
 
