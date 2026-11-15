@@ -126,6 +126,10 @@ class _Body extends StatelessWidget {
                     },
                     name,
                   ),
+                if (detail.expenseCategory case final String category)
+                  row(l10n.categoryLabel, category),
+                if (detail.payee case final String payee)
+                  row(l10n.payeeLabel, payee),
                 row(
                   l10n.transactionEffectiveDate,
                   AppDateFormat.instant(context, detail.effectiveAt),

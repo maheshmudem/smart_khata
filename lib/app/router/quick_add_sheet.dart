@@ -54,13 +54,13 @@ class _QuickAddSheet extends StatelessWidget {
         Icons.receipt_long_outlined,
         l10n.quickAddExpense,
         l10n.quickAddExpenseHint,
-        null,
+        AppRoutes.expense,
       ),
       (
         Icons.calculate_outlined,
         l10n.quickAddCashCount,
         l10n.quickAddCashCountHint,
-        null,
+        AppRoutes.dailyClose,
       ),
     ];
 

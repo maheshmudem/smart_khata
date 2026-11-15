@@ -104,6 +104,7 @@ class ShopSetupCubit extends Cubit<ShopSetupState> {
   Future<void> submit({
     required String localeCode,
     required String cashAccountName,
+    List<String> defaultExpenseCategories = const [],
   }) async {
     if (state.status.isSubmitting) return;
     emit(state.copyWith(status: SubmissionStatus.submitting));
@@ -117,6 +118,7 @@ class ShopSetupCubit extends Cubit<ShopSetupState> {
         locality: state.locality,
         localeCode: localeCode,
         cashAccountName: cashAccountName,
+        defaultExpenseCategories: defaultExpenseCategories,
       ),
     );
     if (isClosed) return;

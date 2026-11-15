@@ -13,8 +13,15 @@ import 'package:smart_khata/core/date_time/clock.dart';
 import 'package:smart_khata/core/date_time/shop_time_zone.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/core/ids/id_generator.dart';
+import 'package:smart_khata/core/money/money.dart';
 import 'package:smart_khata/core/widgets/feature_not_ready_page.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
+import 'package:smart_khata/features/daily_closing/domain/daily_closing.dart';
+import 'package:smart_khata/features/daily_closing/presentation/closing_cubits.dart';
+import 'package:smart_khata/features/daily_closing/presentation/closing_pages.dart';
+import 'package:smart_khata/features/expenses/domain/expense.dart';
+import 'package:smart_khata/features/expenses/presentation/expense_cubits.dart';
+import 'package:smart_khata/features/expenses/presentation/expense_pages.dart';
 import 'package:smart_khata/features/gallery/widget_gallery_page.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_repository.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_use_cases.dart';
@@ -26,7 +33,10 @@ import 'package:smart_khata/features/ledger/presentation/pages/ledger_page.dart'
 import 'package:smart_khata/features/ledger/presentation/pages/payment_form_page.dart';
 import 'package:smart_khata/features/ledger/presentation/pages/reverse_transaction_page.dart';
 import 'package:smart_khata/features/ledger/presentation/pages/transaction_detail_page.dart';
+import 'package:smart_khata/features/money/domain/cash_book.dart';
 import 'package:smart_khata/features/money/domain/money_account.dart';
+import 'package:smart_khata/features/money/presentation/money_cubits.dart';
+import 'package:smart_khata/features/money/presentation/money_pages.dart';
 import 'package:smart_khata/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:smart_khata/features/onboarding/presentation/cubit/shop_setup_cubit.dart';
 import 'package:smart_khata/features/onboarding/presentation/pages/language_selection_page.dart';
@@ -266,6 +276,100 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
             operationId: getIt<IdGenerator>().newId(),
           ),
           child: const ReverseTransactionPage(),
+        ),
+      ),
+
+      // ---- Money: expenses, cash book, closing ----------------------------
+      GoRoute(
+        path: AppRoutes.expense,
+        builder: (context, state) {
+          final today = _today();
+          return BlocProvider(
+            create: (_) => ExpenseFormCubit(
+              expenses: getIt<ExpenseRepository>(),
+              moneyAccounts: getIt<MoneyAccountRepository>(),
+              createMoneyAccount: getIt<CreateMoneyAccount>(),
+              recordExpense: getIt<RecordExpense>(),
+              operationId: getIt<IdGenerator>().newId(),
+              today: today,
+            ),
+            child: ExpenseFormPage(today: today),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.expenseCategories,
+        builder: (context, state) => BlocProvider(
+          create: (_) => ExpenseCategoriesCubit(
+            expenses: getIt<ExpenseRepository>(),
+            save: getIt<SaveExpenseCategory>(),
+          ),
+          child: const ExpenseCategoriesPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.cashBook,
+        builder: (context, state) => BlocProvider(
+          create: (_) => CashBookCubit(
+            accounts: getIt<MoneyAccountRepository>(),
+            cashBook: getIt<CashBookRepository>(),
+            today: _today(),
+          ),
+          child: const CashBookPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.moneyAccounts,
+        builder: (context, state) => BlocProvider(
+          create: (_) => MoneyAccountsCubit(
+            accounts: getIt<MoneyAccountRepository>(),
+            cashBook: getIt<CashBookRepository>(),
+            create: getIt<CreateMoneyAccount>(),
+          ),
+          child: const MoneyAccountsPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.adjustmentPattern,
+        builder: (context, state) {
+          final query = state.uri.queryParameters;
+          final paise = int.tryParse(query[AppRoutes.amountPaiseParam] ?? '');
+          return BlocProvider(
+            create: (_) => AdjustmentFormCubit(
+              accounts: getIt<MoneyAccountRepository>(),
+              record: getIt<RecordAdjustment>(),
+              operationId: getIt<IdGenerator>().newId(),
+              moneyAccountId: query[AppRoutes.accountIdParam],
+              direction:
+                  query[AppRoutes.directionParam] ==
+                      MovementDirection.outflow.code
+                  ? MovementDirection.outflow
+                  : MovementDirection.inflow,
+              amount: paise == null || paise <= 0 || paise > Money.maxPaise
+                  ? null
+                  : Money.fromPaise(paise),
+            ),
+            child: const AdjustmentFormPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.dailyClose,
+        builder: (context, state) => BlocProvider(
+          create: (_) => DailyCloseCubit(
+            closings: getIt<DailyClosingRepository>(),
+            closeDay: getIt<CloseDay>(),
+            date: _today(),
+          ),
+          child: const DailyClosePage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.closingHistory,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              ClosingHistoryCubit(closings: getIt<DailyClosingRepository>()),
+          child: const ClosingHistoryPage(),
         ),
       ),
 

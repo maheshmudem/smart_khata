@@ -11,6 +11,7 @@ import 'package:smart_khata/core/money/money_formatter.dart';
 import 'package:smart_khata/core/theme/app_tokens.dart';
 import 'package:smart_khata/core/widgets/app_buttons.dart';
 import 'package:smart_khata/core/widgets/app_text_fields.dart';
+import 'package:smart_khata/core/widgets/choice_tile.dart';
 import 'package:smart_khata/core/widgets/dialogs.dart';
 import 'package:smart_khata/core/widgets/formatters.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
@@ -111,7 +112,7 @@ class OpeningBalancePage extends StatelessWidget {
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         const SizedBox(height: AppSpacing.sm),
-                        _DirectionOption(
+                        ChoiceTile(
                           label: owedLabel,
                           isSelected:
                               state.direction == OpeningBalanceDirection.owed,
@@ -120,7 +121,7 @@ class OpeningBalancePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: AppSpacing.sm),
-                        _DirectionOption(
+                        ChoiceTile(
                           label: advanceLabel,
                           isSelected:
                               state.direction ==
@@ -262,65 +263,6 @@ class _Review extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Text(l10n.openingNoCashNote, style: theme.textTheme.bodySmall),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _DirectionOption extends StatelessWidget {
-  const _DirectionOption({
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Semantics(
-      inMutuallyExclusiveGroup: true,
-      checked: isSelected,
-      button: true,
-      child: Material(
-        color: isSelected ? scheme.primaryContainer : scheme.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: AppRadius.control,
-          side: BorderSide(
-            color: isSelected ? scheme.primary : scheme.outline,
-            width: isSelected ? 2 : 1,
-          ),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              minHeight: AppSizes.minTouchTarget,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.lg,
-                vertical: AppSpacing.md,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    isSelected
-                        ? Icons.radio_button_checked
-                        : Icons.radio_button_unchecked,
-                    color: isSelected ? scheme.primary : scheme.outline,
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(child: Text(label)),
-                ],
-              ),
-            ),
-          ),
         ),
       ),
     );

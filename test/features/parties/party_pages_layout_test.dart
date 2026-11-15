@@ -5,6 +5,12 @@ import 'package:smart_khata/app/localization/locale_cubit.dart';
 import 'package:smart_khata/core/date_time/business_date.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/features/daily_closing/domain/daily_closing.dart';
+import 'package:smart_khata/features/daily_closing/presentation/closing_cubits.dart';
+import 'package:smart_khata/features/daily_closing/presentation/closing_pages.dart';
+import 'package:smart_khata/features/expenses/domain/expense.dart';
+import 'package:smart_khata/features/expenses/presentation/expense_cubits.dart';
+import 'package:smart_khata/features/expenses/presentation/expense_pages.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_models.dart';
 import 'package:smart_khata/features/ledger/domain/payment_models.dart';
 import 'package:smart_khata/features/ledger/presentation/cubit/charge_form_cubit.dart';
@@ -16,6 +22,8 @@ import 'package:smart_khata/features/ledger/presentation/pages/payment_form_page
 import 'package:smart_khata/features/ledger/presentation/pages/reverse_transaction_page.dart';
 import 'package:smart_khata/features/ledger/presentation/pages/transaction_detail_page.dart';
 import 'package:smart_khata/features/ledger/presentation/widgets/allocation_editor.dart';
+import 'package:smart_khata/features/money/presentation/money_cubits.dart';
+import 'package:smart_khata/features/money/presentation/money_pages.dart';
 import 'package:smart_khata/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:smart_khata/features/onboarding/presentation/cubit/shop_setup_cubit.dart';
 import 'package:smart_khata/features/onboarding/presentation/pages/setup_complete_page.dart';
@@ -115,6 +123,33 @@ void main() {
           ],
         ),
       )).valueOrNull!.transactionId;
+      // An expense with a long category name and payee, an archived
+      // category, and a revised closing with a note and a difference.
+      await env.saveExpenseCategory(
+        name: 'దుకాణం నిర్వహణ మరియు మరమ్మతుల ఖర్చులు',
+      );
+      final categories = (await env.expenses.getCategories()).valueOrNull!;
+      await env.recordExpense(
+        RecordExpenseCommand(
+          operationId: 'op-expense-seed',
+          amount: Money.fromPaise(9999999900),
+          categoryId: categories.first.id,
+          date: BusinessDate(2026, 11, 15),
+          method: PaymentMethod.cash,
+          moneyAccountId: cash,
+          payee: 'శ్రీ వెంకటేశ్వర ఎలక్ట్రికల్ సర్వీసెస్',
+        ),
+      );
+      await env.expenses.setCategoryActive(categories.last.id, active: false);
+      for (final quantity in [3, 99999]) {
+        await env.closeDay(
+          CloseDayCommand(
+            businessDate: BusinessDate(2026, 11, 15),
+            count: CashCount(quantities: {500: quantity}),
+            note: 'సాయంత్రం లెక్క, ఒక నోటు తక్కువగా ఉంది',
+          ),
+        );
+      }
     });
   }
 
@@ -244,6 +279,65 @@ void main() {
         transactionId: paymentId,
       ),
       child: const TransactionDetailPage(),
+    ),
+    'expense form': () => BlocProvider(
+      create: (_) =>
+          ExpenseFormCubit(
+              expenses: env.expenses,
+              moneyAccounts: env.money,
+              createMoneyAccount: env.createMoneyAccount,
+              recordExpense: env.recordExpense,
+              operationId: 'op-expense-layout',
+              today: BusinessDate(2026, 11, 15),
+            )
+            ..amountChanged(Money.fromPaise(9999999900))
+            ..methodChanged(PaymentMethod.upi),
+      child: ExpenseFormPage(today: BusinessDate(2026, 11, 15)),
+    ),
+    'expense categories': () => BlocProvider(
+      create: (_) => ExpenseCategoriesCubit(
+        expenses: env.expenses,
+        save: env.saveExpenseCategory,
+      ),
+      child: const ExpenseCategoriesPage(),
+    ),
+    'cash book': () => BlocProvider(
+      create: (_) => CashBookCubit(
+        accounts: env.money,
+        cashBook: env.cashBook,
+        today: BusinessDate(2026, 11, 15),
+      ),
+      child: const CashBookPage(),
+    ),
+    'money accounts': () => BlocProvider(
+      create: (_) => MoneyAccountsCubit(
+        accounts: env.money,
+        cashBook: env.cashBook,
+        create: env.createMoneyAccount,
+      ),
+      child: const MoneyAccountsPage(),
+    ),
+    'add or remove money': () => BlocProvider(
+      create: (_) => AdjustmentFormCubit(
+        accounts: env.money,
+        record: env.recordAdjustment,
+        operationId: 'op-adjust-layout',
+        direction: MovementDirection.outflow,
+        amount: Money.fromPaise(9999999900),
+      ),
+      child: const AdjustmentFormPage(),
+    ),
+    'count cash': () => BlocProvider(
+      create: (_) => DailyCloseCubit(
+        closings: env.closings,
+        closeDay: env.closeDay,
+        date: BusinessDate(2026, 11, 15),
+      )..quantityChanged(500, 99999),
+      child: const DailyClosePage(),
+    ),
+    'closing history': () => BlocProvider(
+      create: (_) => ClosingHistoryCubit(closings: env.closings),
+      child: const ClosingHistoryPage(),
     ),
     'party picker': () => BlocProvider(
       create: (_) => PartiesListCubit(repository: env.parties),

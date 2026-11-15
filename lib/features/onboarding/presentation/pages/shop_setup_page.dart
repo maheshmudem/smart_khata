@@ -114,6 +114,17 @@ class ShopSetupPage extends StatelessWidget {
                             context,
                           ).languageCode,
                           cashAccountName: l10n.defaultCashAccountName,
+                          // WF-043: the categories a shop starts with.
+                          defaultExpenseCategories: [
+                            l10n.catRent,
+                            l10n.catElectricity,
+                            l10n.catTransport,
+                            l10n.catSalary,
+                            l10n.catMaintenance,
+                            l10n.catPackaging,
+                            l10n.catPersonalWithdrawal,
+                            l10n.catOther,
+                          ],
                         ),
                       ),
                     ],

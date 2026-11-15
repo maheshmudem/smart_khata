@@ -1,4 +1,5 @@
 import 'package:smart_khata/core/domain/ledger_enums.dart';
+import 'package:smart_khata/core/money/money.dart';
 
 /// Route paths. Navigate with these constants and builders, never with
 /// string literals.
@@ -64,6 +65,33 @@ abstract final class AppRoutes {
   static String returned({required PartyRole role, String? partyId}) =>
       '/return/${role.code}'
       '${partyId == null ? '' : '?$partyIdParam=$partyId'}';
+
+  static const String expense = '/expense';
+  static const String expenseCategories = '/expense-categories';
+  static const String cashBook = '/cash-book';
+  static const String moneyAccounts = '/money-accounts';
+  static const String adjustmentPattern = '/adjustment';
+  static const String dailyClose = '/daily-close';
+  static const String closingHistory = '/closing-history';
+
+  static const String accountIdParam = 'account';
+  static const String directionParam = 'direction';
+  static const String amountPaiseParam = 'paise';
+
+  /// The add-or-remove-money form, optionally pre-filled (for example
+  /// with a counted difference). Nothing is posted until the owner saves.
+  static String adjustment({
+    String? accountId,
+    MovementDirection? direction,
+    Money? amount,
+  }) {
+    final query = [
+      if (accountId != null) '$accountIdParam=$accountId',
+      if (direction != null) '$directionParam=${direction.code}',
+      if (amount != null) '$amountPaiseParam=${amount.paise}',
+    ].join('&');
+    return query.isEmpty ? adjustmentPattern : '$adjustmentPattern?$query';
+  }
 
   static String transaction(String transactionId) =>
       '/transaction/$transactionId';

@@ -33,6 +33,31 @@ class MorePage extends StatelessWidget {
             onTap: () => _showLanguageSheet(context),
           ),
           const Divider(),
+          for (final (icon, title, route) in [
+            (
+              Icons.account_balance_wallet_outlined,
+              l10n.moreCashBook,
+              AppRoutes.cashBook,
+            ),
+            (
+              Icons.account_balance_outlined,
+              l10n.moreMoneyAccounts,
+              AppRoutes.moneyAccounts,
+            ),
+            (
+              Icons.category_outlined,
+              l10n.moreExpenseCategories,
+              AppRoutes.expenseCategories,
+            ),
+            (Icons.history, l10n.moreClosingHistory, AppRoutes.closingHistory),
+          ])
+            ListTile(
+              leading: Icon(icon),
+              title: Text(title),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push(route),
+            ),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.cloud_off_outlined),
             title: Text(l10n.offlineReady),
