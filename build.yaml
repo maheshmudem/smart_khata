@@ -1,0 +1,15 @@
+targets:
+  $default:
+    builders:
+      drift_dev:
+        options:
+          # Exported schema snapshots used by migration tests.
+          databases:
+            app: lib/core/database/app_database.dart
+          schema_dir: drift_schemas/
+          sql:
+            dialect: sqlite
+            options:
+              # minSdk 24 ships SQLite 3.9, but drift bundles its own recent
+              # SQLite, so newer syntax is safe.
+              version: "3.39"
