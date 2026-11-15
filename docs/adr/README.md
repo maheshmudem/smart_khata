@@ -11,13 +11,15 @@ A decision that changes scope, data, accounting behaviour, security or a depende
 | [ADR-016](ADR-016-balance-sign-convention.md) | Positive = the account's normal balance; negative = advance | Accepted |
 | [ADR-017](ADR-017-packages.md) | Package choices and what was left out | Accepted |
 | [ADR-018](ADR-018-android-app-id-and-sdk-levels.md) | App ID, platforms, minSdk 24, targetSdk 36, OS backup off, no INTERNET | Accepted |
-| [ADR-019](ADR-019-backup-encryption.md) | Portable passphrase-encrypted backup archive | **Proposed** — needs security review |
+| [ADR-019](ADR-019-backup-encryption.md) | Portable passphrase-encrypted backup archive | **Proposed** — built as ADR-026; still needs security review |
 | [ADR-020](ADR-020-extra-append-only-guards.md) | Closings and audit log are append-only too; "reversed" is derived | Accepted |
 | [ADR-021](ADR-021-phase-1-party-rules.md) | Onboarding flow, add-only roles, one opening balance per account, list paging, what is deferred to the aging engine | Accepted |
 | [ADR-022](ADR-022-ledger-engine-rules.md) | Charges, credit-limit warning, running balance, reversal rules, totals after reversal | Accepted |
 | [ADR-023](ADR-023-payments-and-allocation-rules.md) | Payment posting, allocation rule and order, methods and money accounts, paid-now, returns | Accepted |
 | [ADR-024](ADR-024-cash-book-expenses-and-closing-rules.md) | Expense categories and posting, money accounts, adjustments, cash book periods, daily closing | Accepted |
 | [ADR-025](ADR-025-dashboard-reports-and-statements.md) | Dashboard figures, aging, period summary, statements as text and CSV, sharing; PDF deferred | Accepted |
+| [ADR-026](ADR-026-backup-and-restore-as-built.md) | Backup file format, Argon2id + XChaCha20-Poly1305 in pure Dart, checks before restore, file swap and safety copy | Accepted for pilot builds — **security review outstanding** |
+| [ADR-027](ADR-027-app-lock-and-reminders.md) | PIN lock, lockout, biometrics, what reminders do and never do, permissions | Accepted |
 
 ## Writing a new ADR
 

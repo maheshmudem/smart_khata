@@ -18,6 +18,8 @@ paths:
 - A widget that animates forever (spinner) needs `pumpApp(..., settle: false)` and manual `pump` calls.
 - Full-app flows use `AppDriver` (`test/helpers/app_driver.dart`): `AppDriver.configure()` in `setUp`, `tester.pumpSmartKhata(env)`, `tapAndSettle`, `type`, `reveal` (lists build lazily, so scroll to off-screen content before asserting on it), `waitForSnackBarToGo`. A tap that misses its target fails the test.
 - In a full-app test, seed data with `pumpSmartKhata(env, seed: ...)`, before the app starts. Home keeps live queries open, and a database write made from `tester.runAsync` while they are listening never finishes (the test hangs until its timeout). Writes made through the UI are fine.
+- A widget test runs on a fake clock, where real file work and other isolates never finish. Screens that back up or restore are tested with `env.fakeBackup`; the real `DriftBackupRepository` is tested in plain `test()` cases with `TestEnv.backup` (cheap key stretching, same isolate) and once with the real settings.
+- The Keystore, biometrics, the file picker and notifications are `env.secrets`, `env.biometrics`, `env.backupFiles` and `env.notifier`. Never call those plugins in a test.
 - Sharing is tested through `env.share` (`RecordingShareService`): assert on what was handed over, and set `fail = true` for the failure path. Never call the real plugin in a test.
 - Add every new page to `party_pages_layout_test.dart` (English and Telugu, 2x text, 320dp) with its widest realistic content. It has caught real overflows.
 - A long form addressed by field position needs `pumpSmartKhata(env, tallScreen: true)`: lists build lazily and scrolling changes which fields exist. After returning to a scrolled page, `scrollToTop()` before asserting on its header.

@@ -49,6 +49,8 @@ These protect a shopkeeper's financial records. A change that breaks one is wron
 12. **No secrets in SQLite, preferences, logs or source**: no PIN, passphrase or key.
 13. **V1 makes no claim it cannot keep**: no "Profit", no "GST-compliant", no "delivered" for a share, no cloud backup, no sync.
 14. **No network.** The release build has no `INTERNET` permission. Do not add a package that needs one without an ADR.
+15. **A restore never touches the live database until every check has passed**, and a failed restore leaves the earlier records in place.
+16. **The app sends nothing to anyone by itself**: no SMS, no message, no upload. The owner shares; the app only opens the share sheet or the file picker.
 
 `test/architecture/dependency_rules_test.dart` enforces 1, 8, 9 and the layering; the database triggers enforce 2.
 
@@ -69,7 +71,8 @@ These protect a shopkeeper's financial records. A change that breaks one is wron
 ```
 lib/
   main.dart, bootstrap.dart   startup, global error handlers, DI
-  app/                        app widget, router, DI wiring, locale cubit
+  app/                        app widget, router, DI wiring, locale cubit,
+                              platform/ security/ share/ (the only plugin code)
   core/                       shared by all features
     money/ date_time/ ids/    value types (plain Dart)
     domain/                   enums and rules shared across features (plain Dart)
@@ -77,12 +80,14 @@ lib/
     logging/                  AppLogger (redacting)
     database/                 Drift database, schema/*.drift, DAOs, converters
     export/                   CsvWriter, ShareService contract (plain Dart)
+    security/                 SecretStore, BiometricAuth contracts (plain Dart)
     theme/ widgets/           design system
   features/<name>/            domain/ data/ presentation/ per feature
                               (built so far: onboarding, shop, parties, ledger incl.
                               payments, money incl. cash book, expenses,
                               daily_closing, reports incl. dashboard and
-                              statements, settings)
+                              statements, reminders, backup, security
+                              (app lock), settings incl. help)
   l10n/                       app_en.arb, app_te.arb, generated/
 test/                         mirrors lib/, plus helpers/ and architecture/
 docs/product/                 approved product baseline (do not edit)

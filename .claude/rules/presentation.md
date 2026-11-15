@@ -34,6 +34,9 @@ paths:
 - A report screen states its period or "as of" date, that amounts are in rupees, and whether it shows balances or totals (`ReportNote`). Use `PeriodFilter` for a period; do not build another date-range control.
 - Sharing goes through a cubit that mixes in `ShareActions`; a widget never calls `ShareService` or the plugin. Show no "sent" or "shared" message, only a failure to open the sheet. Build export text and CSV in `ReportExports` from the state on screen.
 - A label that also appears in the Quick Add sheet needs its own shorter key on Home; two widgets with the same text make taps and tests ambiguous.
+- A field for a PIN or passphrase uses `AppTextField(obscureText: true)`. Never put a PIN or passphrase in cubit state, a route, a log or a snackbar; pass it straight to the use case and drop it.
+- Anything drawn above the navigator (the lock screen) needs its own `Overlay`, or its text fields have nowhere to put the cursor.
+- Copy about backup, lock and reminders must not overclaim: say "encrypted with your passphrase", "covers the screen", "share sheet opened". Never "secure", "sent", "delivered" or that the records on the phone are encrypted.
 - Navigate with `AppRoutes` constants. Routes are declared only in `lib/app/router/app_router.dart`.
 - Never use the words Profit, Net worth, GST-compliant, Delivered, Synced or Cloud backup in V1 copy.
 - Widget tests: English and Telugu, text scale 1 and 2, and the failure state.

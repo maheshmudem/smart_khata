@@ -59,6 +59,8 @@ From `docs/product/04_Development_Testing_Plan.md` §5.2. Each one needs a passi
 
 Also enforced now: append-only tables reject UPDATE and DELETE; a repeated `operation_id` cannot post twice; a transaction can be reversed only once.
 
+Phase 6 adds rules outside the ledger, each with a test of the bad case: a PIN is never stored and wrong PINs pause entry (`app_lock_test`); a backup opens only with its passphrase, any changed byte is refused, and a file that fails a check never reaches the live database (`backup_engine_test`); a restore that fails leaves the earlier records in place; sharing a reminder records only that the share sheet was opened (`reminders_test`).
+
 Reports (Phase 5) add no invariant of their own; they are checked against the ledger instead: the dashboard total equals the aging total, advances are never netted against dues, reversed entries leave every total, a statement holds one party only, and CSV cells that look like formulas are made harmless (`reports_engine_test`, `report_cubits_test`, `csv_writer_test`, `report_flow_test`).
 
 ## Fixtures

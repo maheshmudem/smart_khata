@@ -25,5 +25,8 @@ paths:
 - An expense stores a snapshot of its category name; renaming or archiving a category must not change saved expenses.
 - Aging is of the unpaid part of each charge, from its due date or else its entry date, in the fixed buckets of `AgingBucket`. Dues and advances are separate figures and are never netted, per party or in a total (ADR-025).
 - A statement or export holds one party account only.
+- A backup is a backup only after it was saved outside the app; preparing one records nothing. A restore replaces, never merges, and only after every check in `BackupRepository.stage` has passed (ADR-026).
+- Cryptography comes from the `cryptography` package, used in `data/`. Do not write a cipher, a mode, a padding or a key-derivation by hand, and do not change `BackupCodec`'s format without a new format version and an ADR.
+- The app never sends a message to a party. A reminder is either the owner's own notification or a share sheet the owner opened; the only thing recorded is that it was opened (ADR-027).
 - Repository contracts live here as `abstract interface class`; implementations live in `data/`.
 - Every rule gets a unit test with at least one case that must be rejected.

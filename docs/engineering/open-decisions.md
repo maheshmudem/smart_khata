@@ -18,7 +18,7 @@ Things that code cannot settle. Each blocks the phase named; none blocks the nex
 | 9 | Telugu wording review, with merchants (SK-0005, SK-1202). Every string in `app_te.arb` is a draft | Native Telugu-speaking shop owners | Gate C, release |
 | 10 | Merchant interviews and pilot, 10–15 shops (SK-0001, SK-1307) | You, with merchants | Gate C |
 | 11 | Privacy and DPDP review; Play Data safety form (SK-1308) | Qualified counsel | Gate D |
-| 12 | Security review of the backup design in ADR-019 (SK-1101) | Someone with applied-cryptography experience | Backup (E11) |
+| 12 | Security review of the backup design and code: ADR-019 as built in ADR-026, plus the app-lock choices in ADR-027 (SK-1101). **Backup is built but unreviewed** | Someone with applied-cryptography experience | Public release |
 
 ## Needs an engineering spike
 
@@ -61,6 +61,21 @@ For the accounting / merchant review:
 - An expense has one payment method; a split expense is two expenses.
 - Only today can be closed from the screen, and only the cash account is counted.
 - The default expense category names, in both languages, need merchant review.
+
+## Added by Phase 6 (ADR-026, ADR-027), for you and the reviews
+
+Spikes 13, 16, 17 and 18 were closed by building them; what they decided is in ADR-026 and ADR-027. Each still needs proof on a real phone.
+
+- Backup uses a pure-Dart cryptography library rather than libsodium, and encrypts the archive in one piece. Is that acceptable? (security review)
+- The saved backup file is verified before it is written, not read back afterwards.
+- The safety copy kept before a restore is unencrypted, inside the app, and has no screen to return to it.
+- A forgotten app-lock PIN cannot be recovered; the only way back is to remove the app and restore a backup.
+- If the lock settings cannot be read, the app opens unlocked.
+- The app-switcher thumbnail is not hidden (`FLAG_SECURE` is not set).
+- App lock is not offered during first-run setup.
+- Reminders: one owner notification per party, at 9:00, with no names in it. A second shared reminder within three days is questioned, not blocked. Are those the right defaults?
+- Editing the shop profile and "Reset app" (WF-080) are not built. Reset is destructive; it needs your decision on whether V1 has it at all.
+- The reminder message wording in both languages needs merchant review.
 
 ## Added by Phase 5 (ADR-025), for you and the reviews
 
