@@ -7,6 +7,7 @@ import 'package:smart_khata/core/errors/result.dart';
 import 'package:smart_khata/core/money/money.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_models.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_repository.dart';
+import 'package:smart_khata/features/ledger/domain/payment_models.dart';
 
 /// Records credit given to a customer (FR-LED-001, SK-0404) or a purchase
 /// on credit from a supplier (FR-SUP-001, SK-0405).
@@ -40,6 +41,16 @@ class RecordCharge {
         businessDate: command.date,
         dueAt: command.dueDate?.startUtc(zone),
         description: TextNormalizer.cleanOrNull(command.description),
+        paidNow: command.hasPaidNow
+            ? MovementPosting(
+                moneyAccountId: command.paidNow!.moneyAccountId!,
+                method: command.paidNow!.method,
+                amount: command.paidNow!.amount!,
+                reference: TextNormalizer.cleanOrNull(
+                  command.paidNow!.reference,
+                ),
+              )
+            : null,
       ),
     );
   }
@@ -67,6 +78,19 @@ class RecordCharge {
     if ((command.description ?? '').length >
         RecordChargeCommand.maxDescriptionLength) {
       errors[RecordChargeCommand.descriptionField] = ValidationError.tooLong;
+    }
+    // "Paid now" is part of the purchase: it cannot be more than the
+    // purchase, and it needs the account the money left from.
+    final paidNow = command.paidNow;
+    if (command.hasPaidNow) {
+      if (amount != null && paidNow!.amount! > amount) {
+        errors[RecordChargeCommand.paidNowField] =
+            ValidationError.paidNowExceedsTotal;
+      }
+      if (paidNow!.moneyAccountId == null) {
+        errors[RecordChargeCommand.paidNowAccountField] =
+            ValidationError.accountRequired;
+      }
     }
     return errors;
   }
@@ -126,5 +150,137 @@ class ReverseTransaction {
       return {ReverseTransactionCommand.reasonField: ValidationError.tooLong};
     }
     return {};
+  }
+}
+
+/// Records money received from a customer (FR-LED-002, SK-0505) or paid to
+/// a supplier (FR-SUP-002, SK-0507).
+///
+/// The party owes less and a money account changes by the same amount, in
+/// one database transaction (invariants 7 and 8). The payment settles the
+/// oldest dues first unless the owner chose otherwise; anything beyond the
+/// dues is the party's advance and is never dropped (invariant 6).
+class RecordPayment {
+  const RecordPayment(this._repository, this._clock);
+
+  final LedgerRepository _repository;
+  final Clock _clock;
+
+  Future<Result<PostingReceipt>> call(RecordPaymentCommand command) async {
+    final now = _clock.nowUtc();
+    final zone = ShopTimeZone.resolve(null);
+    final today = BusinessDate.fromInstant(now, zone);
+
+    final errors = validate(command, today: today);
+    if (errors.isNotEmpty) return Err(ValidationFailure(errors));
+
+    final amount = command.amount!;
+    return _repository.postPayment(
+      PaymentPosting(
+        operationId: command.operationId,
+        role: command.role,
+        partyId: command.partyId!,
+        accountId: command.accountId!,
+        amount: amount,
+        effectiveAt: command.date == today ? now : command.date.startUtc(zone),
+        businessDate: command.date,
+        movements: [
+          for (final split in command.splits)
+            MovementPosting(
+              moneyAccountId: split.moneyAccountId!,
+              method: split.method,
+              // A single part carries the whole amount.
+              amount: command.splits.length == 1 ? amount : split.amount!,
+              reference: TextNormalizer.cleanOrNull(split.reference),
+            ),
+        ],
+        allocations: command.allocations,
+        note: TextNormalizer.cleanOrNull(command.note),
+      ),
+    );
+  }
+
+  static Map<String, ValidationError> validate(
+    RecordPaymentCommand command, {
+    required BusinessDate today,
+  }) {
+    final errors = <String, ValidationError>{};
+    if (command.partyId == null || command.accountId == null) {
+      errors[RecordPaymentCommand.partyField] = ValidationError.partyRequired;
+    }
+    final amount = command.amount;
+    if (amount == null || !amount.isPositive) {
+      errors[RecordPaymentCommand.amountField] =
+          ValidationError.amountMustBePositive;
+    }
+    if (command.date.compareTo(today) > 0) {
+      errors[RecordPaymentCommand.dateField] = ValidationError.dateInFuture;
+    }
+
+    final splits = command.splits;
+    if (splits.isEmpty || splits.any((s) => s.moneyAccountId == null)) {
+      errors[RecordPaymentCommand.splitsField] =
+          ValidationError.accountRequired;
+    } else if (splits.length > 1 && amount != null) {
+      // Every part needs its own positive amount and together they must
+      // equal the payment exactly (FR-PAY-003).
+      final complete = splits.every((s) => s.amount?.isPositive ?? false);
+      final total = complete
+          ? Money.sum(splits.map((s) => s.amount!))
+          : Money.zero;
+      if (!complete || total != amount) {
+        errors[RecordPaymentCommand.splitsField] =
+            ValidationError.splitMustEqualTotal;
+      }
+    }
+    if ((command.note ?? '').length > RecordPaymentCommand.maxNoteLength) {
+      errors[RecordPaymentCommand.noteField] = ValidationError.tooLong;
+    }
+    return errors;
+  }
+}
+
+/// Records goods returned by a customer or to a supplier (SK-0510).
+///
+/// It lowers what is owed and settles the oldest dues; no money moves. If
+/// it is more than what is owed, the rest is the party's advance.
+class RecordReturn {
+  const RecordReturn(this._repository, this._clock);
+
+  final LedgerRepository _repository;
+  final Clock _clock;
+
+  Future<Result<PostingReceipt>> call(RecordReturnCommand command) async {
+    final now = _clock.nowUtc();
+    final zone = ShopTimeZone.resolve(null);
+    final today = BusinessDate.fromInstant(now, zone);
+
+    // The same field rules as a charge: party, positive amount, date.
+    final errors = RecordCharge.validate(
+      RecordChargeCommand(
+        operationId: command.operationId,
+        role: command.role,
+        partyId: command.partyId,
+        accountId: command.accountId,
+        amount: command.amount,
+        date: command.date,
+        description: command.description,
+      ),
+      today: today,
+    );
+    if (errors.isNotEmpty) return Err(ValidationFailure(errors));
+
+    return _repository.postReturn(
+      ReturnPosting(
+        operationId: command.operationId,
+        role: command.role,
+        partyId: command.partyId!,
+        accountId: command.accountId!,
+        amount: command.amount!,
+        effectiveAt: command.date == today ? now : command.date.startUtc(zone),
+        businessDate: command.date,
+        description: TextNormalizer.cleanOrNull(command.description),
+      ),
+    );
   }
 }

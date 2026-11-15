@@ -747,4 +747,192 @@ class AppLocalizationsEn extends AppLocalizations {
   String reversalSaved(String balance) {
     return 'Entry reversed. $balance';
   }
+
+  @override
+  String get validationAccountRequired =>
+      'Choose the account for this payment.';
+
+  @override
+  String get validationAccountMismatch =>
+      'Cash goes to the cash account. UPI and bank payments go to a bank account.';
+
+  @override
+  String get validationAllocationInvalid =>
+      'The amounts applied to dues do not match the payment. Check them and try again.';
+
+  @override
+  String get validationPaidNowExceedsTotal =>
+      'The amount paid now cannot be more than the purchase.';
+
+  @override
+  String get receivePaymentTitle => 'Receive payment';
+
+  @override
+  String get paySupplierTitle => 'Pay supplier';
+
+  @override
+  String get amountReceivedLabel => 'Amount received';
+
+  @override
+  String get amountPaidLabel => 'Amount paid';
+
+  @override
+  String get paymentMethodLabel => 'Paid by';
+
+  @override
+  String get methodCash => 'Cash';
+
+  @override
+  String get methodUpi => 'UPI';
+
+  @override
+  String get methodBankTransfer => 'Bank transfer';
+
+  @override
+  String get methodCheque => 'Cheque';
+
+  @override
+  String get methodOther => 'Other';
+
+  @override
+  String get moneyAccountLabel => 'Account';
+
+  @override
+  String get chooseAccount => 'Choose account';
+
+  @override
+  String get actionAddBankAccount => 'Add bank account';
+
+  @override
+  String get accountNameLabel => 'Account name';
+
+  @override
+  String get accountNameHint => 'For example: SBI current account';
+
+  @override
+  String get actionAdd => 'Add';
+
+  @override
+  String get referenceLabel => 'Reference / UTR';
+
+  @override
+  String get actionAddAnotherMethod => 'Add another payment method';
+
+  @override
+  String get removeMethodTooltip => 'Remove this payment method';
+
+  @override
+  String get splitAmountLabel => 'Amount by this method';
+
+  @override
+  String get allocationTitle => 'Applied to dues';
+
+  @override
+  String get allocationOldestFirst => 'Oldest dues first';
+
+  @override
+  String get allocationManual => 'Chosen by you';
+
+  @override
+  String get actionChangeAllocation => 'Change';
+
+  @override
+  String get allocationEditorTitle => 'Apply payment to dues';
+
+  @override
+  String allocationOpenAmount(String amount) {
+    return 'Due $amount';
+  }
+
+  @override
+  String allocationMustMatch(String amount) {
+    return 'Apply exactly $amount to the dues.';
+  }
+
+  @override
+  String allocationApplied(String amount) {
+    return 'Applied: $amount';
+  }
+
+  @override
+  String get actionResetOldestFirst => 'Use oldest first';
+
+  @override
+  String get actionDone => 'Done';
+
+  @override
+  String get reviewAppliedToDues => 'Applied to dues';
+
+  @override
+  String get reviewAdvanceCreated => 'Advance created';
+
+  @override
+  String get advanceNote =>
+      'The payment is greater than the amount due. The extra amount will be saved as an advance.';
+
+  @override
+  String get actionSavePayment => 'Save payment';
+
+  @override
+  String paymentSaved(String balance) {
+    return 'Payment saved. $balance';
+  }
+
+  @override
+  String get actionReceivePayment => 'Receive payment';
+
+  @override
+  String get actionPaySupplier => 'Pay supplier';
+
+  @override
+  String get paidNowLabel => 'Amount paid now';
+
+  @override
+  String get paidNowHelp => 'Optional. Leave empty if nothing is paid now.';
+
+  @override
+  String get reviewPurchaseTotal => 'Purchase total';
+
+  @override
+  String get reviewPaidNow => 'Paid now';
+
+  @override
+  String get salesReturnTitle => 'Sales return';
+
+  @override
+  String get purchaseReturnTitle => 'Purchase return';
+
+  @override
+  String get reviewReturnAmount => 'Return amount';
+
+  @override
+  String get actionSaveReturn => 'Save return';
+
+  @override
+  String returnSaved(String balance) {
+    return 'Return saved. $balance';
+  }
+
+  @override
+  String get returnNoCashNote => 'No money is recorded as refunded.';
+
+  @override
+  String get transactionReceiptNo => 'Receipt no.';
+
+  @override
+  String get transactionVoucherNo => 'Voucher no.';
+
+  @override
+  String get transactionSettled => 'Dues settled';
+
+  @override
+  String get transactionAdvance => 'Kept as advance';
+
+  @override
+  String get transactionStillDue => 'Still due';
+
+  @override
+  String movementLine(String method, String account) {
+    return '$method · $account';
+  }
 }

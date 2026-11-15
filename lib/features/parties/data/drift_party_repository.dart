@@ -13,6 +13,7 @@ import 'package:smart_khata/core/errors/result.dart';
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/features/ledger/data/allocation_rebalancer.dart';
 import 'package:smart_khata/features/parties/domain/party.dart';
 import 'package:smart_khata/features/parties/domain/party_commands.dart';
 import 'package:smart_khata/features/parties/domain/party_repository.dart';
@@ -24,8 +25,10 @@ final class DriftPartyRepository implements PartyRepository {
     required this._clock,
     required this._ids,
     required this._logger,
+    required this._allocations,
   });
 
+  final AllocationRebalancer _allocations;
   final PartiesDao _dao;
   final ShopContext _shop;
   final Clock _clock;
@@ -384,6 +387,13 @@ final class DriftPartyRepository implements PartyRepository {
               action: 'opening_balance_recorded',
               createdAt: now,
             ),
+          );
+          // An opening amount owed is settled by an advance already held,
+          // and an opening advance settles dues already recorded.
+          await _allocations.rebalance(
+            shopId: shopId,
+            accountId: posting.accountId,
+            now: now,
           );
         }),
         logger: _logger,

@@ -48,7 +48,13 @@ void main() {
   });
 
   test('Telugu is actually Telugu, apart from names kept in Latin script', () {
-    const latinOnPurpose = {'languageEnglish', 'amountSemantics'};
+    // Names, acronyms and pure placeholders that are the same in Telugu.
+    const latinOnPurpose = {
+      'languageEnglish',
+      'amountSemantics',
+      'methodUpi',
+      'movementLine',
+    };
     final teluguScript = RegExp('[ఀ-౿]');
     for (final key in _messageKeys(te).difference(latinOnPurpose)) {
       expect(teluguScript.hasMatch(te[key]! as String), isTrue, reason: key);

@@ -4,9 +4,12 @@ import 'package:smart_khata/core/date_time/clock.dart';
 import 'package:smart_khata/core/domain/shop_context.dart';
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
+import 'package:smart_khata/features/ledger/data/allocation_rebalancer.dart';
 import 'package:smart_khata/features/ledger/data/drift_ledger_repository.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_repository.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_use_cases.dart';
+import 'package:smart_khata/features/money/data/drift_money_account_repository.dart';
+import 'package:smart_khata/features/money/domain/money_account.dart';
 import 'package:smart_khata/features/parties/data/drift_party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_use_cases.dart';
@@ -71,6 +74,10 @@ void configureDependencies({
         clock: getIt<Clock>(),
         ids: getIt<IdGenerator>(),
         logger: getIt<AppLogger>(),
+        allocations: AllocationRebalancer(
+          dao: getIt<AppDatabase>().ledgerDao,
+          ids: getIt<IdGenerator>(),
+        ),
       ),
     )
     ..registerFactory<SaveParty>(() => SaveParty(getIt<PartyRepository>()))
@@ -95,5 +102,24 @@ void configureDependencies({
     )
     ..registerFactory<ReverseTransaction>(
       () => ReverseTransaction(getIt<LedgerRepository>(), getIt<Clock>()),
+    )
+    ..registerFactory<RecordPayment>(
+      () => RecordPayment(getIt<LedgerRepository>(), getIt<Clock>()),
+    )
+    ..registerFactory<RecordReturn>(
+      () => RecordReturn(getIt<LedgerRepository>(), getIt<Clock>()),
+    )
+    // Money accounts
+    ..registerLazySingleton<MoneyAccountRepository>(
+      () => DriftMoneyAccountRepository(
+        dao: getIt<AppDatabase>().moneyDao,
+        shop: getIt<ShopContext>(),
+        clock: getIt<Clock>(),
+        ids: getIt<IdGenerator>(),
+        logger: getIt<AppLogger>(),
+      ),
+    )
+    ..registerFactory<CreateMoneyAccount>(
+      () => CreateMoneyAccount(getIt<MoneyAccountRepository>()),
     );
 }

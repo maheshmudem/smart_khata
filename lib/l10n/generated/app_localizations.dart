@@ -1459,6 +1459,348 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Entry reversed. {balance}'**
   String reversalSaved(String balance);
+
+  /// No description provided for @validationAccountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the account for this payment.'**
+  String get validationAccountRequired;
+
+  /// No description provided for @validationAccountMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash goes to the cash account. UPI and bank payments go to a bank account.'**
+  String get validationAccountMismatch;
+
+  /// No description provided for @validationAllocationInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'The amounts applied to dues do not match the payment. Check them and try again.'**
+  String get validationAllocationInvalid;
+
+  /// No description provided for @validationPaidNowExceedsTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'The amount paid now cannot be more than the purchase.'**
+  String get validationPaidNowExceedsTotal;
+
+  /// No description provided for @receivePaymentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive payment'**
+  String get receivePaymentTitle;
+
+  /// No description provided for @paySupplierTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay supplier'**
+  String get paySupplierTitle;
+
+  /// No description provided for @amountReceivedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount received'**
+  String get amountReceivedLabel;
+
+  /// No description provided for @amountPaidLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount paid'**
+  String get amountPaidLabel;
+
+  /// No description provided for @paymentMethodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid by'**
+  String get paymentMethodLabel;
+
+  /// No description provided for @methodCash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get methodCash;
+
+  /// No description provided for @methodUpi.
+  ///
+  /// In en, this message translates to:
+  /// **'UPI'**
+  String get methodUpi;
+
+  /// No description provided for @methodBankTransfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank transfer'**
+  String get methodBankTransfer;
+
+  /// No description provided for @methodCheque.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheque'**
+  String get methodCheque;
+
+  /// No description provided for @methodOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get methodOther;
+
+  /// No description provided for @moneyAccountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get moneyAccountLabel;
+
+  /// No description provided for @chooseAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose account'**
+  String get chooseAccount;
+
+  /// No description provided for @actionAddBankAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Add bank account'**
+  String get actionAddBankAccount;
+
+  /// No description provided for @accountNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account name'**
+  String get accountNameLabel;
+
+  /// No description provided for @accountNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: SBI current account'**
+  String get accountNameHint;
+
+  /// No description provided for @actionAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get actionAdd;
+
+  /// No description provided for @referenceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference / UTR'**
+  String get referenceLabel;
+
+  /// No description provided for @actionAddAnotherMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Add another payment method'**
+  String get actionAddAnotherMethod;
+
+  /// No description provided for @removeMethodTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this payment method'**
+  String get removeMethodTooltip;
+
+  /// No description provided for @splitAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount by this method'**
+  String get splitAmountLabel;
+
+  /// No description provided for @allocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied to dues'**
+  String get allocationTitle;
+
+  /// No description provided for @allocationOldestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest dues first'**
+  String get allocationOldestFirst;
+
+  /// No description provided for @allocationManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Chosen by you'**
+  String get allocationManual;
+
+  /// No description provided for @actionChangeAllocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get actionChangeAllocation;
+
+  /// No description provided for @allocationEditorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply payment to dues'**
+  String get allocationEditorTitle;
+
+  /// No description provided for @allocationOpenAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Due {amount}'**
+  String allocationOpenAmount(String amount);
+
+  /// No description provided for @allocationMustMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply exactly {amount} to the dues.'**
+  String allocationMustMatch(String amount);
+
+  /// No description provided for @allocationApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied: {amount}'**
+  String allocationApplied(String amount);
+
+  /// No description provided for @actionResetOldestFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Use oldest first'**
+  String get actionResetOldestFirst;
+
+  /// No description provided for @actionDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get actionDone;
+
+  /// No description provided for @reviewAppliedToDues.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied to dues'**
+  String get reviewAppliedToDues;
+
+  /// No description provided for @reviewAdvanceCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Advance created'**
+  String get reviewAdvanceCreated;
+
+  /// No description provided for @advanceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The payment is greater than the amount due. The extra amount will be saved as an advance.'**
+  String get advanceNote;
+
+  /// No description provided for @actionSavePayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Save payment'**
+  String get actionSavePayment;
+
+  /// No description provided for @paymentSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment saved. {balance}'**
+  String paymentSaved(String balance);
+
+  /// No description provided for @actionReceivePayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive payment'**
+  String get actionReceivePayment;
+
+  /// No description provided for @actionPaySupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay supplier'**
+  String get actionPaySupplier;
+
+  /// No description provided for @paidNowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount paid now'**
+  String get paidNowLabel;
+
+  /// No description provided for @paidNowHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Leave empty if nothing is paid now.'**
+  String get paidNowHelp;
+
+  /// No description provided for @reviewPurchaseTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase total'**
+  String get reviewPurchaseTotal;
+
+  /// No description provided for @reviewPaidNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid now'**
+  String get reviewPaidNow;
+
+  /// No description provided for @salesReturnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales return'**
+  String get salesReturnTitle;
+
+  /// No description provided for @purchaseReturnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase return'**
+  String get purchaseReturnTitle;
+
+  /// No description provided for @reviewReturnAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Return amount'**
+  String get reviewReturnAmount;
+
+  /// No description provided for @actionSaveReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Save return'**
+  String get actionSaveReturn;
+
+  /// No description provided for @returnSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Return saved. {balance}'**
+  String returnSaved(String balance);
+
+  /// No description provided for @returnNoCashNote.
+  ///
+  /// In en, this message translates to:
+  /// **'No money is recorded as refunded.'**
+  String get returnNoCashNote;
+
+  /// No description provided for @transactionReceiptNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt no.'**
+  String get transactionReceiptNo;
+
+  /// No description provided for @transactionVoucherNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Voucher no.'**
+  String get transactionVoucherNo;
+
+  /// No description provided for @transactionSettled.
+  ///
+  /// In en, this message translates to:
+  /// **'Dues settled'**
+  String get transactionSettled;
+
+  /// No description provided for @transactionAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'Kept as advance'**
+  String get transactionAdvance;
+
+  /// No description provided for @transactionStillDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Still due'**
+  String get transactionStillDue;
+
+  /// No description provided for @movementLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{method} · {account}'**
+  String movementLine(String method, String account);
 }
 
 class _AppLocalizationsDelegate

@@ -3,6 +3,7 @@ import 'package:smart_khata/core/date_time/business_date.dart';
 import 'package:smart_khata/core/domain/balance_kind.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/features/ledger/domain/payment_models.dart';
 
 /// One line of a party ledger with the balance after it (WF-023).
 class LedgerLine extends Equatable {
@@ -73,6 +74,10 @@ class TransactionDetail extends Equatable {
     this.reversalOfTransactionId,
     this.reversedByTransactionId,
     this.reversalReason,
+    this.relatedTransactionId,
+    this.openAmount,
+    this.movements = const [],
+    this.allocations = const [],
   });
 
   final String id;
@@ -102,6 +107,29 @@ class TransactionDetail extends Equatable {
   /// Set when this transaction has been reversed.
   final String? reversedByTransactionId;
   final String? reversalReason;
+
+  /// A linked transaction, e.g. the purchase a "paid now" payment belongs
+  /// to.
+  final String? relatedTransactionId;
+
+  /// For a charge: what is still unsettled after allocations.
+  final Money? openAmount;
+
+  /// For a payment: how it was paid and through which accounts.
+  final List<MovementLine> movements;
+
+  /// For a payment or return: the dues it settled.
+  final List<AllocationView> allocations;
+
+  /// Total of this settlement applied to dues.
+  Money get allocatedTotal => Money.sum(allocations.map((a) => a.amount));
+
+  /// The part of a settlement not applied to any due: an advance.
+  Money? get unallocatedAmount => switch (ledgerEffect) {
+    final Money effect when effect.isNegative && !isReversal =>
+      effect.abs() - allocatedTotal,
+    _ => null,
+  };
 
   bool get isReversal => reversalOfTransactionId != null;
   bool get isReversed => reversedByTransactionId != null;
@@ -139,6 +167,62 @@ class TransactionDetail extends Equatable {
     reversalOfTransactionId,
     reversedByTransactionId,
     reversalReason,
+    relatedTransactionId,
+    openAmount,
+    movements,
+    allocations,
+  ];
+}
+
+/// One money movement of a transaction, as shown on its page.
+class MovementLine extends Equatable {
+  const MovementLine({
+    required this.accountName,
+    required this.method,
+    required this.direction,
+    required this.amount,
+    this.reference,
+  });
+
+  final String accountName;
+  final PaymentMethod method;
+  final MovementDirection direction;
+  final Money amount;
+  final String? reference;
+
+  @override
+  List<Object?> get props => [
+    accountName,
+    method,
+    direction,
+    amount,
+    reference,
+  ];
+}
+
+/// A due settled by a payment or return, as shown on its page.
+class AllocationView extends Equatable {
+  const AllocationView({
+    required this.transactionId,
+    required this.transactionType,
+    required this.effectiveAt,
+    required this.amount,
+  });
+
+  /// The charge that was settled.
+  final String transactionId;
+  final TransactionType transactionType;
+  final DateTime effectiveAt;
+
+  /// The amount applied to it, still in force.
+  final Money amount;
+
+  @override
+  List<Object?> get props => [
+    transactionId,
+    transactionType,
+    effectiveAt,
+    amount,
   ];
 }
 
@@ -155,6 +239,7 @@ class RecordChargeCommand extends Equatable {
     this.accountId,
     this.dueDate,
     this.description,
+    this.paidNow,
   });
 
   /// Created once when the form opens (FR-PAY-006).
@@ -171,11 +256,19 @@ class RecordChargeCommand extends Equatable {
   final BusinessDate? dueDate;
   final String? description;
 
+  /// Part of a supplier purchase paid at once (FR-SUP-005). `null` or a
+  /// zero amount means nothing was paid now.
+  final PaymentSplit? paidNow;
+
+  bool get hasPaidNow => paidNow?.amount?.isPositive ?? false;
+
   static const String partyField = 'party';
   static const String amountField = 'amount';
   static const String dateField = 'date';
   static const String dueDateField = 'dueDate';
   static const String descriptionField = 'description';
+  static const String paidNowField = 'paidNow';
+  static const String paidNowAccountField = 'paidNowAccount';
   static const int maxDescriptionLength = 200;
 
   @override
@@ -188,6 +281,7 @@ class RecordChargeCommand extends Equatable {
     date,
     dueDate,
     description,
+    paidNow,
   ];
 }
 
@@ -203,6 +297,7 @@ class ChargePosting {
     required this.businessDate,
     this.dueAt,
     this.description,
+    this.paidNow,
   });
 
   final String operationId;
@@ -214,6 +309,10 @@ class ChargePosting {
   final BusinessDate businessDate;
   final DateTime? dueAt;
   final String? description;
+
+  /// The part of a supplier purchase paid at once, posted as its own
+  /// linked payment in the same database transaction.
+  final MovementPosting? paidNow;
 
   TransactionType get transactionType => switch (role) {
     PartyRole.customer => TransactionType.customerCredit,

@@ -335,5 +335,107 @@
         "type": "String"
       }
     }
+  },
+  "validationAccountRequired": "Choose the account for this payment.",
+  "validationAccountMismatch": "Cash goes to the cash account. UPI and bank payments go to a bank account.",
+  "validationAllocationInvalid": "The amounts applied to dues do not match the payment. Check them and try again.",
+  "validationPaidNowExceedsTotal": "The amount paid now cannot be more than the purchase.",
+  "receivePaymentTitle": "Receive payment",
+  "paySupplierTitle": "Pay supplier",
+  "amountReceivedLabel": "Amount received",
+  "amountPaidLabel": "Amount paid",
+  "paymentMethodLabel": "Paid by",
+  "methodCash": "Cash",
+  "methodUpi": "UPI",
+  "methodBankTransfer": "Bank transfer",
+  "methodCheque": "Cheque",
+  "methodOther": "Other",
+  "moneyAccountLabel": "Account",
+  "chooseAccount": "Choose account",
+  "actionAddBankAccount": "Add bank account",
+  "accountNameLabel": "Account name",
+  "accountNameHint": "For example: SBI current account",
+  "actionAdd": "Add",
+  "referenceLabel": "Reference / UTR",
+  "actionAddAnotherMethod": "Add another payment method",
+  "removeMethodTooltip": "Remove this payment method",
+  "splitAmountLabel": "Amount by this method",
+  "allocationTitle": "Applied to dues",
+  "allocationOldestFirst": "Oldest dues first",
+  "allocationManual": "Chosen by you",
+  "actionChangeAllocation": "Change",
+  "allocationEditorTitle": "Apply payment to dues",
+  "allocationOpenAmount": "Due {amount}",
+  "@allocationOpenAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "allocationMustMatch": "Apply exactly {amount} to the dues.",
+  "@allocationMustMatch": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "allocationApplied": "Applied: {amount}",
+  "@allocationApplied": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "actionResetOldestFirst": "Use oldest first",
+  "actionDone": "Done",
+  "reviewAppliedToDues": "Applied to dues",
+  "reviewAdvanceCreated": "Advance created",
+  "advanceNote": "The payment is greater than the amount due. The extra amount will be saved as an advance.",
+  "actionSavePayment": "Save payment",
+  "paymentSaved": "Payment saved. {balance}",
+  "@paymentSaved": {
+    "placeholders": {
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "actionReceivePayment": "Receive payment",
+  "actionPaySupplier": "Pay supplier",
+  "paidNowLabel": "Amount paid now",
+  "paidNowHelp": "Optional. Leave empty if nothing is paid now.",
+  "reviewPurchaseTotal": "Purchase total",
+  "reviewPaidNow": "Paid now",
+  "salesReturnTitle": "Sales return",
+  "purchaseReturnTitle": "Purchase return",
+  "reviewReturnAmount": "Return amount",
+  "actionSaveReturn": "Save return",
+  "returnSaved": "Return saved. {balance}",
+  "@returnSaved": {
+    "placeholders": {
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "returnNoCashNote": "No money is recorded as refunded.",
+  "transactionReceiptNo": "Receipt no.",
+  "transactionVoucherNo": "Voucher no.",
+  "transactionSettled": "Dues settled",
+  "transactionAdvance": "Kept as advance",
+  "transactionStillDue": "Still due",
+  "movementLine": "{method} · {account}",
+  "@movementLine": {
+    "placeholders": {
+      "method": {
+        "type": "String"
+      },
+      "account": {
+        "type": "String"
+      }
+    }
   }
 }

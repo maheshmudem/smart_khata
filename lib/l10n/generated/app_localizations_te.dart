@@ -749,4 +749,192 @@ class AppLocalizationsTe extends AppLocalizations {
   String reversalSaved(String balance) {
     return 'ఎంట్రీ రద్దు అయింది. $balance';
   }
+
+  @override
+  String get validationAccountRequired => 'ఈ చెల్లింపుకు ఖాతాను ఎంచుకోండి.';
+
+  @override
+  String get validationAccountMismatch =>
+      'నగదు నగదు ఖాతాకు వెళ్తుంది. UPI మరియు బ్యాంక్ చెల్లింపులు బ్యాంక్ ఖాతాకు వెళ్తాయి.';
+
+  @override
+  String get validationAllocationInvalid =>
+      'బాకీలకు వర్తింపజేసిన మొత్తాలు చెల్లింపుకు సరిపోలేదు. సరిచూసి మళ్లీ ప్రయత్నించండి.';
+
+  @override
+  String get validationPaidNowExceedsTotal =>
+      'ఇప్పుడు చెల్లించిన మొత్తం కొనుగోలు కంటే ఎక్కువ ఉండకూడదు.';
+
+  @override
+  String get receivePaymentTitle => 'చెల్లింపు తీసుకోండి';
+
+  @override
+  String get paySupplierTitle => 'సరఫరాదారుకు చెల్లించండి';
+
+  @override
+  String get amountReceivedLabel => 'అందిన మొత్తం';
+
+  @override
+  String get amountPaidLabel => 'చెల్లించిన మొత్తం';
+
+  @override
+  String get paymentMethodLabel => 'చెల్లింపు విధానం';
+
+  @override
+  String get methodCash => 'నగదు';
+
+  @override
+  String get methodUpi => 'UPI';
+
+  @override
+  String get methodBankTransfer => 'బ్యాంక్ బదిలీ';
+
+  @override
+  String get methodCheque => 'చెక్కు';
+
+  @override
+  String get methodOther => 'ఇతర';
+
+  @override
+  String get moneyAccountLabel => 'ఖాతా';
+
+  @override
+  String get chooseAccount => 'ఖాతాను ఎంచుకోండి';
+
+  @override
+  String get actionAddBankAccount => 'బ్యాంక్ ఖాతా జోడించండి';
+
+  @override
+  String get accountNameLabel => 'ఖాతా పేరు';
+
+  @override
+  String get accountNameHint => 'ఉదాహరణ: SBI కరెంట్ ఖాతా';
+
+  @override
+  String get actionAdd => 'జోడించు';
+
+  @override
+  String get referenceLabel => 'రిఫరెన్స్ / UTR';
+
+  @override
+  String get actionAddAnotherMethod => 'మరో చెల్లింపు విధానం జోడించండి';
+
+  @override
+  String get removeMethodTooltip => 'ఈ చెల్లింపు విధానం తొలగించు';
+
+  @override
+  String get splitAmountLabel => 'ఈ విధానంలో మొత్తం';
+
+  @override
+  String get allocationTitle => 'బాకీలకు వర్తింపు';
+
+  @override
+  String get allocationOldestFirst => 'పాత బాకీలు ముందు';
+
+  @override
+  String get allocationManual => 'మీరు ఎంచుకున్నవి';
+
+  @override
+  String get actionChangeAllocation => 'మార్చు';
+
+  @override
+  String get allocationEditorTitle => 'చెల్లింపును బాకీలకు వర్తింపజేయండి';
+
+  @override
+  String allocationOpenAmount(String amount) {
+    return 'బాకీ $amount';
+  }
+
+  @override
+  String allocationMustMatch(String amount) {
+    return 'బాకీలకు సరిగ్గా $amount వర్తింపజేయండి.';
+  }
+
+  @override
+  String allocationApplied(String amount) {
+    return 'వర్తింపజేసింది: $amount';
+  }
+
+  @override
+  String get actionResetOldestFirst => 'పాతవి ముందు వాడు';
+
+  @override
+  String get actionDone => 'పూర్తయింది';
+
+  @override
+  String get reviewAppliedToDues => 'బాకీలకు వర్తింపు';
+
+  @override
+  String get reviewAdvanceCreated => 'ఏర్పడిన అడ్వాన్స్';
+
+  @override
+  String get advanceNote =>
+      'చెల్లింపు బాకీ కంటే ఎక్కువగా ఉంది. అదనపు మొత్తం అడ్వాన్స్‌గా సేవ్ అవుతుంది.';
+
+  @override
+  String get actionSavePayment => 'చెల్లింపు సేవ్ చేయి';
+
+  @override
+  String paymentSaved(String balance) {
+    return 'చెల్లింపు సేవ్ అయింది. $balance';
+  }
+
+  @override
+  String get actionReceivePayment => 'చెల్లింపు తీసుకోండి';
+
+  @override
+  String get actionPaySupplier => 'సరఫరాదారుకు చెల్లించండి';
+
+  @override
+  String get paidNowLabel => 'ఇప్పుడు చెల్లించిన మొత్తం';
+
+  @override
+  String get paidNowHelp =>
+      'ఐచ్ఛికం. ఇప్పుడు ఏమీ చెల్లించకపోతే ఖాళీగా వదిలేయండి.';
+
+  @override
+  String get reviewPurchaseTotal => 'కొనుగోలు మొత్తం';
+
+  @override
+  String get reviewPaidNow => 'ఇప్పుడు చెల్లించింది';
+
+  @override
+  String get salesReturnTitle => 'అమ్మకం వాపసు';
+
+  @override
+  String get purchaseReturnTitle => 'కొనుగోలు వాపసు';
+
+  @override
+  String get reviewReturnAmount => 'వాపసు మొత్తం';
+
+  @override
+  String get actionSaveReturn => 'వాపసు సేవ్ చేయి';
+
+  @override
+  String returnSaved(String balance) {
+    return 'వాపసు సేవ్ అయింది. $balance';
+  }
+
+  @override
+  String get returnNoCashNote => 'డబ్బు తిరిగి ఇచ్చినట్టు నమోదు కాదు.';
+
+  @override
+  String get transactionReceiptNo => 'రసీదు నం.';
+
+  @override
+  String get transactionVoucherNo => 'వోచర్ నం.';
+
+  @override
+  String get transactionSettled => 'తీరిన బాకీలు';
+
+  @override
+  String get transactionAdvance => 'అడ్వాన్స్‌గా ఉంచింది';
+
+  @override
+  String get transactionStillDue => 'ఇంకా బాకీ';
+
+  @override
+  String movementLine(String method, String account) {
+    return '$method · $account';
+  }
 }

@@ -43,6 +43,10 @@ enum ValidationError {
   dateInFuture,
   dueBeforeDate,
   partyRequired,
+  accountRequired,
+  accountMismatch,
+  allocationInvalid,
+  paidNowExceedsTotal,
 }
 
 /// The same operation ID was already posted. The earlier write stands, so

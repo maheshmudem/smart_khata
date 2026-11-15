@@ -50,6 +50,10 @@ extension FailureMessageX on AppLocalizations {
     ValidationError.dateInFuture => validationDateInFuture,
     ValidationError.dueBeforeDate => validationDueBeforeDate,
     ValidationError.partyRequired => validationPartyRequired,
+    ValidationError.accountRequired => validationAccountRequired,
+    ValidationError.accountMismatch => validationAccountMismatch,
+    ValidationError.allocationInvalid => validationAllocationInvalid,
+    ValidationError.paidNowExceedsTotal => validationPaidNowExceedsTotal,
   };
 
   /// The direction label shown next to a balance.

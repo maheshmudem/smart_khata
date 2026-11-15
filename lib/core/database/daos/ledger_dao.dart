@@ -55,6 +55,9 @@ class TransactionDetailRow {
     required this.entryAmountPaise,
     required this.dueAt,
     required this.accountBalancePaise,
+    required this.entryId,
+    required this.relatedTransactionId,
+    required this.allocatedToEntryPaise,
   });
 
   final String id;
@@ -75,6 +78,66 @@ class TransactionDetailRow {
   final int? entryAmountPaise;
   final DateTime? dueAt;
   final int? accountBalancePaise;
+  final String? entryId;
+  final String? relatedTransactionId;
+
+  /// Net amount allocated to this transaction's entry as a target.
+  final int allocatedToEntryPaise;
+}
+
+/// A positive entry with what is still unsettled.
+class OpenChargeRow {
+  const OpenChargeRow({
+    required this.entryId,
+    required this.transactionId,
+    required this.transactionType,
+    required this.amountPaise,
+    required this.openPaise,
+    required this.effectiveAt,
+    required this.dueAt,
+    required this.description,
+  });
+
+  final String entryId;
+  final String transactionId;
+  final TransactionType transactionType;
+  final int amountPaise;
+  final int openPaise;
+  final DateTime effectiveAt;
+  final DateTime? dueAt;
+  final String? description;
+}
+
+/// A money movement with its account's name.
+class MovementLineRow {
+  const MovementLineRow({
+    required this.accountName,
+    required this.method,
+    required this.direction,
+    required this.amountPaise,
+    required this.reference,
+  });
+
+  final String accountName;
+  final PaymentMethod method;
+  final MovementDirection direction;
+  final int amountPaise;
+  final String? reference;
+}
+
+/// The net amount a settlement has applied to one charge.
+class AllocationTargetRow {
+  const AllocationTargetRow({
+    required this.transactionId,
+    required this.transactionType,
+    required this.effectiveAt,
+    required this.amountPaise,
+  });
+
+  final String transactionId;
+  final TransactionType transactionType;
+  final DateTime effectiveAt;
+  final int amountPaise;
 }
 
 /// An allocation that is still (partly) in force.
@@ -97,6 +160,10 @@ class ActiveAllocationRow {
 const _roles = CodedEnumConverter<PartyRole>(PartyRole.values);
 const _kinds = CodedEnumConverter<LedgerEntryKind>(LedgerEntryKind.values);
 const _types = CodedEnumConverter<TransactionType>(TransactionType.values);
+const _methods = CodedEnumConverter<PaymentMethod>(PaymentMethod.values);
+const _directions = CodedEnumConverter<MovementDirection>(
+  MovementDirection.values,
+);
 const _instants = EpochMsConverter();
 
 DateTime? _instantOrNull(int? ms) => ms == null ? null : _instants.fromSql(ms);
@@ -203,6 +270,12 @@ class LedgerDao extends DatabaseAccessor<AppDatabase> with _$LedgerDaoMixin {
             LIMIT 1) AS reversal_reason,
            a.id AS account_id, a.role AS role,
            p.id AS party_id, p.display_name AS party_name,
+           e.id AS entry_id, t.related_transaction_id AS related_id,
+           COALESCE((SELECT SUM(CASE WHEN al.event_type = 'allocate'
+                                     THEN al.amount_paise
+                                     ELSE -al.amount_paise END)
+                     FROM ledger_allocation_events al
+                     WHERE al.target_entry_id = e.id), 0) AS allocated_to_entry,
            e.amount_paise AS entry_amount_paise, e.due_at AS due_at,
            (SELECT SUM(x.amount_paise) FROM party_ledger_entries x
             WHERE x.party_account_id = t.party_account_id) AS account_balance_paise
@@ -223,6 +296,9 @@ class LedgerDao extends DatabaseAccessor<AppDatabase> with _$LedgerDaoMixin {
           partyAccounts,
           parties,
           auditLogs,
+          // So an entry page refreshes when it is settled or reversed.
+          ledgerAllocationEvents,
+          moneyMovements,
         },
       ).map(
         (row) => TransactionDetailRow(
@@ -247,6 +323,9 @@ class LedgerDao extends DatabaseAccessor<AppDatabase> with _$LedgerDaoMixin {
           entryAmountPaise: row.readNullable<int>('entry_amount_paise'),
           dueAt: _instantOrNull(row.readNullable<int>('due_at')),
           accountBalancePaise: row.readNullable<int>('account_balance_paise'),
+          entryId: row.readNullable<String>('entry_id'),
+          relatedTransactionId: row.readNullable<String>('related_id'),
+          allocatedToEntryPaise: row.read<int>('allocated_to_entry'),
         ),
       );
 
@@ -315,6 +394,179 @@ class LedgerDao extends DatabaseAccessor<AppDatabase> with _$LedgerDaoMixin {
             ),
           )
           .get();
+
+  /// Charges of an account that are not fully settled, oldest aging date
+  /// first. A reversed charge, a reversal entry and a refund are never
+  /// allocation targets.
+  Future<List<OpenChargeRow>> openCharges({
+    required String shopId,
+    required String accountId,
+  }) =>
+      customSelect(
+            '''
+    SELECT * FROM (
+      SELECT e.id AS entry_id, t.id AS transaction_id,
+             t.transaction_type AS transaction_type,
+             e.amount_paise AS amount_paise,
+             e.amount_paise - COALESCE((
+               SELECT SUM(CASE WHEN a.event_type = 'allocate'
+                               THEN a.amount_paise ELSE -a.amount_paise END)
+               FROM ledger_allocation_events a
+               WHERE a.target_entry_id = e.id
+             ), 0) AS open_paise,
+             t.effective_at AS effective_at, t.recorded_at AS recorded_at,
+             e.due_at AS due_at, t.description AS description
+      FROM party_ledger_entries e
+      JOIN financial_transactions t ON t.id = e.transaction_id
+      WHERE e.shop_id = ? AND e.party_account_id = ?
+        AND e.amount_paise > 0 AND e.entry_kind IN ('charge', 'opening')
+        AND NOT EXISTS (SELECT 1 FROM financial_transactions r
+                        WHERE r.reversal_of_transaction_id = t.id)
+    )
+    WHERE open_paise > 0
+    ORDER BY COALESCE(due_at, effective_at), effective_at, recorded_at, entry_id
+    ''',
+            variables: [
+              Variable.withString(shopId),
+              Variable.withString(accountId),
+            ],
+          )
+          .map(
+            (row) => OpenChargeRow(
+              entryId: row.read<String>('entry_id'),
+              transactionId: row.read<String>('transaction_id'),
+              transactionType: _types.fromSql(
+                row.read<String>('transaction_type'),
+              ),
+              amountPaise: row.read<int>('amount_paise'),
+              openPaise: row.read<int>('open_paise'),
+              effectiveAt: _instants.fromSql(row.read<int>('effective_at')),
+              dueAt: _instantOrNull(row.readNullable<int>('due_at')),
+              description: row.readNullable<String>('description'),
+            ),
+          )
+          .get();
+
+  /// Settlements (payments, returns, advances) of an account with an
+  /// amount not yet applied to any charge, oldest first. Returns pairs of
+  /// entry ID and unallocated paise.
+  Future<List<(String, int)>> unallocatedSettlements({
+    required String shopId,
+    required String accountId,
+  }) =>
+      customSelect(
+            '''
+    SELECT * FROM (
+      SELECT e.id AS entry_id,
+             -e.amount_paise - COALESCE((
+               SELECT SUM(CASE WHEN a.event_type = 'allocate'
+                               THEN a.amount_paise ELSE -a.amount_paise END)
+               FROM ledger_allocation_events a
+               WHERE a.source_entry_id = e.id
+             ), 0) AS unallocated_paise,
+             t.effective_at AS effective_at, t.recorded_at AS recorded_at
+      FROM party_ledger_entries e
+      JOIN financial_transactions t ON t.id = e.transaction_id
+      WHERE e.shop_id = ? AND e.party_account_id = ?
+        AND e.amount_paise < 0 AND e.entry_kind <> 'reversal'
+        AND NOT EXISTS (SELECT 1 FROM financial_transactions r
+                        WHERE r.reversal_of_transaction_id = t.id)
+    )
+    WHERE unallocated_paise > 0
+    ORDER BY effective_at, recorded_at, entry_id
+    ''',
+            variables: [
+              Variable.withString(shopId),
+              Variable.withString(accountId),
+            ],
+          )
+          .map(
+            (row) => (
+              row.read<String>('entry_id'),
+              row.read<int>('unallocated_paise'),
+            ),
+          )
+          .get();
+
+  /// The money movements of a transaction with their account names.
+  Future<List<MovementLineRow>> movementLines(String transactionId) =>
+      customSelect(
+            '''
+        SELECT m.name AS account_name, v.payment_method AS method,
+               v.direction AS direction, v.amount_paise AS amount_paise,
+               v.reference_number AS reference
+        FROM money_movements v
+        JOIN money_accounts m ON m.id = v.money_account_id
+        WHERE v.transaction_id = ?
+        ORDER BY v.id
+        ''',
+            variables: [Variable.withString(transactionId)],
+          )
+          .map(
+            (row) => MovementLineRow(
+              accountName: row.read<String>('account_name'),
+              method: _methods.fromSql(row.read<String>('method')),
+              direction: _directions.fromSql(row.read<String>('direction')),
+              amountPaise: row.read<int>('amount_paise'),
+              reference: row.readNullable<String>('reference'),
+            ),
+          )
+          .get();
+
+  /// The charges a settlement entry is applied to, with the net amount
+  /// still in force for each.
+  Future<List<AllocationTargetRow>> allocationTargetsOf(String sourceEntryId) =>
+      customSelect(
+            '''
+        SELECT * FROM (
+          SELECT t.id AS transaction_id, t.transaction_type AS transaction_type,
+                 t.effective_at AS effective_at, t.recorded_at AS recorded_at,
+                 SUM(CASE WHEN a.event_type = 'allocate'
+                          THEN a.amount_paise ELSE -a.amount_paise END)
+                   AS amount_paise
+          FROM ledger_allocation_events a
+          JOIN party_ledger_entries e ON e.id = a.target_entry_id
+          JOIN financial_transactions t ON t.id = e.transaction_id
+          WHERE a.source_entry_id = ?
+          GROUP BY e.id
+        )
+        WHERE amount_paise > 0
+        ORDER BY effective_at, recorded_at, transaction_id
+        ''',
+            variables: [Variable.withString(sourceEntryId)],
+          )
+          .map(
+            (row) => AllocationTargetRow(
+              transactionId: row.read<String>('transaction_id'),
+              transactionType: _types.fromSql(
+                row.read<String>('transaction_type'),
+              ),
+              effectiveAt: _instants.fromSql(row.read<int>('effective_at')),
+              amountPaise: row.read<int>('amount_paise'),
+            ),
+          )
+          .get();
+
+  Future<MoneyAccount?> findMoneyAccount({
+    required String shopId,
+    required String id,
+  }) => (select(
+    moneyAccounts,
+  )..where((t) => t.id.equals(id) & t.shopId.equals(shopId))).getSingleOrNull();
+
+  /// How many transactions of [type] the shop has; the next receipt or
+  /// voucher number is one more.
+  Future<int> countOfType({
+    required String shopId,
+    required TransactionType type,
+  }) async {
+    final row = await customSelect(
+      'SELECT COUNT(*) AS n FROM financial_transactions '
+      'WHERE shop_id = ? AND transaction_type = ?',
+      variables: [Variable.withString(shopId), Variable.withString(type.code)],
+    ).getSingle();
+    return row.read<int>('n');
+  }
 
   /// `SUM(amount_paise)` of the account: the balance, never stored.
   Future<int> accountBalance(String accountId) async {
