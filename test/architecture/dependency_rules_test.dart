@@ -138,6 +138,46 @@ void main() {
     ];
     expect(offenders, isEmpty);
   });
+
+  test('screens show no hard-coded text (FR-SET-002, SK-1201)', () {
+    // A string literal with two or more letters in a row, given straight
+    // to something that shows text. Translated text comes from l10n.
+    final shown = RegExp(
+      r'''(?:Text\(|label:|title:|tooltip:|hintText:|helperText:|'''
+      r'''labelText:|message:|semanticLabel:)\s*(?:const\s+)?'''
+      r'''(?:Text\(\s*)?['"][^'"$]*[A-Za-z]{2}''',
+    );
+    // Developer-only screens that are not translated on purpose.
+    const allowed = [
+      'lib/features/gallery/',
+      'lib/features/settings/presentation/pages/more_page.dart',
+    ];
+    final offenders = [
+      for (final source in sources.where(
+        (s) =>
+            (s.path.contains('/presentation/') ||
+                s.path.contains('/core/widgets/') ||
+                s.path.contains('/app/router/') ||
+                s.path.endsWith('lib/app/app.dart')) &&
+            !s.path.contains('/l10n/') &&
+            !allowed.any(s.path.startsWith),
+      ))
+        for (final match in shown.allMatches(source.code))
+          '${source.path}: ${match.group(0)}',
+    ];
+    expect(offenders, isEmpty);
+  });
+
+  test('the one untranslated screen entry is the debug gallery link', () {
+    final more = sources.singleWhere(
+      (s) => s.path.endsWith('pages/more_page.dart'),
+    );
+    final literals = RegExp(
+      r'''Text\(\s*['"]([^'"]*[A-Za-z]{2}[^'"]*)['"]''',
+    ).allMatches(more.code).map((m) => m.group(1)).toList();
+    expect(literals, ['Widget gallery (debug)']);
+    expect(more.code, contains('if (kDebugMode)'));
+  });
 }
 
 class _Source {

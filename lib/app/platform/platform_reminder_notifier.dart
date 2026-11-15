@@ -19,7 +19,7 @@ final class PlatformReminderNotifier implements ReminderNotifier {
     if (_initialized) return;
     await _plugin.initialize(
       settings: const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        android: AndroidInitializationSettings('ic_stat_reminder'),
       ),
     );
     _initialized = true;

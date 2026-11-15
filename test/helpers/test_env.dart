@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:drift/drift.dart' show Variable;
 import 'package:smart_khata/core/database/app_database.dart' show AppDatabase;
+import 'package:smart_khata/core/date_time/shop_time_zone.dart';
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/money/money.dart';
 import 'package:smart_khata/features/backup/data/backup_codec.dart';
@@ -27,6 +28,8 @@ import 'package:smart_khata/features/security/data/secure_app_lock_repository.da
 import 'package:smart_khata/features/shop/data/drift_shop_repository.dart';
 import 'package:smart_khata/features/shop/domain/create_shop.dart';
 import 'package:smart_khata/features/shop/domain/shop.dart';
+
+import 'package:timezone/timezone.dart' as tz;
 
 import 'fakes.dart';
 import 'test_database.dart';
@@ -255,6 +258,9 @@ class TestEnv {
     // Raw SQL bypasses Drift's change tracking; tell watch queries.
     db.markTablesUpdated({db.financialTransactions, db.partyLedgerEntries});
   }
+
+  /// The shop's time zone (the default until shop setup stores one).
+  tz.Location get zone => ShopTimeZone.resolve(null);
 
   Future<int> count(String table) => db.scalar('SELECT COUNT(*) FROM $table');
 

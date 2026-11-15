@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive icon foreground: a white open ledger with entry lines.
+     Drawn on the 108dp grid; everything sits inside the 66dp safe zone.
+     tool/generate_launcher_icons.py draws the same shapes as PNG for
+     Android 7.x. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:fillColor="#FFFFFF" android:pathData="M30,36h23v36h-23z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M55,36h23v36h-23z" />
+    <path android:fillColor="#14523A" android:pathData="M53,36h2v36h-2z" />
+    <path android:fillColor="#F2A516" android:pathData="M34,43h15v3h-15z" />
+    <path android:fillColor="#1B6B4A" android:pathData="M34,51h15v3h-15z" />
+    <path android:fillColor="#1B6B4A" android:pathData="M34,59h11v3h-11z" />
+    <path android:fillColor="#1B6B4A" android:pathData="M59,43h15v3h-15z" />
+    <path android:fillColor="#1B6B4A" android:pathData="M59,51h15v3h-15z" />
+    <path android:fillColor="#F2A516" android:pathData="M59,59h11v3h-11z" />
+</vector>

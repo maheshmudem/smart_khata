@@ -574,6 +574,28 @@ void main() {
     }
   }
 
+  // Accessibility (SK-1203, UI spec 7): every screen, in both themes, must
+  // have touch targets of at least 48dp, a label on everything that can
+  // be tapped, and readable text contrast.
+  for (final brightness in Brightness.values) {
+    for (final MapEntry(key: name, value: build) in pages.entries) {
+      testWidgets('$name: accessible in ${brightness.name} theme', (
+        tester,
+      ) async {
+        final semantics = tester.ensureSemantics();
+        await seed(tester);
+        await tester.pumpApp(build(), brightness: brightness, settle: false);
+        await tester.pump(const Duration(milliseconds: 400));
+        await tester.pumpAndSettle();
+
+        await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(textContrastGuideline));
+        semantics.dispose();
+      });
+    }
+  }
+
   testWidgets('allocation editor in Telugu at 2x text does not overflow', (
     tester,
   ) async {
