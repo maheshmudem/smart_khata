@@ -2,7 +2,9 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:smart_khata/core/database/converters.dart';
+import 'package:smart_khata/core/database/daos/parties_dao.dart';
 import 'package:smart_khata/core/database/daos/settings_dao.dart';
+import 'package:smart_khata/core/database/daos/shop_dao.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 
 part 'app_database.g.dart';
@@ -20,7 +22,7 @@ part 'app_database.g.dart';
     'schema/money.drift',
     'schema/operations.drift',
   },
-  daos: [SettingsDao],
+  daos: [SettingsDao, ShopDao, PartiesDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/native.dart' show SqliteException;
 import 'package:smart_khata/core/errors/failure.dart';
 import 'package:smart_khata/core/errors/result.dart';
@@ -65,13 +67,23 @@ const int _constraintPrimaryKey = 1555;
 const int _constraintTrigger = 1811;
 const int _constraintUnique = 2067;
 
-/// Lets code inside a database transaction abort with a known [Failure];
-/// throwing rolls the transaction back and [guard] unwraps the failure.
-final class FailureException implements Exception {
-  const FailureException(this.failure);
-
-  final Failure failure;
-
-  @override
-  String toString() => 'FailureException(${failure.code})';
+extension FailureStreamX<T> on Stream<T> {
+  /// Converts every error on a watch-query stream into a
+  /// [FailureException], so a BLoC only ever sees a [Failure].
+  Stream<T> mapErrorsToFailures({
+    required AppLogger logger,
+    required String operation,
+  }) => transform(
+    StreamTransformer<T, T>.fromHandlers(
+      handleError: (error, stackTrace, sink) {
+        final failure = mapErrorToFailure(error);
+        logger.error(
+          '$operation failed: ${failure.code}',
+          error: error,
+          stackTrace: stackTrace,
+        );
+        sink.addError(FailureException(failure), stackTrace);
+      },
+    ),
+  );
 }

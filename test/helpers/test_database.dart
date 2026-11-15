@@ -3,12 +3,17 @@ import 'package:drift/native.dart';
 import 'package:smart_khata/core/database/app_database.dart';
 
 /// A fresh in-memory database with the full schema, triggers and pragmas.
-AppDatabase createTestDatabase() => AppDatabase(
-  DatabaseConnection(
-    NativeDatabase.memory(),
-    closeStreamsSynchronously: true,
-  ),
-);
+AppDatabase createTestDatabase() {
+  // Each test database has its own in-memory executor, so several at once
+  // are safe; silence Drift's shared-executor warning.
+  driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+  return AppDatabase(
+    DatabaseConnection(
+      NativeDatabase.memory(),
+      closeStreamsSynchronously: true,
+    ),
+  );
+}
 
 /// Raw-SQL seeding helpers. Tests of the schema write SQL directly so they
 /// exercise the constraints themselves rather than Drift's typed layer.

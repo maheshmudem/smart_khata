@@ -451,6 +451,642 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This screen is added in a later build.'**
   String get featureNotReadyBody;
+
+  /// No description provided for @validationTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'This is too long.'**
+  String get validationTooLong;
+
+  /// No description provided for @validationRoleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose customer, supplier or both.'**
+  String get validationRoleRequired;
+
+  /// No description provided for @validationDateInFuture.
+  ///
+  /// In en, this message translates to:
+  /// **'The date cannot be in the future.'**
+  String get validationDateInFuture;
+
+  /// No description provided for @errorOpeningBalanceExists.
+  ///
+  /// In en, this message translates to:
+  /// **'This account already has an opening balance.'**
+  String get errorOpeningBalanceExists;
+
+  /// No description provided for @errorPartyArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'This party is archived. Reactivate it to add entries.'**
+  String get errorPartyArchived;
+
+  /// No description provided for @shopSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your shop'**
+  String get shopSetupTitle;
+
+  /// No description provided for @shopNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop name'**
+  String get shopNameLabel;
+
+  /// No description provided for @ownerNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner name'**
+  String get ownerNameLabel;
+
+  /// No description provided for @mobileNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile number'**
+  String get mobileNumberLabel;
+
+  /// No description provided for @addressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressLabel;
+
+  /// No description provided for @localityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Area / locality'**
+  String get localityLabel;
+
+  /// No description provided for @currencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get currencyLabel;
+
+  /// No description provided for @currencyInr.
+  ///
+  /// In en, this message translates to:
+  /// **'Indian Rupee (₹)'**
+  String get currencyInr;
+
+  /// No description provided for @defaultCashAccountName.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get defaultCashAccountName;
+
+  /// No description provided for @setupCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your shop is ready'**
+  String get setupCompleteTitle;
+
+  /// No description provided for @setupCompleteStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your records are stored on this phone.'**
+  String get setupCompleteStorage;
+
+  /// No description provided for @setupCompleteNoCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone\'s local records are not automatically copied to the cloud.'**
+  String get setupCompleteNoCloud;
+
+  /// No description provided for @setupCompleteBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an exported backup regularly to protect your records if this phone is lost or damaged.'**
+  String get setupCompleteBackup;
+
+  /// No description provided for @actionOpenDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Dashboard'**
+  String get actionOpenDashboard;
+
+  /// No description provided for @partiesTabCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers'**
+  String get partiesTabCustomers;
+
+  /// No description provided for @partiesTabSuppliers.
+  ///
+  /// In en, this message translates to:
+  /// **'Suppliers'**
+  String get partiesTabSuppliers;
+
+  /// No description provided for @partiesSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search name or phone'**
+  String get partiesSearchHint;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// No description provided for @filterOutstanding.
+  ///
+  /// In en, this message translates to:
+  /// **'Outstanding'**
+  String get filterOutstanding;
+
+  /// No description provided for @filterAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'Advance'**
+  String get filterAdvance;
+
+  /// No description provided for @filterArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get filterArchived;
+
+  /// No description provided for @sortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sortLabel;
+
+  /// No description provided for @sortName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get sortName;
+
+  /// No description provided for @sortHighestBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest balance'**
+  String get sortHighestBalance;
+
+  /// No description provided for @sortRecentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent entry'**
+  String get sortRecentActivity;
+
+  /// No description provided for @partiesEmptyCustomersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No customers yet'**
+  String get partiesEmptyCustomersTitle;
+
+  /// No description provided for @partiesEmptyCustomersBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your customers to record credit and payments.'**
+  String get partiesEmptyCustomersBody;
+
+  /// No description provided for @partiesEmptySuppliersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No suppliers yet'**
+  String get partiesEmptySuppliersTitle;
+
+  /// No description provided for @partiesEmptySuppliersBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your suppliers to record purchases and payments.'**
+  String get partiesEmptySuppliersBody;
+
+  /// No description provided for @actionAddCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Add customer'**
+  String get actionAddCustomer;
+
+  /// No description provided for @actionAddSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Add supplier'**
+  String get actionAddSupplier;
+
+  /// No description provided for @partiesNoResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No match for \"{term}\"'**
+  String partiesNoResultsTitle(String term);
+
+  /// No description provided for @actionClearSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get actionClearSearch;
+
+  /// No description provided for @partiesNothingInFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in this list'**
+  String get partiesNothingInFilter;
+
+  /// No description provided for @actionLoadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get actionLoadMore;
+
+  /// No description provided for @partyLastEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Last entry: {date}'**
+  String partyLastEntry(String date);
+
+  /// No description provided for @partyNoEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries yet'**
+  String get partyNoEntries;
+
+  /// No description provided for @partyArchivedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get partyArchivedLabel;
+
+  /// No description provided for @addPartyTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Add party'**
+  String get addPartyTooltip;
+
+  /// No description provided for @partyFormAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add party'**
+  String get partyFormAddTitle;
+
+  /// No description provided for @partyFormEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit party'**
+  String get partyFormEditTitle;
+
+  /// No description provided for @partyNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get partyNameLabel;
+
+  /// No description provided for @alternateNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Alternate number'**
+  String get alternateNumberLabel;
+
+  /// No description provided for @partyRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'This party is a'**
+  String get partyRoleLabel;
+
+  /// No description provided for @roleCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get roleCustomer;
+
+  /// No description provided for @roleSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplier'**
+  String get roleSupplier;
+
+  /// No description provided for @roleLockedHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'A role that is already saved cannot be removed, because its history must stay.'**
+  String get roleLockedHelp;
+
+  /// No description provided for @creditLimitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit limit'**
+  String get creditLimitLabel;
+
+  /// No description provided for @creditLimitHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. You will see a warning when credit goes above this amount.'**
+  String get creditLimitHelp;
+
+  /// No description provided for @notesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notesLabel;
+
+  /// No description provided for @duplicateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This number is already saved'**
+  String get duplicateTitle;
+
+  /// No description provided for @duplicateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} has the same mobile number.'**
+  String duplicateBody(String name);
+
+  /// No description provided for @actionOpenExisting.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {name}'**
+  String actionOpenExisting(String name);
+
+  /// No description provided for @actionCreateSeparate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create separate party'**
+  String get actionCreateSeparate;
+
+  /// No description provided for @partyCreditLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit limit {amount}'**
+  String partyCreditLimit(String amount);
+
+  /// No description provided for @totalCreditGiven.
+  ///
+  /// In en, this message translates to:
+  /// **'Total credit given'**
+  String get totalCreditGiven;
+
+  /// No description provided for @totalPurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Total purchases'**
+  String get totalPurchases;
+
+  /// No description provided for @totalPaymentsReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments received'**
+  String get totalPaymentsReceived;
+
+  /// No description provided for @totalPaymentsMade.
+  ///
+  /// In en, this message translates to:
+  /// **'Payments made'**
+  String get totalPaymentsMade;
+
+  /// No description provided for @recentEntriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent entries'**
+  String get recentEntriesTitle;
+
+  /// No description provided for @actionEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get actionEdit;
+
+  /// No description provided for @actionArchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get actionArchive;
+
+  /// No description provided for @actionReactivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Reactivate'**
+  String get actionReactivate;
+
+  /// No description provided for @moreActionsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get moreActionsTooltip;
+
+  /// No description provided for @archiveConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive {name}?'**
+  String archiveConfirmTitle(String name);
+
+  /// No description provided for @archiveConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The history and balance stay. You cannot add new entries until you reactivate this party.'**
+  String get archiveConfirmBody;
+
+  /// No description provided for @partyArchivedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This party is archived. Reactivate it to add entries.'**
+  String get partyArchivedBanner;
+
+  /// No description provided for @actionAddOpeningBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Add opening balance'**
+  String get actionAddOpeningBalance;
+
+  /// No description provided for @openingBalanceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter what was already due before you started using Smart Khata.'**
+  String get openingBalanceHint;
+
+  /// No description provided for @txnOpeningBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening balance'**
+  String get txnOpeningBalance;
+
+  /// No description provided for @txnCustomerCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit given'**
+  String get txnCustomerCredit;
+
+  /// No description provided for @txnCustomerPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment received'**
+  String get txnCustomerPayment;
+
+  /// No description provided for @txnCustomerSalesReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales return'**
+  String get txnCustomerSalesReturn;
+
+  /// No description provided for @txnCustomerRefund.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund to customer'**
+  String get txnCustomerRefund;
+
+  /// No description provided for @txnSupplierPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase'**
+  String get txnSupplierPurchase;
+
+  /// No description provided for @txnSupplierPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment to supplier'**
+  String get txnSupplierPayment;
+
+  /// No description provided for @txnSupplierPurchaseReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase return'**
+  String get txnSupplierPurchaseReturn;
+
+  /// No description provided for @txnSupplierRefund.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund from supplier'**
+  String get txnSupplierRefund;
+
+  /// No description provided for @txnExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get txnExpense;
+
+  /// No description provided for @txnCashAdjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash adjustment'**
+  String get txnCashAdjustment;
+
+  /// No description provided for @txnBankAdjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank adjustment'**
+  String get txnBankAdjustment;
+
+  /// No description provided for @txnPartyAdjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjustment'**
+  String get txnPartyAdjustment;
+
+  /// No description provided for @txnReversal.
+  ///
+  /// In en, this message translates to:
+  /// **'Reversal'**
+  String get txnReversal;
+
+  /// No description provided for @entryIncrease.
+  ///
+  /// In en, this message translates to:
+  /// **'Added {amount}'**
+  String entryIncrease(String amount);
+
+  /// No description provided for @entryDecrease.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduced {amount}'**
+  String entryDecrease(String amount);
+
+  /// No description provided for @openingBalanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening balance'**
+  String get openingBalanceTitle;
+
+  /// No description provided for @openingDirectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Who owes?'**
+  String get openingDirectionLabel;
+
+  /// No description provided for @openingCustomerOwes.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer owes you'**
+  String get openingCustomerOwes;
+
+  /// No description provided for @openingCustomerAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'You hold the customer\'s advance'**
+  String get openingCustomerAdvance;
+
+  /// No description provided for @openingYouOweSupplier.
+  ///
+  /// In en, this message translates to:
+  /// **'You owe the supplier'**
+  String get openingYouOweSupplier;
+
+  /// No description provided for @openingSupplierAdvance.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplier holds your advance'**
+  String get openingSupplierAdvance;
+
+  /// No description provided for @asOfDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'As of date'**
+  String get asOfDateLabel;
+
+  /// No description provided for @noteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get noteLabel;
+
+  /// No description provided for @reviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get reviewTitle;
+
+  /// No description provided for @reviewCurrentBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Current balance'**
+  String get reviewCurrentBalance;
+
+  /// No description provided for @reviewNewBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'New balance'**
+  String get reviewNewBalance;
+
+  /// No description provided for @openingNoCashNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This does not change your cash book.'**
+  String get openingNoCashNote;
+
+  /// No description provided for @actionSaveOpeningBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Save opening balance'**
+  String get actionSaveOpeningBalance;
+
+  /// No description provided for @openingSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening balance saved'**
+  String get openingSaved;
+
+  /// No description provided for @partyArchivedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Party archived'**
+  String get partyArchivedSnack;
+
+  /// No description provided for @partyReactivatedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Party reactivated'**
+  String get partyReactivatedSnack;
 }
 
 class _AppLocalizationsDelegate

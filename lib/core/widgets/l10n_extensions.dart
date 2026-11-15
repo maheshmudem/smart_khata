@@ -28,6 +28,10 @@ extension FailureMessageX on AppLocalizations {
       FailureContext.saving => errorSaveFailed,
       FailureContext.loading => errorLoadFailed,
     },
+    RuleFailure(:final violation) => switch (violation) {
+      RuleViolation.openingBalanceAlreadyRecorded => errorOpeningBalanceExists,
+      RuleViolation.partyArchived => errorPartyArchived,
+    },
     UnexpectedFailure() => errorUnexpected,
   };
 
@@ -39,6 +43,9 @@ extension FailureMessageX on AppLocalizations {
     ValidationError.invalidPhone => validationInvalidPhone,
     ValidationError.splitMustEqualTotal => validationSplitMismatch,
     ValidationError.endBeforeStart => validationEndBeforeStart,
+    ValidationError.tooLong => validationTooLong,
+    ValidationError.roleRequired => validationRoleRequired,
+    ValidationError.dateInFuture => validationDateInFuture,
   };
 
   /// The direction label shown next to a balance.

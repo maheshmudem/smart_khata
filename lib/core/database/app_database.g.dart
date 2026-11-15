@@ -10324,6 +10324,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'CREATE INDEX party_accounts_shop_role_idx ON party_accounts (shop_id, role, party_id)',
   );
   late final SettingsDao settingsDao = SettingsDao(this as AppDatabase);
+  late final ShopDao shopDao = ShopDao(this as AppDatabase);
+  late final PartiesDao partiesDao = PartiesDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

@@ -1,13 +1,11 @@
 {
   "@@locale": "en",
   "appTitle": "Smart Khata",
-
   "navHome": "Home",
   "navParties": "Parties",
   "navQuickAdd": "Add",
   "navReports": "Reports",
   "navMore": "More",
-
   "actionSave": "Save",
   "actionCancel": "Cancel",
   "actionRetry": "Try again",
@@ -15,23 +13,24 @@
   "actionClose": "Close",
   "actionDiscard": "Discard",
   "actionKeepEditing": "Keep editing",
-
   "balanceCustomerOwes": "Customer owes",
   "balanceCustomerAdvance": "Customer advance",
   "balanceYouOweSupplier": "You owe supplier",
   "balanceSupplierAdvance": "Supplier advance",
   "balanceSettled": "Nothing due",
-
   "amountLabel": "Amount",
   "amountSemantics": "{label}: {amount}",
   "@amountSemantics": {
     "description": "Screen-reader text for a labelled amount, e.g. 'Customer owes: ₹1,800'.",
     "placeholders": {
-      "label": {"type": "String"},
-      "amount": {"type": "String"}
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
-
   "validationRequired": "This is required.",
   "validationAmountPositive": "Enter an amount greater than zero.",
   "validationAmountInvalid": "Enter an amount in rupees, with paise if needed. Example: 150.50",
@@ -39,7 +38,6 @@
   "validationInvalidPhone": "Enter a valid mobile number.",
   "validationSplitMismatch": "The payment split must add up to the amount received.",
   "validationEndBeforeStart": "The end date cannot be before the start date.",
-
   "errorSaveFailed": "This entry could not be saved. Your information is still here. Please try again.",
   "errorLoadFailed": "Your records could not be shown. Nothing was changed. Please try again.",
   "errorStorageFull": "This phone has no free storage. Nothing was saved. Free some space and try again.",
@@ -49,18 +47,14 @@
   "errorSectionUnavailable": "This part of the screen could not be shown.",
   "errorStartupTitle": "Smart Khata could not open your records",
   "errorStartupBody": "Your records have not been changed. Close the app and open it again. Do not uninstall the app: uninstalling removes records that are not backed up.",
-
   "discardTitle": "Discard what you entered?",
   "discardBody": "It has not been saved.",
-
   "loadingLabel": "Loading",
   "offlineReady": "Works without internet",
-
   "languageTitle": "Choose your language",
   "languageEnglish": "English",
   "languageTelugu": "తెలుగు",
   "settingsLanguage": "Language",
-
   "quickAddTitle": "Add entry",
   "quickAddGiveCredit": "Give customer credit",
   "quickAddGiveCreditHint": "A customer takes goods and will pay later",
@@ -74,7 +68,168 @@
   "quickAddExpenseHint": "Rent, electricity, transport and other costs",
   "quickAddCashCount": "Cash count / Daily close",
   "quickAddCashCountHint": "Count the cash drawer and close the day",
-
   "featureNotReadyTitle": "Not available in this build",
-  "featureNotReadyBody": "This screen is added in a later build."
+  "featureNotReadyBody": "This screen is added in a later build.",
+  "validationTooLong": "This is too long.",
+  "validationRoleRequired": "Choose customer, supplier or both.",
+  "validationDateInFuture": "The date cannot be in the future.",
+  "errorOpeningBalanceExists": "This account already has an opening balance.",
+  "errorPartyArchived": "This party is archived. Reactivate it to add entries.",
+  "shopSetupTitle": "Set up your shop",
+  "shopNameLabel": "Shop name",
+  "ownerNameLabel": "Owner name",
+  "mobileNumberLabel": "Mobile number",
+  "addressLabel": "Address",
+  "localityLabel": "Area / locality",
+  "currencyLabel": "Currency",
+  "currencyInr": "Indian Rupee (₹)",
+  "defaultCashAccountName": "Cash",
+  "setupCompleteTitle": "Your shop is ready",
+  "setupCompleteStorage": "Your records are stored on this phone.",
+  "setupCompleteNoCloud": "This phone's local records are not automatically copied to the cloud.",
+  "setupCompleteBackup": "Create an exported backup regularly to protect your records if this phone is lost or damaged.",
+  "actionOpenDashboard": "Open Dashboard",
+  "partiesTabCustomers": "Customers",
+  "partiesTabSuppliers": "Suppliers",
+  "partiesSearchHint": "Search name or phone",
+  "filterAll": "All",
+  "filterOutstanding": "Outstanding",
+  "filterAdvance": "Advance",
+  "filterArchived": "Archived",
+  "sortLabel": "Sort",
+  "sortName": "Name",
+  "sortHighestBalance": "Highest balance",
+  "sortRecentActivity": "Recent entry",
+  "partiesEmptyCustomersTitle": "No customers yet",
+  "partiesEmptyCustomersBody": "Add your customers to record credit and payments.",
+  "partiesEmptySuppliersTitle": "No suppliers yet",
+  "partiesEmptySuppliersBody": "Add your suppliers to record purchases and payments.",
+  "actionAddCustomer": "Add customer",
+  "actionAddSupplier": "Add supplier",
+  "partiesNoResultsTitle": "No match for \"{term}\"",
+  "@partiesNoResultsTitle": {
+    "placeholders": {
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "actionClearSearch": "Clear search",
+  "partiesNothingInFilter": "Nothing in this list",
+  "actionLoadMore": "Show more",
+  "partyLastEntry": "Last entry: {date}",
+  "@partyLastEntry": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "partyNoEntries": "No entries yet",
+  "partyArchivedLabel": "Archived",
+  "addPartyTooltip": "Add party",
+  "partyFormAddTitle": "Add party",
+  "partyFormEditTitle": "Edit party",
+  "partyNameLabel": "Name",
+  "alternateNumberLabel": "Alternate number",
+  "partyRoleLabel": "This party is a",
+  "roleCustomer": "Customer",
+  "roleSupplier": "Supplier",
+  "roleLockedHelp": "A role that is already saved cannot be removed, because its history must stay.",
+  "creditLimitLabel": "Credit limit",
+  "creditLimitHelp": "Optional. You will see a warning when credit goes above this amount.",
+  "notesLabel": "Notes",
+  "duplicateTitle": "This number is already saved",
+  "duplicateBody": "{name} has the same mobile number.",
+  "@duplicateBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "actionOpenExisting": "Open {name}",
+  "@actionOpenExisting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "actionCreateSeparate": "Create separate party",
+  "partyCreditLimit": "Credit limit {amount}",
+  "@partyCreditLimit": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "totalCreditGiven": "Total credit given",
+  "totalPurchases": "Total purchases",
+  "totalPaymentsReceived": "Payments received",
+  "totalPaymentsMade": "Payments made",
+  "recentEntriesTitle": "Recent entries",
+  "actionEdit": "Edit",
+  "actionArchive": "Archive",
+  "actionReactivate": "Reactivate",
+  "moreActionsTooltip": "More actions",
+  "archiveConfirmTitle": "Archive {name}?",
+  "@archiveConfirmTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "archiveConfirmBody": "The history and balance stay. You cannot add new entries until you reactivate this party.",
+  "partyArchivedBanner": "This party is archived. Reactivate it to add entries.",
+  "actionAddOpeningBalance": "Add opening balance",
+  "openingBalanceHint": "Enter what was already due before you started using Smart Khata.",
+  "txnOpeningBalance": "Opening balance",
+  "txnCustomerCredit": "Credit given",
+  "txnCustomerPayment": "Payment received",
+  "txnCustomerSalesReturn": "Sales return",
+  "txnCustomerRefund": "Refund to customer",
+  "txnSupplierPurchase": "Purchase",
+  "txnSupplierPayment": "Payment to supplier",
+  "txnSupplierPurchaseReturn": "Purchase return",
+  "txnSupplierRefund": "Refund from supplier",
+  "txnExpense": "Expense",
+  "txnCashAdjustment": "Cash adjustment",
+  "txnBankAdjustment": "Bank adjustment",
+  "txnPartyAdjustment": "Adjustment",
+  "txnReversal": "Reversal",
+  "entryIncrease": "Added {amount}",
+  "@entryIncrease": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "entryDecrease": "Reduced {amount}",
+  "@entryDecrease": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "openingBalanceTitle": "Opening balance",
+  "openingDirectionLabel": "Who owes?",
+  "openingCustomerOwes": "Customer owes you",
+  "openingCustomerAdvance": "You hold the customer's advance",
+  "openingYouOweSupplier": "You owe the supplier",
+  "openingSupplierAdvance": "Supplier holds your advance",
+  "asOfDateLabel": "As of date",
+  "noteLabel": "Note",
+  "reviewTitle": "Review",
+  "reviewCurrentBalance": "Current balance",
+  "reviewNewBalance": "New balance",
+  "openingNoCashNote": "This does not change your cash book.",
+  "actionSaveOpeningBalance": "Save opening balance",
+  "openingSaved": "Opening balance saved",
+  "partyArchivedSnack": "Party archived",
+  "partyReactivatedSnack": "Party reactivated"
 }

@@ -79,6 +79,9 @@ class MoneyAmountField extends StatefulWidget {
     required this.onChanged,
     this.initialValue,
     this.errorText,
+    this.helperText,
+    this.isRequired = true,
+    this.emphasized = true,
     this.enabled = true,
     this.autofocus = false,
     this.textInputAction,
@@ -86,6 +89,14 @@ class MoneyAmountField extends StatefulWidget {
   });
 
   final String label;
+  final String? helperText;
+
+  /// Adds the `*` marker to the label.
+  final bool isRequired;
+
+  /// Large type for the amount of a transaction; switch off for secondary
+  /// amounts such as a credit limit.
+  final bool emphasized;
   final ValueChanged<Money?> onChanged;
   final Money? initialValue;
   final String? errorText;
@@ -113,6 +124,11 @@ class _MoneyAmountFieldState extends State<MoneyAmountField> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final style = AppTheme.amountStyle(
+      widget.emphasized
+          ? theme.textTheme.headlineSmall
+          : theme.textTheme.titleMedium,
+    );
     return TextFormField(
       controller: _controller,
       enabled: widget.enabled,
@@ -120,13 +136,14 @@ class _MoneyAmountFieldState extends State<MoneyAmountField> {
       textInputAction: widget.textInputAction,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: const [AmountInputFormatter()],
-      style: AppTheme.amountStyle(theme.textTheme.headlineSmall),
+      style: style,
       onChanged: (text) => widget.onChanged(Money.tryParse(text)),
       decoration: InputDecoration(
-        labelText: '${widget.label} *',
+        labelText: widget.isRequired ? '${widget.label} *' : widget.label,
         prefixText: '${MoneyFormatter.rupeeSymbol} ',
-        prefixStyle: AppTheme.amountStyle(theme.textTheme.headlineSmall),
+        prefixStyle: style,
         errorText: widget.errorText,
+        helperText: widget.helperText,
       ),
     );
   }

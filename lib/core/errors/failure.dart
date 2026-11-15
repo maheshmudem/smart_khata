@@ -38,6 +38,9 @@ enum ValidationError {
   invalidPhone,
   splitMustEqualTotal,
   endBeforeStart,
+  tooLong,
+  roleRequired,
+  dateInFuture,
 }
 
 /// The same operation ID was already posted. The earlier write stands, so
@@ -101,10 +104,46 @@ final class DatabaseFailure extends Failure {
   List<Object?> get props => [code, resultCode];
 }
 
+/// A business rule refused the operation. Nothing was saved.
+final class RuleFailure extends Failure {
+  const RuleFailure(this.violation);
+
+  final RuleViolation violation;
+
+  @override
+  String get code => 'rule_${violation.name}';
+
+  @override
+  List<Object?> get props => [code, violation];
+}
+
+enum RuleViolation {
+  /// The party account already has an opening balance.
+  openingBalanceAlreadyRecorded,
+
+  /// The party is archived; reactivate it before posting.
+  partyArchived,
+}
+
 /// Anything not recognised above.
 final class UnexpectedFailure extends Failure {
   const UnexpectedFailure();
 
   @override
   String get code => 'unexpected';
+}
+
+/// Carries a [Failure] as a thrown error: used to abort a database
+/// transaction (which rolls it back) and to report an error on a stream.
+final class FailureException implements Exception {
+  const FailureException(this.failure);
+
+  final Failure failure;
+
+  /// The failure behind any error object from a repository stream.
+  static Failure failureOf(Object error) =>
+      error is FailureException ? error.failure : const UnexpectedFailure();
+
+  @override
+  String toString() => 'FailureException(${failure.code})';
 }

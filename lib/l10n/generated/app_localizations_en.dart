@@ -198,4 +198,349 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get featureNotReadyBody => 'This screen is added in a later build.';
+
+  @override
+  String get validationTooLong => 'This is too long.';
+
+  @override
+  String get validationRoleRequired => 'Choose customer, supplier or both.';
+
+  @override
+  String get validationDateInFuture => 'The date cannot be in the future.';
+
+  @override
+  String get errorOpeningBalanceExists =>
+      'This account already has an opening balance.';
+
+  @override
+  String get errorPartyArchived =>
+      'This party is archived. Reactivate it to add entries.';
+
+  @override
+  String get shopSetupTitle => 'Set up your shop';
+
+  @override
+  String get shopNameLabel => 'Shop name';
+
+  @override
+  String get ownerNameLabel => 'Owner name';
+
+  @override
+  String get mobileNumberLabel => 'Mobile number';
+
+  @override
+  String get addressLabel => 'Address';
+
+  @override
+  String get localityLabel => 'Area / locality';
+
+  @override
+  String get currencyLabel => 'Currency';
+
+  @override
+  String get currencyInr => 'Indian Rupee (₹)';
+
+  @override
+  String get defaultCashAccountName => 'Cash';
+
+  @override
+  String get setupCompleteTitle => 'Your shop is ready';
+
+  @override
+  String get setupCompleteStorage => 'Your records are stored on this phone.';
+
+  @override
+  String get setupCompleteNoCloud =>
+      'This phone\'s local records are not automatically copied to the cloud.';
+
+  @override
+  String get setupCompleteBackup =>
+      'Create an exported backup regularly to protect your records if this phone is lost or damaged.';
+
+  @override
+  String get actionOpenDashboard => 'Open Dashboard';
+
+  @override
+  String get partiesTabCustomers => 'Customers';
+
+  @override
+  String get partiesTabSuppliers => 'Suppliers';
+
+  @override
+  String get partiesSearchHint => 'Search name or phone';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterOutstanding => 'Outstanding';
+
+  @override
+  String get filterAdvance => 'Advance';
+
+  @override
+  String get filterArchived => 'Archived';
+
+  @override
+  String get sortLabel => 'Sort';
+
+  @override
+  String get sortName => 'Name';
+
+  @override
+  String get sortHighestBalance => 'Highest balance';
+
+  @override
+  String get sortRecentActivity => 'Recent entry';
+
+  @override
+  String get partiesEmptyCustomersTitle => 'No customers yet';
+
+  @override
+  String get partiesEmptyCustomersBody =>
+      'Add your customers to record credit and payments.';
+
+  @override
+  String get partiesEmptySuppliersTitle => 'No suppliers yet';
+
+  @override
+  String get partiesEmptySuppliersBody =>
+      'Add your suppliers to record purchases and payments.';
+
+  @override
+  String get actionAddCustomer => 'Add customer';
+
+  @override
+  String get actionAddSupplier => 'Add supplier';
+
+  @override
+  String partiesNoResultsTitle(String term) {
+    return 'No match for \"$term\"';
+  }
+
+  @override
+  String get actionClearSearch => 'Clear search';
+
+  @override
+  String get partiesNothingInFilter => 'Nothing in this list';
+
+  @override
+  String get actionLoadMore => 'Show more';
+
+  @override
+  String partyLastEntry(String date) {
+    return 'Last entry: $date';
+  }
+
+  @override
+  String get partyNoEntries => 'No entries yet';
+
+  @override
+  String get partyArchivedLabel => 'Archived';
+
+  @override
+  String get addPartyTooltip => 'Add party';
+
+  @override
+  String get partyFormAddTitle => 'Add party';
+
+  @override
+  String get partyFormEditTitle => 'Edit party';
+
+  @override
+  String get partyNameLabel => 'Name';
+
+  @override
+  String get alternateNumberLabel => 'Alternate number';
+
+  @override
+  String get partyRoleLabel => 'This party is a';
+
+  @override
+  String get roleCustomer => 'Customer';
+
+  @override
+  String get roleSupplier => 'Supplier';
+
+  @override
+  String get roleLockedHelp =>
+      'A role that is already saved cannot be removed, because its history must stay.';
+
+  @override
+  String get creditLimitLabel => 'Credit limit';
+
+  @override
+  String get creditLimitHelp =>
+      'Optional. You will see a warning when credit goes above this amount.';
+
+  @override
+  String get notesLabel => 'Notes';
+
+  @override
+  String get duplicateTitle => 'This number is already saved';
+
+  @override
+  String duplicateBody(String name) {
+    return '$name has the same mobile number.';
+  }
+
+  @override
+  String actionOpenExisting(String name) {
+    return 'Open $name';
+  }
+
+  @override
+  String get actionCreateSeparate => 'Create separate party';
+
+  @override
+  String partyCreditLimit(String amount) {
+    return 'Credit limit $amount';
+  }
+
+  @override
+  String get totalCreditGiven => 'Total credit given';
+
+  @override
+  String get totalPurchases => 'Total purchases';
+
+  @override
+  String get totalPaymentsReceived => 'Payments received';
+
+  @override
+  String get totalPaymentsMade => 'Payments made';
+
+  @override
+  String get recentEntriesTitle => 'Recent entries';
+
+  @override
+  String get actionEdit => 'Edit';
+
+  @override
+  String get actionArchive => 'Archive';
+
+  @override
+  String get actionReactivate => 'Reactivate';
+
+  @override
+  String get moreActionsTooltip => 'More actions';
+
+  @override
+  String archiveConfirmTitle(String name) {
+    return 'Archive $name?';
+  }
+
+  @override
+  String get archiveConfirmBody =>
+      'The history and balance stay. You cannot add new entries until you reactivate this party.';
+
+  @override
+  String get partyArchivedBanner =>
+      'This party is archived. Reactivate it to add entries.';
+
+  @override
+  String get actionAddOpeningBalance => 'Add opening balance';
+
+  @override
+  String get openingBalanceHint =>
+      'Enter what was already due before you started using Smart Khata.';
+
+  @override
+  String get txnOpeningBalance => 'Opening balance';
+
+  @override
+  String get txnCustomerCredit => 'Credit given';
+
+  @override
+  String get txnCustomerPayment => 'Payment received';
+
+  @override
+  String get txnCustomerSalesReturn => 'Sales return';
+
+  @override
+  String get txnCustomerRefund => 'Refund to customer';
+
+  @override
+  String get txnSupplierPurchase => 'Purchase';
+
+  @override
+  String get txnSupplierPayment => 'Payment to supplier';
+
+  @override
+  String get txnSupplierPurchaseReturn => 'Purchase return';
+
+  @override
+  String get txnSupplierRefund => 'Refund from supplier';
+
+  @override
+  String get txnExpense => 'Expense';
+
+  @override
+  String get txnCashAdjustment => 'Cash adjustment';
+
+  @override
+  String get txnBankAdjustment => 'Bank adjustment';
+
+  @override
+  String get txnPartyAdjustment => 'Adjustment';
+
+  @override
+  String get txnReversal => 'Reversal';
+
+  @override
+  String entryIncrease(String amount) {
+    return 'Added $amount';
+  }
+
+  @override
+  String entryDecrease(String amount) {
+    return 'Reduced $amount';
+  }
+
+  @override
+  String get openingBalanceTitle => 'Opening balance';
+
+  @override
+  String get openingDirectionLabel => 'Who owes?';
+
+  @override
+  String get openingCustomerOwes => 'Customer owes you';
+
+  @override
+  String get openingCustomerAdvance => 'You hold the customer\'s advance';
+
+  @override
+  String get openingYouOweSupplier => 'You owe the supplier';
+
+  @override
+  String get openingSupplierAdvance => 'Supplier holds your advance';
+
+  @override
+  String get asOfDateLabel => 'As of date';
+
+  @override
+  String get noteLabel => 'Note';
+
+  @override
+  String get reviewTitle => 'Review';
+
+  @override
+  String get reviewCurrentBalance => 'Current balance';
+
+  @override
+  String get reviewNewBalance => 'New balance';
+
+  @override
+  String get openingNoCashNote => 'This does not change your cash book.';
+
+  @override
+  String get actionSaveOpeningBalance => 'Save opening balance';
+
+  @override
+  String get openingSaved => 'Opening balance saved';
+
+  @override
+  String get partyArchivedSnack => 'Party archived';
+
+  @override
+  String get partyReactivatedSnack => 'Party reactivated';
 }
