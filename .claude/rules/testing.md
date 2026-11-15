@@ -16,6 +16,8 @@ paths:
 - Composite write: assert success, assert full rollback when a late step fails (count rows in every affected table), assert a repeated `operation_id` posts once.
 - Widget tests go through `pumpApp` so they get the real theme and translations. Compare against `l10nFor(locale)` strings, not literals. Cover Telugu and `textScale: 2, narrow: true` for anything with text.
 - A widget that animates forever (spinner) needs `pumpApp(..., settle: false)` and manual `pump` calls.
+- Full-app flows use `AppDriver` (`test/helpers/app_driver.dart`): `AppDriver.configure()` in `setUp`, `tester.pumpSmartKhata(env)`, `tapAndSettle`, `type`, `reveal` (lists build lazily, so scroll to off-screen content before asserting on it), `waitForSnackBarToGo`. A tap that misses its target fails the test.
+- Add every new page to `party_pages_layout_test.dart` (English and Telugu, 2x text, 320dp) with its widest realistic content. It has caught real overflows.
 - Never put real names, phone numbers or shop data in fixtures.
 - Do not delete or weaken a failing test to make it pass. If the test is wrong, say why in the commit.
 - `flutter test` must pass and `flutter analyze` must be clean before a task is called done.

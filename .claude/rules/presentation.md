@@ -21,6 +21,9 @@ paths:
 - Use `LoadStatus` and `SubmissionStatus` (`core/domain/submission_status.dart`) for screen and form state.
 - Create a BLoC with `BlocProvider` at the route that needs it. Cancel stream subscriptions in `close()`. No global app BLoC for financial flows.
 - Financial forms have a Review section (current balance, change, resulting balance) and are wrapped in `DiscardChangesGuard`. Never auto-save a financial entry.
+- A row that shows an amount next to text must survive a huge amount at 2x text: give the amount side a `Flexible` + `FittedBox(scaleDown)` and put long text on its own full-width line. Never leave a text column unconstrained inside a `Row`.
+- Show the result of a save as a snackbar on the page the owner returns to, with the new balance in words (`l10n.balanceText`). Snackbars are cleared automatically when a full page opens (`AppMessenger`).
+- An entry form that can open without a party uses the party picker route (`AppRoutes.partyPick`), which also creates a party inline.
 - One primary action per screen. Confirmation dialogs name the action on both buttons; no bare "OK".
 - Touch targets at least 48dp. Icon-only buttons have a `tooltip`. Layouts must survive Telugu at 2x text on a 320dp-wide screen: wrap text, avoid fixed heights, use `Flexible`/`Expanded`.
 - Navigate with `AppRoutes` constants. Routes are declared only in `lib/app/router/app_router.dart`.

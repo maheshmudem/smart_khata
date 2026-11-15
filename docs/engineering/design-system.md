@@ -60,10 +60,14 @@ Body line height is 1.5 because Telugu has marks above and below the line. Use `
 | `showConfirmDialog` | Confirm an action | Both buttons name the action; no bare "OK" |
 | `DiscardChangesGuard` | Any form | Back asks before discarding when dirty |
 | `LanguageOptions` | English / తెలుగు choice | Each name in its own script |
+| `DateField` | Pick a business date | Optional clear button for dates such as a due date |
+| `ReviewCard` | Review box of a financial form | Rows of label/value, last row emphasised, optional warning and note |
+| `l10n.balanceText(kind, balance)` | A balance in words | "Customer owes ₹1,800", "Nothing due" |
+| `LedgerLineTile` | A ledger line | In `features/ledger`; type and amount on one line, the rest full width, "Reversed" tag, optional running balance |
 | `AppDateFormat` | Dates | Shop time zone, selected language |
 | `l10n.transactionTypeLabel`, `l10n.roleLabel` | Names of stored codes | Codes are stored; labels are looked up |
 
-Still to build with their features (wireframes §5): `PartySearchField`, `TransactionListTile`, `PaymentSplitEditor`, `AllocationEditor`, `DateRangePicker`, `BackupStatusTile`.
+Still to build with their features (wireframes §5): `PaymentSplitEditor`, `AllocationEditor`, `DateRangePicker`, `BackupStatusTile`. (`PartySearchField` is the party picker page; `TransactionListTile` is `LedgerLineTile`.)
 
 ## Money on screen
 

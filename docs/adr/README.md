@@ -14,6 +14,7 @@ A decision that changes scope, data, accounting behaviour, security or a depende
 | [ADR-019](ADR-019-backup-encryption.md) | Portable passphrase-encrypted backup archive | **Proposed** — needs security review |
 | [ADR-020](ADR-020-extra-append-only-guards.md) | Closings and audit log are append-only too; "reversed" is derived | Accepted |
 | [ADR-021](ADR-021-phase-1-party-rules.md) | Onboarding flow, add-only roles, one opening balance per account, list paging, what is deferred to the aging engine | Accepted |
+| [ADR-022](ADR-022-ledger-engine-rules.md) | Charges, credit-limit warning, running balance, reversal rules, totals after reversal | Accepted |
 
 ## Writing a new ADR
 

@@ -15,6 +15,8 @@ paths:
 - Validation returns `ValidationFailure` with one `ValidationError` per field. Text for the owner is chosen in the presentation layer.
 - A party-account balance is the sum of signed ledger entries. Positive is the account's normal direction (customer owes shop; shop owes supplier), negative is an advance. Use `BalanceKind.of` to name it. Never add a customer balance to a supplier balance.
 - Allocation: oldest open charge first (by due date, then effective date, then ID) unless the owner overrides. Allocated total may not exceed the payment or any charge's open amount. The unallocated remainder is an advance and is never dropped.
-- Reversal: once per transaction, with a reason; release affected allocations first, then post exact opposite entries and movements.
+- Reversal: once per transaction, with a reason; a reversal cannot itself be reversed; release affected allocations first, then post exact opposite entries and movements (ADR-022). Reuse `LedgerRepository.reverseTransaction` for every transaction type; do not write a second reversal path.
+- A charge (credit given, purchase on credit) writes no money movement. A payment writes both the ledger entry and the money movement in the same transaction.
+- Totals shown to the owner count only live entries (not reversed, not a reversal); the balance counts every entry.
 - Repository contracts live here as `abstract interface class`; implementations live in `data/`.
 - Every rule gets a unit test with at least one case that must be rejected.

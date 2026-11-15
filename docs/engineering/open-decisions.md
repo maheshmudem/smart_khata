@@ -40,6 +40,12 @@ Things that code cannot settle. Each blocks the phase named; none blocks the nex
 - One opening balance per party account, changed only by reversal. Confirm with the accounting reviewer.
 - Telugu word for "party" (ఖాతాదారు) and for "opening balance" (ప్రారంభ బాకీ) need merchant review along with the rest.
 
+## Added by Phase 2 (ADR-022), for the accounting / merchant review
+
+- A reversal cannot itself be reversed; a mistaken reversal is fixed by posting the entry again.
+- After a reversal the app does not open a pre-filled replacement form; the owner adds the correct entry normally. Do merchants want the pre-filled form?
+- Telugu for "reverse / reversed" is drafted as రద్దు ("cancel"). Confirm it reads as "cancelled by a correcting entry", not "deleted".
+
 ## Decided during the foundation build
 
 See `docs/adr/`: ADR-015 (canonical schema and `.drift` files), ADR-016 (balance sign convention), ADR-017 (packages), ADR-018 (app ID, platforms, SDK levels), ADR-020 (extra append-only guards).
