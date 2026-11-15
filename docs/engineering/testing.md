@@ -50,10 +50,10 @@ From `docs/product/04_Development_Testing_Plan.md` §5.2. Each one needs a passi
 | 6 | Unallocated payment is an advance, never lost | negative balance | ✅ `payment_engine_test` (excess receipt fixture) |
 | 7 | Customer receipt: ledger decrease and money inflow are atomic | one transaction | ✅ `payment_engine_test` (forced failure at two points) |
 | 8 | Supplier payment: ledger decrease and money outflow are atomic | one transaction | ✅ same posting path; paid-now pair tested for rollback |
-| 9 | Expense and money outflow are atomic | one transaction | E06 |
+| 9 | Expense and money outflow are atomic | one transaction | ✅ `cash_engine_test` (forced failure) |
 | 10 | Reversal + original net to zero on every affected account | reversal service | ✅ party account and money account, incl. allocation release (`ledger_engine_test`) |
 | 11 | A failed operation leaves no partial rows | transaction rollback | ✅ shop setup, opening balance, charge, reversal; per use case as built |
-| 12 | A cash count alone does not change expected cash | closings are snapshots | E07 |
+| 12 | A cash count alone does not change expected cash | closings are snapshots | ✅ `cash_engine_test`, `cash_cubits_test`, `cash_flow_test` |
 | 13 | Opening party balances create no cash movement | opening use case | ✅ `drift_party_repository_test` |
 | 14 | No persisted money arithmetic uses floating point | `Money`, `INTEGER` columns | ✅ `money_test`, architecture test |
 

@@ -2,7 +2,7 @@
 
 An offline-first Android app that replaces the paper Khata book for Kirana and general stores in India: customer credit, supplier dues, payments, cash book, expenses, daily closing, reports and encrypted local backup. One shop, one owner, one phone. English and Telugu. No sign-in and no internet needed.
 
-**Status:** foundation, onboarding, parties, the ledger engine and payments are built. Expenses, cash book, reports, backup and everything after are not. See [Roadmap](#roadmap).
+**Status:** foundation, onboarding, parties, the ledger engine, payments, expenses, the cash book and daily closing are built. Dashboard, reports, statements, reminders, backup and app lock are not. See [Roadmap](#roadmap).
 
 ## Requirements
 
@@ -17,7 +17,7 @@ flutter pub get
 flutter run                 # debug build on a connected Android device
 ```
 
-First launch asks for a language and the shop name, then opens the app shell. Customers and suppliers can be added, searched, archived and given an opening balance from the Parties tab. Credit to a customer and a purchase from a supplier can be recorded from the party page or from Add, seen in the party ledger with a running balance, and corrected by reversal. Payments can be received from customers and made to suppliers by cash, UPI or bank transfer (or split), are applied to the oldest dues or to dues you choose, and any excess is kept as an advance. A supplier purchase can include an amount paid now, and sales and purchase returns can be recorded. In a debug build, **More → Widget gallery** shows every design-system component.
+First launch asks for a language and the shop name, then opens the app shell. Customers and suppliers can be added, searched, archived and given an opening balance from the Parties tab. Credit to a customer and a purchase from a supplier can be recorded from the party page or from Add, seen in the party ledger with a running balance, and corrected by reversal. Payments can be received from customers and made to suppliers by cash, UPI or bank transfer (or split), are applied to the oldest dues or to dues you choose, and any excess is kept as an advance. A supplier purchase can include an amount paid now, and sales and purchase returns can be recorded. Shop expenses are recorded by category; the cash book shows what came into and went out of the cash drawer and each bank account; money can be added or taken out with a reason; and the day is closed by counting notes against the expected cash. In a debug build, **More → Widget gallery** shows every design-system component.
 
 ## Everyday commands
 
@@ -59,8 +59,8 @@ Each phase ends with a review. Backlog IDs refer to [`docs/product/07_Implementa
 | 1 | Onboarding, shop setup, parties (E02, E03) | Done (app lock setup moves to phase 6) |
 | 2 | Ledger engine: credit, purchase, balances, reversal (E04) | Done |
 | 3 | Payments, allocations, returns (E05) | Done (cash refunds and cheques deferred) |
-| 4 | Expenses, cash book, daily closing (E06, E07) | Next |
-| 5 | Dashboard, reports, statements, PDF/CSV (E08, E09) | |
+| 4 | Expenses, cash book, daily closing (E06, E07) | Done |
+| 5 | Dashboard, reports, statements, PDF/CSV (E08, E09) | Next |
 | 6 | Reminders, backup and restore, app lock (E10, E11) | |
 | 7 | Localization and accessibility pass, QA, pilot, release (E12, E13) | |
 

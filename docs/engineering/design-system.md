@@ -70,6 +70,9 @@ Body line height is 1.5 because Telugu has marks above and below the line. Use `
 | `PaymentMethodPicker` | How a payment was made and through which account | In `features/money`; cash / UPI / bank transfer chips, account dropdown for non-cash, add a bank account inline |
 | `showAllocationEditor` | Choose which dues a payment settles | In `features/ledger`; one scrolling sheet, Done only when the amounts match |
 | `PartySelectorField` | The party of an entry form | In `features/parties`; opens the party picker |
+| `ChoiceTile` | One option of an either/or choice that needs a sentence | Full-width row with a radio mark |
+| `l10n.differenceText(variance)` | A counted difference in words | "Extra ₹100", "Short ₹500", "No difference" |
+| `l10n.accountBalance(balance)` | A money-account balance | Keeps the sign: an account can be below zero |
 
 Still to build with their features (wireframes §5): `DateRangePicker`, `BackupStatusTile`. (`PartySearchField` is the party picker page; `TransactionListTile` is `LedgerLineTile`; `PaymentSplitEditor` is the rows of the payment form.)
 

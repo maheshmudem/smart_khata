@@ -54,6 +54,14 @@ For the accounting / merchant review:
 - A money account may go negative without a warning.
 - Receipt numbers are `RCP-0001…` and supplier payment vouchers `PAY-0001…`. Is that numbering acceptable?
 
+## Added by Phase 4 (ADR-024), for you and the accounting review
+
+- Should shop setup ask for the opening cash in the drawer? Today it is recorded afterwards as "money added" with a reason.
+- Is a transfer between own accounts (cash deposited in the bank) needed for the pilot? Today it is two adjustments.
+- An expense has one payment method; a split expense is two expenses.
+- Only today can be closed from the screen, and only the cash account is counted.
+- The default expense category names, in both languages, need merchant review.
+
 ## Decided during the foundation build
 
 See `docs/adr/`: ADR-015 (canonical schema and `.drift` files), ADR-016 (balance sign convention), ADR-017 (packages), ADR-018 (app ID, platforms, SDK levels), ADR-020 (extra append-only guards).

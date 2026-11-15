@@ -26,6 +26,9 @@ paths:
 - An entry form that can open without a party uses the party picker route (`AppRoutes.partyPick`), which also creates a party inline.
 - A bottom sheet with fields and buttons is one scrolling list; a fixed footer does not fit at 2x text on a small phone.
 - A generated string getter and an extension method on `AppLocalizations` must not share a name (the getter wins and the call fails to compile).
+- A form that stays on screen after it has saved (for example under a follow-up dialog) must stop its Save spinner and disable Save; only forms that pop at once may treat `success` as busy.
+- A dialog that saves keeps itself open and shows the failure until the save succeeds (see `_CategoryDialog`).
+- Money-account balances can be negative: show them with `l10n.accountBalance`, not with a party-balance label.
 - One primary action per screen. Confirmation dialogs name the action on both buttons; no bare "OK".
 - Touch targets at least 48dp. Icon-only buttons have a `tooltip`. Layouts must survive Telugu at 2x text on a 320dp-wide screen: wrap text, avoid fixed heights, use `Flexible`/`Expanded`.
 - Navigate with `AppRoutes` constants. Routes are declared only in `lib/app/router/app_router.dart`.

@@ -19,6 +19,7 @@ paths:
 - Full-app flows use `AppDriver` (`test/helpers/app_driver.dart`): `AppDriver.configure()` in `setUp`, `tester.pumpSmartKhata(env)`, `tapAndSettle`, `type`, `reveal` (lists build lazily, so scroll to off-screen content before asserting on it), `waitForSnackBarToGo`. A tap that misses its target fails the test.
 - Add every new page to `party_pages_layout_test.dart` (English and Telugu, 2x text, 320dp) with its widest realistic content. It has caught real overflows.
 - A long form addressed by field position needs `pumpSmartKhata(env, tallScreen: true)`: lists build lazily and scrolling changes which fields exist. After returning to a scrolled page, `scrollToTop()` before asserting on its header.
+- To open a dropdown in a flow test, tap the `DropdownButtonFormField`, not its hint text (the hint does not take taps). To act on one row of a list, scope the finder to that row (`find.descendant(of: find.widgetWithText(ListTile, name), ...)`), never `.last`.
 - Never put real names, phone numbers or shop data in fixtures.
 - Do not delete or weaken a failing test to make it pass. If the test is wrong, say why in the commit.
 - `flutter test` must pass and `flutter analyze` must be clean before a task is called done.

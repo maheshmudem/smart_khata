@@ -20,5 +20,8 @@ paths:
 - Reversal: once per transaction, with a reason; a reversal cannot itself be reversed; release affected allocations first, then post exact opposite entries and movements (ADR-022). Reuse `LedgerRepository.reverseTransaction` for every transaction type; do not write a second reversal path.
 - A charge (credit given, purchase on credit) writes no money movement. A payment writes both the ledger entry and the money movement in the same transaction.
 - Totals shown to the owner count only live entries (not reversed, not a reversal); the balance counts every entry.
+- A counted difference never posts by itself. It reaches the cash book only through `RecordAdjustment`, which needs a reason (ADR-024).
+- A money movement belongs to the business day its transaction is dated (`effective_at`), not the day it was typed.
+- An expense stores a snapshot of its category name; renaming or archiving a category must not change saved expenses.
 - Repository contracts live here as `abstract interface class`; implementations live in `data/`.
 - Every rule gets a unit test with at least one case that must be rejected.
