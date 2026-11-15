@@ -5,8 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_khata/app/router/app_routes.dart';
+import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/core/domain/submission_status.dart';
 import 'package:smart_khata/core/errors/failure.dart';
+import 'package:smart_khata/core/money/money.dart';
 import 'package:smart_khata/core/money/money_formatter.dart';
 import 'package:smart_khata/core/theme/app_colors.dart';
 import 'package:smart_khata/core/theme/app_theme.dart';
@@ -18,6 +20,7 @@ import 'package:smart_khata/core/widgets/l10n_extensions.dart';
 import 'package:smart_khata/core/widgets/state_views.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_models.dart';
 import 'package:smart_khata/features/ledger/presentation/cubit/ledger_cubits.dart';
+import 'package:smart_khata/features/money/presentation/widgets/payment_method_picker.dart';
 
 /// WF-034: everything about one posted entry. It offers reversal, never
 /// edit or delete.
@@ -158,6 +161,54 @@ class _Body extends StatelessWidget {
                   row(
                     l10n.transactionCurrentBalance,
                     l10n.balanceText(balanceKind, detail.accountBalance!),
+                  ),
+                if (detail.openAmount case final Money open
+                    when detail.accountBalance != null)
+                  row(l10n.transactionStillDue, MoneyFormatter.format(open)),
+                if (detail.movements.isNotEmpty) ...[
+                  const Divider(),
+                  for (final movement in detail.movements)
+                    row(
+                      l10n.movementLine(
+                        l10n.methodName(movement.method),
+                        movement.accountName,
+                      ),
+                      [
+                        MoneyFormatter.format(movement.amount),
+                        ?movement.reference,
+                      ].join(' · '),
+                    ),
+                ],
+                if (detail.allocations.isNotEmpty) ...[
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppSpacing.sm),
+                    child: Text(
+                      l10n.transactionSettled,
+                      style: theme.textTheme.titleSmall,
+                    ),
+                  ),
+                  for (final allocation in detail.allocations)
+                    row(
+                      '${l10n.transactionTypeLabel(allocation.transactionType)}'
+                      ' · ${AppDateFormat.instant(context, allocation.effectiveAt)}',
+                      MoneyFormatter.format(allocation.amount),
+                    ),
+                ],
+                // An excess is named as an advance, never left implied.
+                if (detail.unallocatedAmount case final Money advance
+                    when advance.isPositive && !detail.isReversed)
+                  row(
+                    l10n.transactionAdvance,
+                    MoneyFormatter.format(advance),
+                  ),
+                const Divider(),
+                if (detail.referenceNumber case final String number)
+                  row(
+                    detail.type == TransactionType.customerPayment
+                        ? l10n.transactionReceiptNo
+                        : l10n.transactionVoucherNo,
+                    number,
                   ),
                 row(l10n.transactionReference, detail.id),
                 Align(

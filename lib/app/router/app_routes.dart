@@ -52,6 +52,19 @@ abstract final class AppRoutes {
       '/charge/${role.code}'
       '${partyId == null ? '' : '?$partyIdParam=$partyId'}';
 
+  static const String paymentPattern = '/payment/:role';
+  static const String returnPattern = '/return/:role';
+
+  /// Receive a customer payment (customer) or pay a supplier (supplier).
+  static String payment({required PartyRole role, String? partyId}) =>
+      '/payment/${role.code}'
+      '${partyId == null ? '' : '?$partyIdParam=$partyId'}';
+
+  /// Sales return (customer) or purchase return (supplier).
+  static String returned({required PartyRole role, String? partyId}) =>
+      '/return/${role.code}'
+      '${partyId == null ? '' : '?$partyIdParam=$partyId'}';
+
   static String transaction(String transactionId) =>
       '/transaction/$transactionId';
 

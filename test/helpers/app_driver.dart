@@ -39,8 +39,18 @@ extension AppDriver on WidgetTester {
   }
 
   /// Starts the app. With [onboarded] the shop already exists and setup is
-  /// finished.
-  Future<void> pumpSmartKhata(TestEnv env, {bool onboarded = true}) async {
+  /// finished. [tallScreen] gives a very tall window so that a long form is
+  /// built in full; use it when a test addresses fields by position.
+  Future<void> pumpSmartKhata(
+    TestEnv env, {
+    bool onboarded = true,
+    bool tallScreen = false,
+  }) async {
+    if (tallScreen) {
+      view.physicalSize = const Size(800, 4000);
+      view.devicePixelRatio = 1;
+      addTearDown(view.reset);
+    }
     if (onboarded) {
       await runAsync(() async {
         await env.setUpShop();
@@ -81,6 +91,12 @@ extension AppDriver on WidgetTester {
       );
     }
     await ensureVisible(finder.first);
+    await pumpAndSettle();
+  }
+
+  /// Scrolls the top page's list back to its start.
+  Future<void> scrollToTop() async {
+    await drag(find.byType(ListView).last, const Offset(0, 2000));
     await pumpAndSettle();
   }
 

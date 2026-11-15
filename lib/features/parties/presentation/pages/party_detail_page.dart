@@ -21,7 +21,7 @@ import 'package:smart_khata/features/ledger/presentation/widgets/ledger_line_til
 import 'package:smart_khata/features/parties/domain/party.dart';
 import 'package:smart_khata/features/parties/presentation/cubit/party_detail_cubit.dart';
 
-enum _MenuAction { edit, archive, reactivate }
+enum _MenuAction { edit, returned, archive, reactivate }
 
 /// WF-022: a party's balance and history for one role at a time.
 class PartyDetailPage extends StatelessWidget {
@@ -70,12 +70,22 @@ class PartyDetailPage extends StatelessWidget {
             actions: [
               PopupMenuButton<_MenuAction>(
                 tooltip: l10n.moreActionsTooltip,
-                onSelected: (action) => _onMenu(context, action, party),
+                onSelected: (action) =>
+                    _onMenu(context, action, party, account.role),
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     value: _MenuAction.edit,
                     child: Text(l10n.actionEdit),
                   ),
+                  if (!party.isArchived)
+                    PopupMenuItem(
+                      value: _MenuAction.returned,
+                      child: Text(
+                        account.role == PartyRole.customer
+                            ? l10n.salesReturnTitle
+                            : l10n.purchaseReturnTitle,
+                      ),
+                    ),
                   if (party.isArchived)
                     PopupMenuItem(
                       value: _MenuAction.reactivate,
@@ -137,6 +147,18 @@ class PartyDetailPage extends StatelessWidget {
                   onPressed: () => unawaited(
                     context.push(
                       AppRoutes.charge(role: account.role, partyId: party.id),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                AppSecondaryButton(
+                  label: account.role == PartyRole.customer
+                      ? l10n.actionReceivePayment
+                      : l10n.actionPaySupplier,
+                  icon: Icons.payments_outlined,
+                  onPressed: () => unawaited(
+                    context.push(
+                      AppRoutes.payment(role: account.role, partyId: party.id),
                     ),
                   ),
                 ),
@@ -213,12 +235,17 @@ class PartyDetailPage extends StatelessWidget {
     BuildContext context,
     _MenuAction action,
     Party party,
+    PartyRole role,
   ) async {
     final l10n = context.l10n;
     final cubit = context.read<PartyDetailCubit>();
     switch (action) {
       case _MenuAction.edit:
         unawaited(context.push(AppRoutes.partyEdit(party.id)));
+      case _MenuAction.returned:
+        unawaited(
+          context.push(AppRoutes.returned(role: role, partyId: party.id)),
+        );
       case _MenuAction.archive:
         final confirmed = await showConfirmDialog(
           context,

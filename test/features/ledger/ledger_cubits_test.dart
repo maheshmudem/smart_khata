@@ -56,7 +56,10 @@ void main() {
       String operationId = 'op-form',
     }) => ChargeFormCubit(
       parties: env.parties,
+      moneyAccounts: env.money,
+      createMoneyAccount: env.createMoneyAccount,
       recordCharge: env.recordCharge,
+      recordReturn: env.recordReturn,
       role: role,
       operationId: operationId,
       today: today,

@@ -45,8 +45,10 @@ void main() {
   }
 
   Future<void> enterAmount(WidgetTester tester, String text) async {
-    await tester.reveal(find.byType(MoneyAmountField));
-    await tester.enterText(find.byType(MoneyAmountField), text);
+    // The first amount field is the entry amount; a purchase form also
+    // has an optional "paid now" field below it.
+    await tester.reveal(find.byType(MoneyAmountField).first);
+    await tester.enterText(find.byType(MoneyAmountField).first, text);
     await tester.pumpAndSettle();
   }
 
@@ -162,6 +164,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.pageBack();
     await tester.pumpAndSettle();
+    await tester.scrollToTop();
     expect(find.text(en.balanceSettled), findsOneWidget);
     await tester.tapAndSettle(find.text(en.actionViewLedger));
     expect(find.text(en.txnCustomerCredit), findsOneWidget);

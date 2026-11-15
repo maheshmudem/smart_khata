@@ -16,8 +16,12 @@ import 'package:smart_khata/core/widgets/l10n_extensions.dart';
 import 'package:smart_khata/core/widgets/state_views.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_models.dart';
 import 'package:smart_khata/features/ledger/presentation/cubit/charge_form_cubit.dart';
+import 'package:smart_khata/features/money/presentation/widgets/payment_method_picker.dart';
+import 'package:smart_khata/features/parties/presentation/widgets/party_selector_field.dart';
+import 'package:smart_khata/l10n/generated/app_localizations.dart';
 
-/// WF-030 Give customer credit / WF-032 Supplier purchase on credit.
+/// WF-030 Give customer credit, WF-032 Supplier purchase (with an optional
+/// amount paid now), and the sales / purchase return forms.
 class ChargeFormPage extends StatelessWidget {
   const ChargeFormPage({required this.today, super.key});
 
@@ -40,17 +44,12 @@ class ChargeFormPage extends StatelessWidget {
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
-            SnackBar(
-              content: Text(
-                state.role == PartyRole.customer
-                    ? l10n.creditSaved(balance)
-                    : l10n.purchaseSaved(balance),
-              ),
-            ),
+            SnackBar(content: Text(_Copy.of(l10n, state).saved(balance))),
           );
         context.pop();
       },
       builder: (context, state) {
+        final copy = _Copy.of(l10n, state);
         final isCustomer = state.role == PartyRole.customer;
         final account = state.account;
         final party = state.party;
@@ -66,11 +65,7 @@ class ChargeFormPage extends StatelessWidget {
         return DiscardChangesGuard(
           isDirty: state.isDirty && !isBusy,
           child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                isCustomer ? l10n.giveCreditTitle : l10n.addPurchaseTitle,
-              ),
-            ),
+            appBar: AppBar(title: Text(copy.title)),
             body: SafeArea(
               child: Column(
                 children: [
@@ -78,7 +73,7 @@ class ChargeFormPage extends StatelessWidget {
                     child: ListView(
                       padding: const EdgeInsets.all(AppSpacing.lg),
                       children: [
-                        _PartyField(
+                        PartySelectorField(
                           label: isCustomer
                               ? l10n.customerLabel
                               : l10n.supplierLabel,
@@ -106,19 +101,21 @@ class ChargeFormPage extends StatelessWidget {
                           errorText: error(RecordChargeCommand.dateField),
                           onChanged: cubit.dateChanged,
                         ),
-                        const SizedBox(height: AppSpacing.lg),
-                        DateField(
-                          label: l10n.dueDateLabel,
-                          value: state.dueDate,
-                          emptyText: l10n.dueDateNone,
-                          // A due date cannot be before the entry date.
-                          firstDate: state.date,
-                          lastDate: state.date.addDays(3650),
-                          errorText: error(RecordChargeCommand.dueDateField),
-                          onChanged: cubit.dueDateChanged,
-                          onCleared: () => cubit.dueDateChanged(null),
-                          clearTooltip: l10n.clearDueDateTooltip,
-                        ),
+                        if (state.offersDueDate) ...[
+                          const SizedBox(height: AppSpacing.lg),
+                          DateField(
+                            label: l10n.dueDateLabel,
+                            value: state.dueDate,
+                            emptyText: l10n.dueDateNone,
+                            // A due date cannot be before the entry date.
+                            firstDate: state.date,
+                            lastDate: state.date.addDays(3650),
+                            errorText: error(RecordChargeCommand.dueDateField),
+                            onChanged: cubit.dueDateChanged,
+                            onCleared: () => cubit.dueDateChanged(null),
+                            clearTooltip: l10n.clearDueDateTooltip,
+                          ),
+                        ],
                         const SizedBox(height: AppSpacing.lg),
                         AppTextField(
                           label: l10n.descriptionLabel,
@@ -129,6 +126,31 @@ class ChargeFormPage extends StatelessWidget {
                           maxLength: RecordChargeCommand.maxDescriptionLength,
                           onChanged: cubit.descriptionChanged,
                         ),
+                        if (state.offersPaidNow) ...[
+                          const SizedBox(height: AppSpacing.lg),
+                          MoneyAmountField(
+                            label: l10n.paidNowLabel,
+                            isRequired: false,
+                            emphasized: false,
+                            helperText: l10n.paidNowHelp,
+                            errorText: error(RecordChargeCommand.paidNowField),
+                            onChanged: cubit.paidNowAmountChanged,
+                          ),
+                          if (state.hasPaidNow) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            PaymentMethodPicker(
+                              method: state.paidNow.method,
+                              accountId: state.paidNow.moneyAccountId,
+                              accounts: state.moneyAccounts,
+                              errorText: error(
+                                RecordChargeCommand.paidNowAccountField,
+                              ),
+                              onMethodChanged: cubit.paidNowMethodChanged,
+                              onAccountChanged: cubit.paidNowAccountChanged,
+                              onAddAccount: cubit.addMoneyAccount,
+                            ),
+                          ],
+                        ],
                         if (account != null) ...[
                           const SizedBox(height: AppSpacing.lg),
                           ReviewCard(
@@ -141,13 +163,16 @@ class ChargeFormPage extends StatelessWidget {
                                 ),
                               ),
                               (
-                                isCustomer
-                                    ? l10n.reviewCreditAdded
-                                    : l10n.reviewPurchaseAdded,
+                                copy.reviewAmount,
                                 state.hasValidAmount
                                     ? MoneyFormatter.format(state.amount!)
                                     : '—',
                               ),
+                              if (state.hasPaidNow)
+                                (
+                                  l10n.reviewPaidNow,
+                                  MoneyFormatter.format(state.paidNow.amount!),
+                                ),
                               (
                                 l10n.reviewNewBalance,
                                 switch ((
@@ -165,7 +190,9 @@ class ChargeFormPage extends StatelessWidget {
                                     MoneyFormatter.format(party!.creditLimit!),
                                   )
                                 : null,
-                            note: l10n.chargeNoCashNote,
+                            // Says plainly that no money is recorded, unless
+                            // part of the purchase is paid now.
+                            note: state.hasPaidNow ? null : copy.noCashNote,
                           ),
                         ],
                       ],
@@ -181,9 +208,7 @@ class ChargeFormPage extends StatelessWidget {
                           const SizedBox(height: AppSpacing.md),
                         ],
                         AppPrimaryButton(
-                          label: isCustomer
-                              ? l10n.actionSaveCredit
-                              : l10n.actionSavePurchase,
+                          label: copy.save,
                           isLoading: isBusy,
                           onPressed: () => _save(context, state),
                         ),
@@ -226,44 +251,47 @@ class ChargeFormPage extends StatelessWidget {
   }
 }
 
-class _PartyField extends StatelessWidget {
-  const _PartyField({
-    required this.label,
-    required this.hint,
-    required this.partyName,
-    required this.isLoading,
-    required this.errorText,
-    required this.onTap,
+/// The wording of the form for each of its four uses.
+class _Copy {
+  const _Copy({
+    required this.title,
+    required this.reviewAmount,
+    required this.save,
+    required this.noCashNote,
+    required this.saved,
   });
 
-  final String label;
-  final String hint;
-  final String? partyName;
-  final bool isLoading;
-  final String? errorText;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return InkWell(
-      borderRadius: AppRadius.control,
-      onTap: isLoading ? null : onTap,
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: '$label *',
-          errorText: errorText,
-          suffixIcon: const Icon(Icons.arrow_drop_down),
-        ),
-        child: Text(
-          partyName ?? hint,
-          style: partyName == null
-              ? theme.textTheme.bodyLarge?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                )
-              : theme.textTheme.titleMedium,
-        ),
-      ),
-    );
+  factory _Copy.of(AppLocalizations l10n, ChargeFormState state) {
+    final isCustomer = state.role == PartyRole.customer;
+    if (state.isReturn) {
+      return _Copy(
+        title: isCustomer ? l10n.salesReturnTitle : l10n.purchaseReturnTitle,
+        reviewAmount: l10n.reviewReturnAmount,
+        save: l10n.actionSaveReturn,
+        noCashNote: l10n.returnNoCashNote,
+        saved: l10n.returnSaved,
+      );
+    }
+    return isCustomer
+        ? _Copy(
+            title: l10n.giveCreditTitle,
+            reviewAmount: l10n.reviewCreditAdded,
+            save: l10n.actionSaveCredit,
+            noCashNote: l10n.chargeNoCashNote,
+            saved: l10n.creditSaved,
+          )
+        : _Copy(
+            title: l10n.addPurchaseTitle,
+            reviewAmount: l10n.reviewPurchaseTotal,
+            save: l10n.actionSavePurchase,
+            noCashNote: l10n.chargeNoCashNote,
+            saved: l10n.purchaseSaved,
+          );
   }
+
+  final String title;
+  final String reviewAmount;
+  final String save;
+  final String noCashNote;
+  final String Function(String balance) saved;
 }

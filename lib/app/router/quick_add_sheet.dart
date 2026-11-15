@@ -36,7 +36,7 @@ class _QuickAddSheet extends StatelessWidget {
         Icons.payments_outlined,
         l10n.quickAddReceivePayment,
         l10n.quickAddReceivePaymentHint,
-        null,
+        AppRoutes.payment(role: PartyRole.customer),
       ),
       (
         Icons.local_shipping_outlined,
@@ -48,7 +48,7 @@ class _QuickAddSheet extends StatelessWidget {
         Icons.north_east,
         l10n.quickAddPaySupplier,
         l10n.quickAddPaySupplierHint,
-        null,
+        AppRoutes.payment(role: PartyRole.supplier),
       ),
       (
         Icons.receipt_long_outlined,

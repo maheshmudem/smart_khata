@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_khata/app/di/injection.dart';
@@ -19,10 +20,13 @@ import 'package:smart_khata/features/ledger/domain/ledger_repository.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_use_cases.dart';
 import 'package:smart_khata/features/ledger/presentation/cubit/charge_form_cubit.dart';
 import 'package:smart_khata/features/ledger/presentation/cubit/ledger_cubits.dart';
+import 'package:smart_khata/features/ledger/presentation/cubit/payment_form_cubit.dart';
 import 'package:smart_khata/features/ledger/presentation/pages/charge_form_page.dart';
 import 'package:smart_khata/features/ledger/presentation/pages/ledger_page.dart';
+import 'package:smart_khata/features/ledger/presentation/pages/payment_form_page.dart';
 import 'package:smart_khata/features/ledger/presentation/pages/reverse_transaction_page.dart';
 import 'package:smart_khata/features/ledger/presentation/pages/transaction_detail_page.dart';
+import 'package:smart_khata/features/money/domain/money_account.dart';
 import 'package:smart_khata/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:smart_khata/features/onboarding/presentation/cubit/shop_setup_cubit.dart';
 import 'package:smart_khata/features/onboarding/presentation/pages/language_selection_page.dart';
@@ -215,21 +219,30 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
       // ---- Ledger entries --------------------------------------------------
       GoRoute(
         path: AppRoutes.chargePattern,
+        builder: (context, state) => _entryForm(state, EntryFormKind.charge),
+      ),
+      GoRoute(
+        path: AppRoutes.returnPattern,
+        builder: (context, state) => _entryForm(state, EntryFormKind.returned),
+      ),
+      GoRoute(
+        path: AppRoutes.paymentPattern,
         builder: (context, state) {
           final today = _today();
           return BlocProvider(
-            create: (_) => ChargeFormCubit(
+            create: (_) => PaymentFormCubit(
               parties: getIt<PartyRepository>(),
-              recordCharge: getIt<RecordCharge>(),
-              role:
-                  AppRoutes.roleFromQuery(state.pathParameters['role']) ??
-                  PartyRole.customer,
+              ledger: getIt<LedgerRepository>(),
+              moneyAccounts: getIt<MoneyAccountRepository>(),
+              createMoneyAccount: getIt<CreateMoneyAccount>(),
+              recordPayment: getIt<RecordPayment>(),
+              role: _roleOf(state),
               // One ID for the life of the form: a retry cannot post twice.
               operationId: getIt<IdGenerator>().newId(),
               today: today,
               partyId: state.uri.queryParameters[AppRoutes.partyIdParam],
             ),
-            child: ChargeFormPage(today: today),
+            child: PaymentFormPage(today: today),
           );
         },
       ),
@@ -262,6 +275,31 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
           builder: (context, state) => const WidgetGalleryPage(),
         ),
     ],
+  );
+}
+
+PartyRole _roleOf(GoRouterState state) =>
+    AppRoutes.roleFromQuery(state.pathParameters['role']) ?? PartyRole.customer;
+
+/// The credit / purchase form, or the return form, for the role in the
+/// route.
+Widget _entryForm(GoRouterState state, EntryFormKind kind) {
+  final today = _today();
+  return BlocProvider(
+    create: (_) => ChargeFormCubit(
+      parties: getIt<PartyRepository>(),
+      moneyAccounts: getIt<MoneyAccountRepository>(),
+      createMoneyAccount: getIt<CreateMoneyAccount>(),
+      recordCharge: getIt<RecordCharge>(),
+      recordReturn: getIt<RecordReturn>(),
+      role: _roleOf(state),
+      kind: kind,
+      // One ID for the life of the form: a retry cannot post twice.
+      operationId: getIt<IdGenerator>().newId(),
+      today: today,
+      partyId: state.uri.queryParameters[AppRoutes.partyIdParam],
+    ),
+    child: ChargeFormPage(today: today),
   );
 }
 
