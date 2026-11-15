@@ -1,0 +1,10 @@
+# Every change needs review by the project owner.
+*                               @maheshmudem
+
+# Schema, migrations and money rules: explicit sign-off (test plan 6.2).
+/lib/core/database/             @maheshmudem
+/drift_schemas/                 @maheshmudem
+/lib/core/money/                @maheshmudem
+/docs/product/                  @maheshmudem
+/.github/workflows/             @maheshmudem
+/android/app/build.gradle.kts   @maheshmudem
