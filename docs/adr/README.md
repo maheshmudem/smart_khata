@@ -20,6 +20,7 @@ A decision that changes scope, data, accounting behaviour, security or a depende
 | [ADR-025](ADR-025-dashboard-reports-and-statements.md) | Dashboard figures, aging, period summary, statements as text and CSV, sharing; PDF deferred | Accepted |
 | [ADR-026](ADR-026-backup-and-restore-as-built.md) | Backup file format, Argon2id + XChaCha20-Poly1305 in pure Dart, checks before restore, file swap and safety copy | Accepted for pilot builds — **security review outstanding** |
 | [ADR-027](ADR-027-app-lock-and-reminders.md) | PIN lock, lockout, biometrics, what reminders do and never do, permissions | Accepted |
+| [ADR-028](ADR-028-release-readiness.md) | Accessibility and localization checks, cost test, device smoke test, icon, release drafts; what is not claimed | Accepted |
 
 ## Writing a new ADR
 

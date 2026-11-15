@@ -9,6 +9,7 @@ paths:
 
 # Presentation rules
 
+- A string literal with letters must not be passed to `Text`, `label`, `title`, `tooltip`, `hintText`, `helperText` or `message`; the architecture test fails on it. Join translated pieces with punctuation only.
 - No business rules and no SQL here. A widget shows state and sends events; a BLoC calls use cases. Never import Drift, `core/database` or a feature's `data/`.
 - Every user-facing string comes from `context.l10n`. Add it to `app_en.arb` and `app_te.arb` in the same change. Telugu is a draft until reviewed; keep the wording plain and avoid accounting jargon.
 - Use design-system pieces before writing new ones: `AppPrimaryButton`, `AppSecondaryButton`, `AppTextField`, `MoneyAmountField`, `MoneyText`, `BalanceSummary`, `EmptyState`, `ErrorView`, `LoadingView`, `InlineError`, `showConfirmDialog`, `DiscardChangesGuard`. Spacing, radius and sizes come from `AppSpacing`, `AppRadius`, `AppSizes`; colours from the theme and `context.semanticColors`. No literal colours or magic numbers.

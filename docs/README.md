@@ -5,6 +5,7 @@
 | [`product/`](product/README.md) | The approved V1 baseline: PRD, UI/UX spec, architecture, test plan, wireframes, schema, backlog, decision log, `schema_v1.sql` | Nobody, in place. A change is a new ADR |
 | [`engineering/`](engineering/) | How this codebase is built | Updated with the code |
 | [`adr/`](adr/README.md) | Decisions made after the baseline | One new file per decision |
+| [`release/`](release/release-checklist.md) | What is left before release, the device test checklist, store and privacy drafts | Updated as gates are passed |
 
 ## Engineering docs
 

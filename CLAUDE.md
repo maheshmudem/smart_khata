@@ -13,6 +13,7 @@ Stack: Flutter 3.44 / Dart 3.12, BLoC, feature-first Clean Architecture, Drift o
 | Touch the database | `.claude/rules/database.md`, `docs/adr/ADR-015-canonical-schema.md` |
 | Build a screen | `docs/engineering/design-system.md`, `.claude/rules/presentation.md` |
 | Decide something not covered | `docs/engineering/open-decisions.md`, then `docs/adr/` |
+| Say whether something is ready | `docs/release/release-checklist.md` and `docs/release/device-test-checklist.md` |
 
 `docs/product/` is the approved baseline. Where two product docs disagree, `06_Drift_Database_Schema.md` and `schema_v1.sql` win (ADR-015). Do not edit `docs/product/`; record a change as a new ADR.
 
@@ -64,6 +65,7 @@ These protect a shopkeeper's financial records. A change that breaks one is wron
 - **New dependency:** justify it in the PR, check it works offline and needs no new permission, and prefer what is already in `pubspec.yaml`.
 - **Do not build ahead.** No sync logic, no cloud hooks, no inventory fields, no abstractions for features that are P1/P2.
 - **Unsure about an accounting rule or a Telugu term?** Stop and add it to `docs/engineering/open-decisions.md` instead of guessing. Telugu strings are drafts until a native speaker has reviewed them.
+- **Be exact about what was verified.** The app has never been run on a device and the backup encryption is unreviewed (ADR-026, ADR-028). Tests on a desktop are not device proof; say which one you mean.
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `test:`, `docs:`, `chore:`, `refactor:`). Never commit keystores, `key.properties`, real customer data or backup files. Do not push or open a PR unless asked.
 
 ## Where things are
@@ -93,5 +95,7 @@ test/                         mirrors lib/, plus helpers/ and architecture/
 docs/product/                 approved product baseline (do not edit)
 docs/engineering/             how this codebase is built
 docs/adr/                     decisions
+docs/release/                 what is left before release, device checklist, drafts
+integration_test/             device smoke test (not yet run)
 drift_schemas/                exported schema per version, for migration tests
 ```

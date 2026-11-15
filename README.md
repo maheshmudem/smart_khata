@@ -62,7 +62,7 @@ Each phase ends with a review. Backlog IDs refer to [`docs/product/07_Implementa
 | 4 | Expenses, cash book, daily closing (E06, E07) | Done |
 | 5 | Dashboard, reports, statements, PDF/CSV (E08, E09) | Done, except PDF (waits for the Telugu PDF spike) |
 | 6 | Reminders, backup and restore, app lock (E10, E11) | Done in code; security review and device proof outstanding |
-| 7 | Localization and accessibility pass, QA, pilot, release (E12, E13) | |
+| 7 | Localization and accessibility pass, QA, pilot, release (E12, E13) | Automated checks, icon, drafts and checklists done. Device testing, reviews, pilot and store release are yours: see [what is left](docs/release/release-checklist.md) |
 
 Decisions that still need a person or a spike: [open decisions](docs/engineering/open-decisions.md).
 

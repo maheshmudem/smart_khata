@@ -34,7 +34,10 @@ test/
 | Widget | validation, labels, warnings, empty/loading/error, Telugu, 2x text, semantics | `pumpApp` with the real theme and translations |
 | App flow | first launch, navigation, language change, add party → opening balance → archive | `SmartKhataApp` with the real repositories on an in-memory database (`configureDependencies(database: ...)`) |
 | Integration (device) | full journeys, app kill during write, airplane mode, backup → restore | `integration_test/`, added with the first financial feature |
-| Architecture | forbidden imports, `double` in money code, `print`, `DateTime.now()` | `test/architecture/dependency_rules_test.dart` |
+| Architecture | forbidden imports, `double` in money code, `print`, `DateTime.now()`, hard-coded screen text | `test/architecture/dependency_rules_test.dart` |
+| Accessibility | 48dp touch targets, labels on tappable things, text contrast, in light and dark | `party_pages_layout_test.dart`, one case per screen and theme |
+| Cost | no report or list query takes seconds on 12,000 entries | `test/performance/report_queries_smoke_test.dart` |
+| Device | first run to Home on a real phone (**never run yet**) | `integration_test/app_smoke_test.dart`; manual list in `docs/release/device-test-checklist.md` |
 
 ## The 14 financial invariants
 
