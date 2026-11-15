@@ -17,6 +17,8 @@ paths:
 - BLoC state is immutable (`Equatable` or sealed classes). Form state keeps the field values, per-field errors and a submission status, so a failed save keeps what the owner typed.
 - Submit events use `droppable()` from `bloc_concurrency`; the Save button uses `isLoading`. Generate the `operation_id` once when the form opens, not on each tap.
 - Emit success only after the use case returns `Ok`.
+- A form loads its data once with a repository `Future` (`getParty`), never `.first` of a watch stream. A screen that stays open subscribes to the stream and reads errors with `FailureException.failureOf`.
+- Use `LoadStatus` and `SubmissionStatus` (`core/domain/submission_status.dart`) for screen and form state.
 - Create a BLoC with `BlocProvider` at the route that needs it. Cancel stream subscriptions in `close()`. No global app BLoC for financial flows.
 - Financial forms have a Review section (current balance, change, resulting balance) and are wrapped in `DiscardChangesGuard`. Never auto-save a financial entry.
 - One primary action per screen. Confirmation dialogs name the action on both buttons; no bare "OK".

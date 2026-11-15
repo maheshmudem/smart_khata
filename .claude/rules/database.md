@@ -17,6 +17,8 @@ paths:
 - A composite financial write runs inside `db.transaction(...)`. Check `operation_id` first. To abort with a known failure, throw `FailureException`; the transaction rolls back and `guard` unwraps it.
 - Repositories wrap every call in `guard(...)` and return `Result<T>`. They return domain entities, never Drift row classes.
 - List queries are paginated (keyset preferred). Never load an unbounded ledger.
+- Dynamic SQL (`customSelect`) lives only in a DAO, lists every table in `readsFrom`, binds every value as a variable, and builds ORDER BY / HAVING only from fixed strings in an enum. LIKE patterns are escaped.
+- Repositories expose live data as a `Stream` wrapped with `mapErrorsToFailures`, and one-shot reads as `Future<Result<T>>`.
 - Ledger ordering is `effective_at`, then `recorded_at`, then `id`.
 - Test with `createTestDatabase()` (`test/helpers/test_database.dart`). For each composite write test: success, rollback when a late step fails, and a repeated `operation_id`.
 - After editing a `.drift` file or a DAO, run `dart run build_runner build` and commit the regenerated `.g.dart`.

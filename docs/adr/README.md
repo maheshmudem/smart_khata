@@ -13,6 +13,7 @@ A decision that changes scope, data, accounting behaviour, security or a depende
 | [ADR-018](ADR-018-android-app-id-and-sdk-levels.md) | App ID, platforms, minSdk 24, targetSdk 36, OS backup off, no INTERNET | Accepted |
 | [ADR-019](ADR-019-backup-encryption.md) | Portable passphrase-encrypted backup archive | **Proposed** — needs security review |
 | [ADR-020](ADR-020-extra-append-only-guards.md) | Closings and audit log are append-only too; "reversed" is derived | Accepted |
+| [ADR-021](ADR-021-phase-1-party-rules.md) | Onboarding flow, add-only roles, one opening balance per account, list paging, what is deferred to the aging engine | Accepted |
 
 ## Writing a new ADR
 

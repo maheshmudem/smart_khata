@@ -50,7 +50,7 @@ Body line height is 1.5 because Telugu has marks above and below the line. Use `
 | `AppPrimaryButton` | The screen's main action | Full width; `isLoading` disables and shows progress; label wraps |
 | `AppSecondaryButton` | Any other action | Outlined |
 | `AppTextField` | Text input | `errorText` from state; `isRequired` adds `*` |
-| `MoneyAmountField` | Amount input | Decimal keypad, max two decimals, reports `Money?`, never a `double` |
+| `MoneyAmountField` | Amount input | Decimal keypad, max two decimals, reports `Money?`, never a `double`. `emphasized: false` and `isRequired: false` for secondary amounts such as a credit limit |
 | `MoneyText` | A formatted amount | Indian grouping, tabular figures |
 | `BalanceSummary` | A balance | Label + icon + colour from `BalanceKind`; shows the magnitude; one semantics node |
 | `EmptyState` | Nothing to show yet | Says what goes here, one action |
@@ -60,6 +60,8 @@ Body line height is 1.5 because Telugu has marks above and below the line. Use `
 | `showConfirmDialog` | Confirm an action | Both buttons name the action; no bare "OK" |
 | `DiscardChangesGuard` | Any form | Back asks before discarding when dirty |
 | `LanguageOptions` | English / తెలుగు choice | Each name in its own script |
+| `AppDateFormat` | Dates | Shop time zone, selected language |
+| `l10n.transactionTypeLabel`, `l10n.roleLabel` | Names of stored codes | Codes are stored; labels are looked up |
 
 Still to build with their features (wireframes §5): `PartySearchField`, `TransactionListTile`, `PaymentSplitEditor`, `AllocationEditor`, `DateRangePicker`, `BackupStatusTile`.
 

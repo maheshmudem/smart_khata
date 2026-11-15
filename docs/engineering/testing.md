@@ -16,7 +16,7 @@ dart run tool/check_coverage.dart              # gate: 90% of lib/core and domai
 
 ```
 test/
-├── helpers/          createTestDatabase + SchemaSeed, fakes, pumpApp
+├── helpers/          createTestDatabase + SchemaSeed, TestEnv, fakes, pumpApp
 ├── architecture/     layer and money rules enforced on source files
 ├── core/             money, dates, enums, errors, logging, database, theme, widgets
 ├── app/              cubits, redirect rule, full app flow
@@ -32,7 +32,7 @@ test/
 | Data | DAOs, repositories, constraints, triggers, atomic commit and rollback, idempotency, migrations | Real schema on in-memory SQLite (`createTestDatabase()`), never a mocked database |
 | BLoC | loading / success / failure, double-submit, values kept after failure, stream refresh | `expectLater(bloc.stream, emitsInOrder([...]))` with fake repositories |
 | Widget | validation, labels, warnings, empty/loading/error, Telugu, 2x text, semantics | `pumpApp` with the real theme and translations |
-| App flow | first launch, navigation, language change | `SmartKhataApp` with in-memory settings |
+| App flow | first launch, navigation, language change, add party → opening balance → archive | `SmartKhataApp` with the real repositories on an in-memory database (`configureDependencies(database: ...)`) |
 | Integration (device) | full journeys, app kill during write, airplane mode, backup → restore | `integration_test/`, added with the first financial feature |
 | Architecture | forbidden imports, `double` in money code, `print`, `DateTime.now()` | `test/architecture/dependency_rules_test.dart` |
 
@@ -44,7 +44,7 @@ From `docs/product/04_Development_Testing_Plan.md` §5.2. Each one needs a passi
 |---|---|---|---|
 | 1 | Customer balance = sum of signed customer ledger entries | derived query | schema fixture ✅; repository test with E04 |
 | 2 | Supplier payable = sum of signed supplier ledger entries | derived query | schema fixture ✅; repository test with E04 |
-| 3 | Customer and supplier accounts of one party are not netted | separate `party_accounts` | ✅ `schema_test` |
+| 3 | Customer and supplier accounts of one party are not netted | separate `party_accounts` | ✅ `schema_test`, party list and detail tests |
 | 4 | Allocations never exceed the payment | allocation trigger + domain | ✅ trigger; domain with E05 |
 | 5 | A charge is never allocated more than its open amount | allocation trigger + domain | ✅ trigger; domain with E05 |
 | 6 | Unallocated payment is an advance, never lost | negative balance | ✅ schema fixture; use case with E05 |
@@ -52,9 +52,9 @@ From `docs/product/04_Development_Testing_Plan.md` §5.2. Each one needs a passi
 | 8 | Supplier payment: ledger decrease and money outflow are atomic | one transaction | E05 |
 | 9 | Expense and money outflow are atomic | one transaction | E06 |
 | 10 | Reversal + original net to zero on every affected account | reversal service | E04 |
-| 11 | A failed operation leaves no partial rows | transaction rollback | ✅ rollback via `FailureException`; per use case as built |
+| 11 | A failed operation leaves no partial rows | transaction rollback | ✅ shop setup and opening balance; per use case as built |
 | 12 | A cash count alone does not change expected cash | closings are snapshots | E07 |
-| 13 | Opening party balances create no cash movement | opening use case | E03 |
+| 13 | Opening party balances create no cash movement | opening use case | ✅ `drift_party_repository_test` |
 | 14 | No persisted money arithmetic uses floating point | `Money`, `INTEGER` columns | ✅ `money_test`, architecture test |
 
 Also enforced now: append-only tables reject UPDATE and DELETE; a repeated `operation_id` cannot post twice; a transaction can be reversed only once.

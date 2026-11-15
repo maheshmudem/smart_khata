@@ -12,7 +12,6 @@ Things that code cannot settle. Each blocks the phase named; none blocks the nex
 | 4 | **Reference device and minimum Android version** | Performance tests, release | minSdk 24 (Android 7.0) is set (ADR-018). Pick one real mid-range phone that pilot merchants use as the reference |
 | 5 | **Support contact and privacy policy URL** | Help screen (WF-083), Play listing | None exists yet. The app will not ship a made-up contact |
 | 6 | **Play Console account and app listing** | Release | Create the developer account early; identity verification can take days |
-| 7 | **Shop time zone at setup** | Onboarding (E02) | Default to `Asia/Kolkata` without asking (V1 is India-only); store it on the shop row as the schema requires |
 
 ## Needs other people
 
@@ -34,6 +33,12 @@ Things that code cannot settle. Each blocks the phase named; none blocks the nex
 | 16 | **Android file picker (SAF) for backup export** (SK-1105) | Backup (E11) | Choose a maintained plugin that supports create-document; test with local storage and Drive as destinations |
 | 17 | **Exact alarms / notification behaviour on Android 13–16** (SK-1001) | Reminders (E10) | `flutter_local_notifications`; prefer inexact scheduling to avoid the exact-alarm permission |
 | 18 | **PIN storage and throttling** (SK-0204, SK-1109) | App lock | Salted slow hash in `flutter_secure_storage` (Keystore-backed); biometrics through `local_auth`. No recovery promise for a forgotten PIN beyond restoring a backup |
+
+## Added by Phase 1 (ADR-021), for the accounting / merchant review
+
+- Phone numbers must be ten-digit Indian numbers; landlines with long STD codes and foreign numbers are rejected. Is that acceptable for suppliers?
+- One opening balance per party account, changed only by reversal. Confirm with the accounting reviewer.
+- Telugu word for "party" (ఖాతాదారు) and for "opening balance" (ప్రారంభ బాకీ) need merchant review along with the rest.
 
 ## Decided during the foundation build
 

@@ -78,6 +78,7 @@ lib/
     database/                 Drift database, schema/*.drift, DAOs, converters
     theme/ widgets/           design system
   features/<name>/            domain/ data/ presentation/ per feature
+                              (built so far: onboarding, shop, parties, settings)
   l10n/                       app_en.arb, app_te.arb, generated/
 test/                         mirrors lib/, plus helpers/ and architecture/
 docs/product/                 approved product baseline (do not edit)

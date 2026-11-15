@@ -5,7 +5,10 @@ paths:
 
 # Testing rules
 
-- `test/` mirrors `lib/`. Shared helpers are in `test/helpers/`: `createTestDatabase()` and the `SchemaSeed` seeding extension, `FakeClock`, `RecordingLogger`, `InMemorySettingsRepository`, `pumpApp`, `l10nFor`.
+- `test/` mirrors `lib/`. Shared helpers are in `test/helpers/`: `TestEnv` (real repositories and use cases on an in-memory database, with `setUpShop`, `addParty`, `postEntry`, `count`), `createTestDatabase()` and the `SchemaSeed` seeding extension, `FakeClock`, `RecordingLogger`, `InMemorySettingsRepository`, `pumpApp`, `l10nFor`.
+- Cubits are tested against `TestEnv`'s real repositories, not mocks. After an action that goes through a stream, `await pumpEventQueue(times: 50)` before asserting.
+- In a widget test, database calls made directly by the test go inside `tester.runAsync`. Full-app tests call `configureDependencies(database: env.db, ...)` in `setUp` and `getIt.reset` in `tearDown`.
+- Raw SQL inserts in tests bypass Drift's change tracking: call `db.markTablesUpdated({...})` or use `TestEnv.postEntry`, which does.
 - Database and repository tests use the real schema in memory, not mocks. Mock only at a boundary you do not own (plugins), with `mocktail`.
 - `bloc_test` is not used (it conflicts with `drift_dev` on this SDK). Test a BLoC with `expectLater(bloc.stream, emitsInOrder([...]))` before adding events.
 - Name a test by the behaviour, in plain words: `'an excess receipt leaves a negative balance (advance)'`.
