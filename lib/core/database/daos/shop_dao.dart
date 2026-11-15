@@ -23,6 +23,7 @@ class ShopDao extends DatabaseAccessor<AppDatabase> with _$ShopDaoMixin {
     required String cashAccountId,
     required String cashAccountName,
     required DateTime now,
+    List<ExpenseCategoriesCompanion> expenseCategories = const [],
   }) async {
     await into(shops).insert(shop);
     await into(moneyAccounts).insert(
@@ -35,5 +36,8 @@ class ShopDao extends DatabaseAccessor<AppDatabase> with _$ShopDaoMixin {
         createdAt: now,
       ),
     );
+    for (final category in expenseCategories) {
+      await into(this.expenseCategories).insert(category);
+    }
   }
 }

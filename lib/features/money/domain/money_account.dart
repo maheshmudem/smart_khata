@@ -47,10 +47,12 @@ abstract interface class MoneyAccountRepository {
 
   Future<Result<List<MoneyAccount>>> getAccounts();
 
-  /// Adds a bank-type account with a zero opening balance. Returns its ID.
+  /// Adds a bank-type account. Its opening balance is fixed here, when it
+  /// is created; later changes are adjustments. Returns its ID.
   Future<Result<String>> createAccount({
     required String name,
     required MoneyAccountType type,
+    Money openingBalance,
   });
 }
 
@@ -67,6 +69,7 @@ class CreateMoneyAccount {
   Future<Result<String>> call({
     required String name,
     MoneyAccountType type = MoneyAccountType.bank,
+    Money? openingBalance,
   }) async {
     final cleaned = TextNormalizer.clean(name);
     if (cleaned.isEmpty) {
@@ -81,6 +84,10 @@ class CreateMoneyAccount {
       name: cleaned,
       // A second cash drawer is not supported in V1.
       type: type == MoneyAccountType.cash ? MoneyAccountType.bank : type,
+      // What the account already held when the owner started using the app.
+      openingBalance: (openingBalance?.isPositive ?? false)
+          ? openingBalance!
+          : Money.zero,
     );
   }
 }

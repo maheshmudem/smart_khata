@@ -40,6 +40,7 @@ class CreateShopCommand {
     required this.name,
     required this.localeCode,
     required this.cashAccountName,
+    this.defaultExpenseCategories = const [],
     this.ownerName,
     this.phone,
     this.address,
@@ -57,6 +58,10 @@ class CreateShopCommand {
 
   /// Name for the default cash account, in the owner's language (SK-0203).
   final String cashAccountName;
+
+  /// Names of the expense categories to start with, in the owner's
+  /// language (SK-0601).
+  final List<String> defaultExpenseCategories;
 
   static const String nameField = 'name';
   static const String phoneField = 'phone';

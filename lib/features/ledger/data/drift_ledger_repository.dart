@@ -676,6 +676,8 @@ final class DriftLedgerRepository implements LedgerRepository {
       reversedByTransactionId: row.reversedByTransactionId,
       reversalReason: row.reversalReason,
       relatedTransactionId: row.relatedTransactionId,
+      expenseCategory: row.categoryName,
+      payee: row.payee,
       openAmount: isCharge && row.reversedByTransactionId == null
           ? Money.fromPaise(entryAmount - row.allocatedToEntryPaise)
           : null,

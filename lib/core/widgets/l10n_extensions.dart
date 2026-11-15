@@ -33,6 +33,8 @@ extension FailureMessageX on AppLocalizations {
       RuleViolation.partyArchived => errorPartyArchived,
       RuleViolation.transactionAlreadyReversed => errorAlreadyReversed,
       RuleViolation.cannotReverseReversal => errorCannotReverseReversal,
+      RuleViolation.categoryNameTaken => errorCategoryNameTaken,
+      RuleViolation.cashAccountRequired => errorCashAccountRequired,
     },
     UnexpectedFailure() => errorUnexpected,
   };
@@ -54,6 +56,7 @@ extension FailureMessageX on AppLocalizations {
     ValidationError.accountMismatch => validationAccountMismatch,
     ValidationError.allocationInvalid => validationAllocationInvalid,
     ValidationError.paidNowExceedsTotal => validationPaidNowExceedsTotal,
+    ValidationError.categoryRequired => validationCategoryRequired,
   };
 
   /// The direction label shown next to a balance.

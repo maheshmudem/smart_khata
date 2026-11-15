@@ -4,6 +4,7 @@ import 'package:smart_khata/core/database/daos/shop_dao.dart';
 import 'package:smart_khata/core/date_time/clock.dart';
 import 'package:smart_khata/core/date_time/shop_time_zone.dart';
 import 'package:smart_khata/core/domain/shop_context.dart';
+import 'package:smart_khata/core/domain/text_normalizer.dart';
 import 'package:smart_khata/core/errors/failure.dart';
 import 'package:smart_khata/core/errors/failure_mapper.dart';
 import 'package:smart_khata/core/errors/result.dart';
@@ -74,6 +75,20 @@ final class DriftShopRepository implements ShopRepository, ShopContext {
         cashAccountId: _ids.newId(),
         cashAccountName: command.cashAccountName,
         now: now,
+        expenseCategories: [
+          for (final MapEntry(key: normalized, value: name) in _distinctNames(
+            command.defaultExpenseCategories,
+          ).entries)
+            db.ExpenseCategoriesCompanion.insert(
+              id: _ids.newId(),
+              shopId: shopId,
+              name: name,
+              normalizedName: normalized,
+              isDefault: const Value(true),
+              createdAt: now,
+              updatedAt: now,
+            ),
+        ],
       );
       _cachedShopId = shopId;
       return _toDomain((await _dao.findShop())!);
@@ -81,6 +96,19 @@ final class DriftShopRepository implements ShopRepository, ShopContext {
     logger: _logger,
     operation: 'shop.create',
   );
+
+  /// Normalised name → the first spelling given. Two default names that
+  /// normalise to the same text would break the one-active-name rule, so
+  /// later repeats and blanks are dropped.
+  static Map<String, String> _distinctNames(List<String> names) {
+    final distinct = <String, String>{};
+    for (final name in names) {
+      final normalized = TextNormalizer.name(name);
+      if (normalized.isEmpty) continue;
+      distinct.putIfAbsent(normalized, () => TextNormalizer.clean(name));
+    }
+    return distinct;
+  }
 
   static Shop _toDomain(db.Shop row) => Shop(
     id: row.id,

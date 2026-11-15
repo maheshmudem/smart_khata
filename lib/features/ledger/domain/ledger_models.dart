@@ -78,6 +78,8 @@ class TransactionDetail extends Equatable {
     this.openAmount,
     this.movements = const [],
     this.allocations = const [],
+    this.expenseCategory,
+    this.payee,
   });
 
   final String id;
@@ -120,6 +122,10 @@ class TransactionDetail extends Equatable {
 
   /// For a payment or return: the dues it settled.
   final List<AllocationView> allocations;
+
+  /// For an expense: its category (as named when saved) and who was paid.
+  final String? expenseCategory;
+  final String? payee;
 
   /// Total of this settlement applied to dues.
   Money get allocatedTotal => Money.sum(allocations.map((a) => a.amount));
@@ -171,6 +177,8 @@ class TransactionDetail extends Equatable {
     openAmount,
     movements,
     allocations,
+    expenseCategory,
+    payee,
   ];
 }
 

@@ -937,4 +937,283 @@ class AppLocalizationsTe extends AppLocalizations {
   String movementLine(String method, String account) {
     return '$method · $account';
   }
+
+  @override
+  String get errorCategoryNameTaken => 'ఈ పేరుతో ఒక వర్గం ఇప్పటికే ఉంది.';
+
+  @override
+  String get errorCashAccountRequired =>
+      'నగదు ఖాతా ఎప్పుడూ అవసరం; దాన్ని ఆపలేరు.';
+
+  @override
+  String get validationCategoryRequired => 'వర్గాన్ని ఎంచుకోండి.';
+
+  @override
+  String get expenseTitle => 'ఖర్చు జోడించండి';
+
+  @override
+  String get categoryLabel => 'వర్గం';
+
+  @override
+  String get chooseCategory => 'వర్గాన్ని ఎంచుకోండి';
+
+  @override
+  String get paidFromLabel => 'దేని నుంచి చెల్లించారు';
+
+  @override
+  String get payeeLabel => 'ఎవరికి చెల్లించారు';
+
+  @override
+  String get actionSaveExpense => 'ఖర్చు సేవ్ చేయి';
+
+  @override
+  String get expenseSaved => 'ఖర్చు సేవ్ అయింది';
+
+  @override
+  String get actionManageCategories => 'వర్గాలను నిర్వహించండి';
+
+  @override
+  String get catRent => 'అద్దె';
+
+  @override
+  String get catElectricity => 'కరెంటు';
+
+  @override
+  String get catTransport => 'రవాణా';
+
+  @override
+  String get catSalary => 'జీతం';
+
+  @override
+  String get catMaintenance => 'మరమ్మతులు';
+
+  @override
+  String get catPackaging => 'ప్యాకింగ్';
+
+  @override
+  String get catPersonalWithdrawal => 'సొంత ఖర్చుకు తీసుకున్నది';
+
+  @override
+  String get catOther => 'ఇతర';
+
+  @override
+  String get expenseCategoriesTitle => 'ఖర్చు వర్గాలు';
+
+  @override
+  String get actionAddCategory => 'వర్గం జోడించండి';
+
+  @override
+  String get categoryNameLabel => 'వర్గం పేరు';
+
+  @override
+  String get actionRename => 'పేరు మార్చు';
+
+  @override
+  String get actionRestore => 'తిరిగి తీసుకురా';
+
+  @override
+  String get categoryArchivedTag => 'ఆర్కైవ్ అయింది';
+
+  @override
+  String get categoriesEmpty => 'ఇంకా వర్గాలు లేవు';
+
+  @override
+  String get renameCategoryTitle => 'వర్గం పేరు మార్చండి';
+
+  @override
+  String get categoryActionsTooltip => 'వర్గం చర్యలు';
+
+  @override
+  String get cashBookTitle => 'నగదు పుస్తకం';
+
+  @override
+  String get cashBookBalance => 'ప్రస్తుత నిల్వ';
+
+  @override
+  String get rangeToday => 'ఈ రోజు';
+
+  @override
+  String get rangeLast7Days => 'గత 7 రోజులు';
+
+  @override
+  String get rangeThisMonth => 'ఈ నెల';
+
+  @override
+  String get rangeAllTime => 'అన్నీ';
+
+  @override
+  String get cashBookOpening => 'ముందు నిల్వ';
+
+  @override
+  String get cashBookIn => 'వచ్చిన డబ్బు';
+
+  @override
+  String get cashBookOut => 'వెళ్లిన డబ్బు';
+
+  @override
+  String get cashBookClosing => 'తర్వాత నిల్వ';
+
+  @override
+  String get cashBookEmpty => 'ఈ కాలంలో డబ్బు కదలికలు లేవు';
+
+  @override
+  String get cashBookNotIncomeNote =>
+      'ఇవి డబ్బు కదలికలు మాత్రమే; ఆదాయం లేదా లాభం కాదు.';
+
+  @override
+  String movementIn(String amount) {
+    return 'వచ్చింది $amount';
+  }
+
+  @override
+  String movementOut(String amount) {
+    return 'వెళ్లింది $amount';
+  }
+
+  @override
+  String get actionRecordAdjustment => 'డబ్బు కలపండి లేదా తీయండి';
+
+  @override
+  String get moneyAccountsTitle => 'డబ్బు ఖాతాలు';
+
+  @override
+  String get accountTypeLabel => 'రకం';
+
+  @override
+  String get accountTypeCash => 'నగదు';
+
+  @override
+  String get accountTypeBank => 'బ్యాంక్';
+
+  @override
+  String get accountTypeUpi => 'UPI / వాలెట్';
+
+  @override
+  String get accountTypeOther => 'ఇతర';
+
+  @override
+  String get openingBalanceLabel => 'ప్రారంభ నిల్వ';
+
+  @override
+  String get openingBalanceAccountHelp =>
+      'స్మార్ట్ ఖాతా వాడటం మొదలుపెట్టినప్పుడు ఖాతాలో ఉన్న మొత్తం. తర్వాత మార్చలేరు.';
+
+  @override
+  String get actionAddAccount => 'ఖాతా జోడించండి';
+
+  @override
+  String get actionDeactivate => 'ఆపు';
+
+  @override
+  String deactivateConfirmTitle(String name) {
+    return '$name ను ఆపాలా?';
+  }
+
+  @override
+  String get deactivateConfirmBody =>
+      'కొత్త ఎంట్రీలకు ఇది కనిపించదు. దీని చరిత్ర అలాగే ఉంటుంది.';
+
+  @override
+  String get accountDeactivated => 'ఖాతా ఆపబడింది';
+
+  @override
+  String get accountActionsTooltip => 'ఖాతా చర్యలు';
+
+  @override
+  String get adjustmentAdd => 'డబ్బు కలిపారు';
+
+  @override
+  String get adjustmentRemove => 'డబ్బు తీశారు';
+
+  @override
+  String get adjustmentExplain =>
+      'ప్రారంభ నగదు, లెక్కలో తేడా లేదా సవరణ కోసం దీన్ని వాడండి. ఇది కస్టమర్ చెల్లింపు లేదా ఖర్చు కాదు.';
+
+  @override
+  String get adjustmentSaved => 'సర్దుబాటు సేవ్ అయింది';
+
+  @override
+  String get cashCountTitle => 'నగదు లెక్క';
+
+  @override
+  String get closingDateLabel => 'వ్యాపార తేదీ';
+
+  @override
+  String denominationQuantity(String value) {
+    return '₹$value సంఖ్య';
+  }
+
+  @override
+  String get increaseTooltip => 'ఒకటి పెంచు';
+
+  @override
+  String get decreaseTooltip => 'ఒకటి తగ్గించు';
+
+  @override
+  String get otherCashLabel => 'చిల్లర మరియు ఇతర నగదు';
+
+  @override
+  String get countedTotal => 'లెక్కించిన నగదు';
+
+  @override
+  String get expectedCashLabel => 'నగదు పుస్తకం ప్రకారం';
+
+  @override
+  String get differenceLabel => 'తేడా';
+
+  @override
+  String differenceExtra(String amount) {
+    return '$amount ఎక్కువ';
+  }
+
+  @override
+  String differenceShort(String amount) {
+    return '$amount తక్కువ';
+  }
+
+  @override
+  String get differenceNone => 'తేడా లేదు';
+
+  @override
+  String get closingNoAdjustNote =>
+      'దీన్ని సేవ్ చేస్తే నగదు పుస్తకం మారదు. పుస్తకాన్ని సరిచేయడానికి కారణంతో సర్దుబాటు నమోదు చేయండి.';
+
+  @override
+  String get actionSaveClosing => 'ముగింపు సేవ్ చేయి';
+
+  @override
+  String get closingSaved => 'రోజు ముగిసింది';
+
+  @override
+  String get actionResetCount => 'లెక్క తొలగించు';
+
+  @override
+  String get resetCountTitle => 'లెక్క తొలగించాలా?';
+
+  @override
+  String get closingAlreadyClosed =>
+      'ఈ రోజు ఇప్పటికే ముగిసింది. మళ్లీ సేవ్ చేస్తే పాత ముగింపు అలాగే ఉండి కొత్తది జోడవుతుంది.';
+
+  @override
+  String closingRevision(int number) {
+    return 'ముగింపు $number';
+  }
+
+  @override
+  String get closingHistoryTitle => 'ముగింపుల చరిత్ర';
+
+  @override
+  String get closingHistoryEmpty => 'ఇంకా ఏ రోజూ ముగించలేదు';
+
+  @override
+  String get moreCashBook => 'నగదు పుస్తకం';
+
+  @override
+  String get moreMoneyAccounts => 'డబ్బు ఖాతాలు';
+
+  @override
+  String get moreExpenseCategories => 'ఖర్చు వర్గాలు';
+
+  @override
+  String get moreClosingHistory => 'రోజు ముగింపుల చరిత్ర';
 }

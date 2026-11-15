@@ -935,4 +935,284 @@ class AppLocalizationsEn extends AppLocalizations {
   String movementLine(String method, String account) {
     return '$method · $account';
   }
+
+  @override
+  String get errorCategoryNameTaken =>
+      'A category with this name already exists.';
+
+  @override
+  String get errorCashAccountRequired =>
+      'The cash account is always needed and cannot be turned off.';
+
+  @override
+  String get validationCategoryRequired => 'Choose a category.';
+
+  @override
+  String get expenseTitle => 'Add expense';
+
+  @override
+  String get categoryLabel => 'Category';
+
+  @override
+  String get chooseCategory => 'Choose category';
+
+  @override
+  String get paidFromLabel => 'Paid from';
+
+  @override
+  String get payeeLabel => 'Paid to';
+
+  @override
+  String get actionSaveExpense => 'Save expense';
+
+  @override
+  String get expenseSaved => 'Expense saved';
+
+  @override
+  String get actionManageCategories => 'Manage categories';
+
+  @override
+  String get catRent => 'Rent';
+
+  @override
+  String get catElectricity => 'Electricity';
+
+  @override
+  String get catTransport => 'Transport';
+
+  @override
+  String get catSalary => 'Salary';
+
+  @override
+  String get catMaintenance => 'Maintenance';
+
+  @override
+  String get catPackaging => 'Packaging';
+
+  @override
+  String get catPersonalWithdrawal => 'Personal withdrawal';
+
+  @override
+  String get catOther => 'Other';
+
+  @override
+  String get expenseCategoriesTitle => 'Expense categories';
+
+  @override
+  String get actionAddCategory => 'Add category';
+
+  @override
+  String get categoryNameLabel => 'Category name';
+
+  @override
+  String get actionRename => 'Rename';
+
+  @override
+  String get actionRestore => 'Restore';
+
+  @override
+  String get categoryArchivedTag => 'Archived';
+
+  @override
+  String get categoriesEmpty => 'No categories yet';
+
+  @override
+  String get renameCategoryTitle => 'Rename category';
+
+  @override
+  String get categoryActionsTooltip => 'Category actions';
+
+  @override
+  String get cashBookTitle => 'Cash book';
+
+  @override
+  String get cashBookBalance => 'Balance now';
+
+  @override
+  String get rangeToday => 'Today';
+
+  @override
+  String get rangeLast7Days => 'Last 7 days';
+
+  @override
+  String get rangeThisMonth => 'This month';
+
+  @override
+  String get rangeAllTime => 'All';
+
+  @override
+  String get cashBookOpening => 'Balance before';
+
+  @override
+  String get cashBookIn => 'Money in';
+
+  @override
+  String get cashBookOut => 'Money out';
+
+  @override
+  String get cashBookClosing => 'Balance after';
+
+  @override
+  String get cashBookEmpty => 'No money movements in this period';
+
+  @override
+  String get cashBookNotIncomeNote =>
+      'These are money movements, not income or profit.';
+
+  @override
+  String movementIn(String amount) {
+    return 'In $amount';
+  }
+
+  @override
+  String movementOut(String amount) {
+    return 'Out $amount';
+  }
+
+  @override
+  String get actionRecordAdjustment => 'Add or remove money';
+
+  @override
+  String get moneyAccountsTitle => 'Money accounts';
+
+  @override
+  String get accountTypeLabel => 'Type';
+
+  @override
+  String get accountTypeCash => 'Cash';
+
+  @override
+  String get accountTypeBank => 'Bank';
+
+  @override
+  String get accountTypeUpi => 'UPI / wallet';
+
+  @override
+  String get accountTypeOther => 'Other';
+
+  @override
+  String get openingBalanceLabel => 'Opening balance';
+
+  @override
+  String get openingBalanceAccountHelp =>
+      'What the account held when you started using Smart Khata. It cannot be changed later.';
+
+  @override
+  String get actionAddAccount => 'Add account';
+
+  @override
+  String get actionDeactivate => 'Turn off';
+
+  @override
+  String deactivateConfirmTitle(String name) {
+    return 'Turn off $name?';
+  }
+
+  @override
+  String get deactivateConfirmBody =>
+      'It will not be offered for new entries. Its history stays.';
+
+  @override
+  String get accountDeactivated => 'Account turned off';
+
+  @override
+  String get accountActionsTooltip => 'Account actions';
+
+  @override
+  String get adjustmentAdd => 'Money added';
+
+  @override
+  String get adjustmentRemove => 'Money taken out';
+
+  @override
+  String get adjustmentExplain =>
+      'Use this for opening cash, a counted difference or a correction. It is not a customer payment or an expense.';
+
+  @override
+  String get adjustmentSaved => 'Adjustment saved';
+
+  @override
+  String get cashCountTitle => 'Count cash';
+
+  @override
+  String get closingDateLabel => 'Business date';
+
+  @override
+  String denominationQuantity(String value) {
+    return 'Number of ₹$value';
+  }
+
+  @override
+  String get increaseTooltip => 'One more';
+
+  @override
+  String get decreaseTooltip => 'One less';
+
+  @override
+  String get otherCashLabel => 'Coins and other cash';
+
+  @override
+  String get countedTotal => 'Counted cash';
+
+  @override
+  String get expectedCashLabel => 'Expected in cash book';
+
+  @override
+  String get differenceLabel => 'Difference';
+
+  @override
+  String differenceExtra(String amount) {
+    return 'Extra $amount';
+  }
+
+  @override
+  String differenceShort(String amount) {
+    return 'Short $amount';
+  }
+
+  @override
+  String get differenceNone => 'No difference';
+
+  @override
+  String get closingNoAdjustNote =>
+      'Saving this does not change the cash book. To correct the book, record an adjustment with a reason.';
+
+  @override
+  String get actionSaveClosing => 'Save closing';
+
+  @override
+  String get closingSaved => 'Day closed';
+
+  @override
+  String get actionResetCount => 'Clear count';
+
+  @override
+  String get resetCountTitle => 'Clear the count?';
+
+  @override
+  String get closingAlreadyClosed =>
+      'This day was already closed. Saving again keeps the earlier closing and adds a new one.';
+
+  @override
+  String closingRevision(int number) {
+    return 'Closing $number';
+  }
+
+  @override
+  String get closingHistoryTitle => 'Closing history';
+
+  @override
+  String get closingHistoryEmpty => 'No day has been closed yet';
+
+  @override
+  String get moreCashBook => 'Cash book';
+
+  @override
+  String get moreMoneyAccounts => 'Money accounts';
+
+  @override
+  String get moreExpenseCategories => 'Expense categories';
+
+  @override
+  String get moreClosingHistory => 'Daily closing history';
 }

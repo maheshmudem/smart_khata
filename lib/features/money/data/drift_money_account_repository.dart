@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:smart_khata/core/database/app_database.dart' as db;
 import 'package:smart_khata/core/database/daos/money_dao.dart';
 import 'package:smart_khata/core/date_time/clock.dart';
@@ -46,6 +47,7 @@ final class DriftMoneyAccountRepository implements MoneyAccountRepository {
   Future<Result<String>> createAccount({
     required String name,
     required MoneyAccountType type,
+    Money openingBalance = Money.zero,
   }) => guard(
     () async {
       final now = _clock.nowUtc();
@@ -56,6 +58,7 @@ final class DriftMoneyAccountRepository implements MoneyAccountRepository {
           shopId: await _shop.requireShopId(),
           name: name,
           accountType: type,
+          openingBalancePaise: Value(openingBalance.paise),
           openingEffectiveAt: now,
           createdAt: now,
         ),

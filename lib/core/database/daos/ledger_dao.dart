@@ -58,6 +58,8 @@ class TransactionDetailRow {
     required this.entryId,
     required this.relatedTransactionId,
     required this.allocatedToEntryPaise,
+    required this.categoryName,
+    required this.payee,
   });
 
   final String id;
@@ -83,6 +85,11 @@ class TransactionDetailRow {
 
   /// Net amount allocated to this transaction's entry as a target.
   final int allocatedToEntryPaise;
+
+  /// For an expense: the category as it was named when saved, and who was
+  /// paid.
+  final String? categoryName;
+  final String? payee;
 }
 
 /// A positive entry with what is still unsettled.
@@ -271,6 +278,7 @@ class LedgerDao extends DatabaseAccessor<AppDatabase> with _$LedgerDaoMixin {
            a.id AS account_id, a.role AS role,
            p.id AS party_id, p.display_name AS party_name,
            e.id AS entry_id, t.related_transaction_id AS related_id,
+           x.category_name_snapshot AS category_name, x.payee AS payee,
            COALESCE((SELECT SUM(CASE WHEN al.event_type = 'allocate'
                                      THEN al.amount_paise
                                      ELSE -al.amount_paise END)
@@ -284,6 +292,8 @@ class LedgerDao extends DatabaseAccessor<AppDatabase> with _$LedgerDaoMixin {
     LEFT JOIN parties p ON p.id = a.party_id
     LEFT JOIN party_ledger_entries e
            ON e.transaction_id = t.id AND e.party_account_id = t.party_account_id
+    LEFT JOIN expenses x
+           ON x.transaction_id = COALESCE(t.reversal_of_transaction_id, t.id)
     WHERE t.shop_id = ? AND t.id = ?
     ''',
         variables: [
@@ -299,6 +309,7 @@ class LedgerDao extends DatabaseAccessor<AppDatabase> with _$LedgerDaoMixin {
           // So an entry page refreshes when it is settled or reversed.
           ledgerAllocationEvents,
           moneyMovements,
+          expenses,
         },
       ).map(
         (row) => TransactionDetailRow(
@@ -326,6 +337,8 @@ class LedgerDao extends DatabaseAccessor<AppDatabase> with _$LedgerDaoMixin {
           entryId: row.readNullable<String>('entry_id'),
           relatedTransactionId: row.readNullable<String>('related_id'),
           allocatedToEntryPaise: row.read<int>('allocated_to_entry'),
+          categoryName: row.readNullable<String>('category_name'),
+          payee: row.readNullable<String>('payee'),
         ),
       );
 

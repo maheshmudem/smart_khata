@@ -2,10 +2,16 @@ import 'package:drift/drift.dart' show Variable;
 import 'package:smart_khata/core/database/app_database.dart' show AppDatabase;
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/features/daily_closing/data/drift_daily_closing_repository.dart';
+import 'package:smart_khata/features/daily_closing/domain/daily_closing.dart';
+import 'package:smart_khata/features/expenses/data/drift_expense_repository.dart';
+import 'package:smart_khata/features/expenses/domain/expense.dart';
 import 'package:smart_khata/features/ledger/data/allocation_rebalancer.dart';
 import 'package:smart_khata/features/ledger/data/drift_ledger_repository.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_use_cases.dart';
+import 'package:smart_khata/features/money/data/drift_cash_book_repository.dart';
 import 'package:smart_khata/features/money/data/drift_money_account_repository.dart';
+import 'package:smart_khata/features/money/domain/cash_book.dart';
 import 'package:smart_khata/features/money/domain/money_account.dart';
 import 'package:smart_khata/features/parties/data/drift_party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_commands.dart';
@@ -50,6 +56,31 @@ class TestEnv {
       logger: logger,
     );
     createMoneyAccount = CreateMoneyAccount(money);
+    cashBook = DriftCashBookRepository(
+      dao: db.cashDao,
+      shop: shops,
+      clock: clock,
+      ids: ids,
+      logger: logger,
+    );
+    recordAdjustment = RecordAdjustment(cashBook, clock);
+    expenses = DriftExpenseRepository(
+      dao: db.cashDao,
+      shop: shops,
+      clock: clock,
+      ids: ids,
+      logger: logger,
+    );
+    recordExpense = RecordExpense(expenses, clock);
+    saveExpenseCategory = SaveExpenseCategory(expenses);
+    closings = DriftDailyClosingRepository(
+      dao: db.cashDao,
+      shop: shops,
+      clock: clock,
+      ids: ids,
+      logger: logger,
+    );
+    closeDay = CloseDay(closings, clock);
     ledger = DriftLedgerRepository(
       dao: db.ledgerDao,
       shop: shops,
@@ -81,6 +112,13 @@ class TestEnv {
   late final RecordReturn recordReturn;
   late final DriftMoneyAccountRepository money;
   late final CreateMoneyAccount createMoneyAccount;
+  late final DriftCashBookRepository cashBook;
+  late final RecordAdjustment recordAdjustment;
+  late final DriftExpenseRepository expenses;
+  late final RecordExpense recordExpense;
+  late final SaveExpenseCategory saveExpenseCategory;
+  late final DriftDailyClosingRepository closings;
+  late final CloseDay closeDay;
   late final CreateShop createShop;
   late final SaveParty saveParty;
   late final FindDuplicateParties findDuplicates;
@@ -90,6 +128,7 @@ class TestEnv {
     name: 'Test Kirana',
     localeCode: 'en',
     cashAccountName: 'Cash',
+    defaultExpenseCategories: ['Rent', 'Electricity', 'Transport', 'Other'],
   );
 
   Future<Shop> setUpShop() async =>

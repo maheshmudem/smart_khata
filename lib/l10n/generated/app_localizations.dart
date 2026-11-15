@@ -1801,6 +1801,522 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{method} · {account}'**
   String movementLine(String method, String account);
+
+  /// No description provided for @errorCategoryNameTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'A category with this name already exists.'**
+  String get errorCategoryNameTaken;
+
+  /// No description provided for @errorCashAccountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'The cash account is always needed and cannot be turned off.'**
+  String get errorCashAccountRequired;
+
+  /// No description provided for @validationCategoryRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a category.'**
+  String get validationCategoryRequired;
+
+  /// No description provided for @expenseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expense'**
+  String get expenseTitle;
+
+  /// No description provided for @categoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get categoryLabel;
+
+  /// No description provided for @chooseCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose category'**
+  String get chooseCategory;
+
+  /// No description provided for @paidFromLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid from'**
+  String get paidFromLabel;
+
+  /// No description provided for @payeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid to'**
+  String get payeeLabel;
+
+  /// No description provided for @actionSaveExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Save expense'**
+  String get actionSaveExpense;
+
+  /// No description provided for @expenseSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense saved'**
+  String get expenseSaved;
+
+  /// No description provided for @actionManageCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage categories'**
+  String get actionManageCategories;
+
+  /// No description provided for @catRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent'**
+  String get catRent;
+
+  /// No description provided for @catElectricity.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity'**
+  String get catElectricity;
+
+  /// No description provided for @catTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get catTransport;
+
+  /// No description provided for @catSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get catSalary;
+
+  /// No description provided for @catMaintenance.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance'**
+  String get catMaintenance;
+
+  /// No description provided for @catPackaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Packaging'**
+  String get catPackaging;
+
+  /// No description provided for @catPersonalWithdrawal.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal withdrawal'**
+  String get catPersonalWithdrawal;
+
+  /// No description provided for @catOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get catOther;
+
+  /// No description provided for @expenseCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense categories'**
+  String get expenseCategoriesTitle;
+
+  /// No description provided for @actionAddCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Add category'**
+  String get actionAddCategory;
+
+  /// No description provided for @categoryNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category name'**
+  String get categoryNameLabel;
+
+  /// No description provided for @actionRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get actionRename;
+
+  /// No description provided for @actionRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get actionRestore;
+
+  /// No description provided for @categoryArchivedTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get categoryArchivedTag;
+
+  /// No description provided for @categoriesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No categories yet'**
+  String get categoriesEmpty;
+
+  /// No description provided for @renameCategoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename category'**
+  String get renameCategoryTitle;
+
+  /// No description provided for @categoryActionsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Category actions'**
+  String get categoryActionsTooltip;
+
+  /// No description provided for @cashBookTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash book'**
+  String get cashBookTitle;
+
+  /// No description provided for @cashBookBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance now'**
+  String get cashBookBalance;
+
+  /// No description provided for @rangeToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get rangeToday;
+
+  /// No description provided for @rangeLast7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get rangeLast7Days;
+
+  /// No description provided for @rangeThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get rangeThisMonth;
+
+  /// No description provided for @rangeAllTime.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get rangeAllTime;
+
+  /// No description provided for @cashBookOpening.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance before'**
+  String get cashBookOpening;
+
+  /// No description provided for @cashBookIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Money in'**
+  String get cashBookIn;
+
+  /// No description provided for @cashBookOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Money out'**
+  String get cashBookOut;
+
+  /// No description provided for @cashBookClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance after'**
+  String get cashBookClosing;
+
+  /// No description provided for @cashBookEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No money movements in this period'**
+  String get cashBookEmpty;
+
+  /// No description provided for @cashBookNotIncomeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'These are money movements, not income or profit.'**
+  String get cashBookNotIncomeNote;
+
+  /// No description provided for @movementIn.
+  ///
+  /// In en, this message translates to:
+  /// **'In {amount}'**
+  String movementIn(String amount);
+
+  /// No description provided for @movementOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Out {amount}'**
+  String movementOut(String amount);
+
+  /// No description provided for @actionRecordAdjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add or remove money'**
+  String get actionRecordAdjustment;
+
+  /// No description provided for @moneyAccountsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Money accounts'**
+  String get moneyAccountsTitle;
+
+  /// No description provided for @accountTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get accountTypeLabel;
+
+  /// No description provided for @accountTypeCash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get accountTypeCash;
+
+  /// No description provided for @accountTypeBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get accountTypeBank;
+
+  /// No description provided for @accountTypeUpi.
+  ///
+  /// In en, this message translates to:
+  /// **'UPI / wallet'**
+  String get accountTypeUpi;
+
+  /// No description provided for @accountTypeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get accountTypeOther;
+
+  /// No description provided for @openingBalanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening balance'**
+  String get openingBalanceLabel;
+
+  /// No description provided for @openingBalanceAccountHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'What the account held when you started using Smart Khata. It cannot be changed later.'**
+  String get openingBalanceAccountHelp;
+
+  /// No description provided for @actionAddAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Add account'**
+  String get actionAddAccount;
+
+  /// No description provided for @actionDeactivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get actionDeactivate;
+
+  /// No description provided for @deactivateConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off {name}?'**
+  String deactivateConfirmTitle(String name);
+
+  /// No description provided for @deactivateConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It will not be offered for new entries. Its history stays.'**
+  String get deactivateConfirmBody;
+
+  /// No description provided for @accountDeactivated.
+  ///
+  /// In en, this message translates to:
+  /// **'Account turned off'**
+  String get accountDeactivated;
+
+  /// No description provided for @accountActionsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Account actions'**
+  String get accountActionsTooltip;
+
+  /// No description provided for @adjustmentAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Money added'**
+  String get adjustmentAdd;
+
+  /// No description provided for @adjustmentRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Money taken out'**
+  String get adjustmentRemove;
+
+  /// No description provided for @adjustmentExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this for opening cash, a counted difference or a correction. It is not a customer payment or an expense.'**
+  String get adjustmentExplain;
+
+  /// No description provided for @adjustmentSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjustment saved'**
+  String get adjustmentSaved;
+
+  /// No description provided for @cashCountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Count cash'**
+  String get cashCountTitle;
+
+  /// No description provided for @closingDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Business date'**
+  String get closingDateLabel;
+
+  /// No description provided for @denominationQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of ₹{value}'**
+  String denominationQuantity(String value);
+
+  /// No description provided for @increaseTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'One more'**
+  String get increaseTooltip;
+
+  /// No description provided for @decreaseTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'One less'**
+  String get decreaseTooltip;
+
+  /// No description provided for @otherCashLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Coins and other cash'**
+  String get otherCashLabel;
+
+  /// No description provided for @countedTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Counted cash'**
+  String get countedTotal;
+
+  /// No description provided for @expectedCashLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected in cash book'**
+  String get expectedCashLabel;
+
+  /// No description provided for @differenceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Difference'**
+  String get differenceLabel;
+
+  /// No description provided for @differenceExtra.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra {amount}'**
+  String differenceExtra(String amount);
+
+  /// No description provided for @differenceShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Short {amount}'**
+  String differenceShort(String amount);
+
+  /// No description provided for @differenceNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No difference'**
+  String get differenceNone;
+
+  /// No description provided for @closingNoAdjustNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving this does not change the cash book. To correct the book, record an adjustment with a reason.'**
+  String get closingNoAdjustNote;
+
+  /// No description provided for @actionSaveClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'Save closing'**
+  String get actionSaveClosing;
+
+  /// No description provided for @closingSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Day closed'**
+  String get closingSaved;
+
+  /// No description provided for @actionResetCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear count'**
+  String get actionResetCount;
+
+  /// No description provided for @resetCountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the count?'**
+  String get resetCountTitle;
+
+  /// No description provided for @closingAlreadyClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'This day was already closed. Saving again keeps the earlier closing and adds a new one.'**
+  String get closingAlreadyClosed;
+
+  /// No description provided for @closingRevision.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing {number}'**
+  String closingRevision(int number);
+
+  /// No description provided for @closingHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing history'**
+  String get closingHistoryTitle;
+
+  /// No description provided for @closingHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No day has been closed yet'**
+  String get closingHistoryEmpty;
+
+  /// No description provided for @moreCashBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash book'**
+  String get moreCashBook;
+
+  /// No description provided for @moreMoneyAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Money accounts'**
+  String get moreMoneyAccounts;
+
+  /// No description provided for @moreExpenseCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense categories'**
+  String get moreExpenseCategories;
+
+  /// No description provided for @moreClosingHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily closing history'**
+  String get moreClosingHistory;
 }
 
 class _AppLocalizationsDelegate

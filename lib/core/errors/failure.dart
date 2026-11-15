@@ -47,6 +47,7 @@ enum ValidationError {
   accountMismatch,
   allocationInvalid,
   paidNowExceedsTotal,
+  categoryRequired,
 }
 
 /// The same operation ID was already posted. The earlier write stands, so
@@ -135,6 +136,12 @@ enum RuleViolation {
 
   /// A reversal cannot itself be reversed; post a new entry instead.
   cannotReverseReversal,
+
+  /// Another active expense category already has this name.
+  categoryNameTaken,
+
+  /// The cash account is always needed and cannot be deactivated.
+  cashAccountRequired,
 }
 
 /// Anything not recognised above.

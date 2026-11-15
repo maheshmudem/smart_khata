@@ -24,6 +24,7 @@ class CreateShop {
         locality: TextNormalizer.cleanOrNull(command.locality),
         localeCode: command.localeCode,
         cashAccountName: command.cashAccountName,
+        defaultExpenseCategories: command.defaultExpenseCategories,
       ),
     );
   }

@@ -437,5 +437,140 @@
         "type": "String"
       }
     }
-  }
+  },
+  "errorCategoryNameTaken": "A category with this name already exists.",
+  "errorCashAccountRequired": "The cash account is always needed and cannot be turned off.",
+  "validationCategoryRequired": "Choose a category.",
+  "expenseTitle": "Add expense",
+  "categoryLabel": "Category",
+  "chooseCategory": "Choose category",
+  "paidFromLabel": "Paid from",
+  "payeeLabel": "Paid to",
+  "actionSaveExpense": "Save expense",
+  "expenseSaved": "Expense saved",
+  "actionManageCategories": "Manage categories",
+  "catRent": "Rent",
+  "catElectricity": "Electricity",
+  "catTransport": "Transport",
+  "catSalary": "Salary",
+  "catMaintenance": "Maintenance",
+  "catPackaging": "Packaging",
+  "catPersonalWithdrawal": "Personal withdrawal",
+  "catOther": "Other",
+  "expenseCategoriesTitle": "Expense categories",
+  "actionAddCategory": "Add category",
+  "categoryNameLabel": "Category name",
+  "actionRename": "Rename",
+  "actionRestore": "Restore",
+  "categoryArchivedTag": "Archived",
+  "categoriesEmpty": "No categories yet",
+  "renameCategoryTitle": "Rename category",
+  "categoryActionsTooltip": "Category actions",
+  "cashBookTitle": "Cash book",
+  "cashBookBalance": "Balance now",
+  "rangeToday": "Today",
+  "rangeLast7Days": "Last 7 days",
+  "rangeThisMonth": "This month",
+  "rangeAllTime": "All",
+  "cashBookOpening": "Balance before",
+  "cashBookIn": "Money in",
+  "cashBookOut": "Money out",
+  "cashBookClosing": "Balance after",
+  "cashBookEmpty": "No money movements in this period",
+  "cashBookNotIncomeNote": "These are money movements, not income or profit.",
+  "movementIn": "In {amount}",
+  "@movementIn": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "movementOut": "Out {amount}",
+  "@movementOut": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "actionRecordAdjustment": "Add or remove money",
+  "moneyAccountsTitle": "Money accounts",
+  "accountTypeLabel": "Type",
+  "accountTypeCash": "Cash",
+  "accountTypeBank": "Bank",
+  "accountTypeUpi": "UPI / wallet",
+  "accountTypeOther": "Other",
+  "openingBalanceLabel": "Opening balance",
+  "openingBalanceAccountHelp": "What the account held when you started using Smart Khata. It cannot be changed later.",
+  "actionAddAccount": "Add account",
+  "actionDeactivate": "Turn off",
+  "deactivateConfirmTitle": "Turn off {name}?",
+  "@deactivateConfirmTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deactivateConfirmBody": "It will not be offered for new entries. Its history stays.",
+  "accountDeactivated": "Account turned off",
+  "accountActionsTooltip": "Account actions",
+  "adjustmentAdd": "Money added",
+  "adjustmentRemove": "Money taken out",
+  "adjustmentExplain": "Use this for opening cash, a counted difference or a correction. It is not a customer payment or an expense.",
+  "adjustmentSaved": "Adjustment saved",
+  "cashCountTitle": "Count cash",
+  "closingDateLabel": "Business date",
+  "denominationQuantity": "Number of ₹{value}",
+  "@denominationQuantity": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "increaseTooltip": "One more",
+  "decreaseTooltip": "One less",
+  "otherCashLabel": "Coins and other cash",
+  "countedTotal": "Counted cash",
+  "expectedCashLabel": "Expected in cash book",
+  "differenceLabel": "Difference",
+  "differenceExtra": "Extra {amount}",
+  "@differenceExtra": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "differenceShort": "Short {amount}",
+  "@differenceShort": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "differenceNone": "No difference",
+  "closingNoAdjustNote": "Saving this does not change the cash book. To correct the book, record an adjustment with a reason.",
+  "actionSaveClosing": "Save closing",
+  "closingSaved": "Day closed",
+  "actionResetCount": "Clear count",
+  "resetCountTitle": "Clear the count?",
+  "closingAlreadyClosed": "This day was already closed. Saving again keeps the earlier closing and adds a new one.",
+  "closingRevision": "Closing {number}",
+  "@closingRevision": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "closingHistoryTitle": "Closing history",
+  "closingHistoryEmpty": "No day has been closed yet",
+  "moreCashBook": "Cash book",
+  "moreMoneyAccounts": "Money accounts",
+  "moreExpenseCategories": "Expense categories",
+  "moreClosingHistory": "Daily closing history"
 }
