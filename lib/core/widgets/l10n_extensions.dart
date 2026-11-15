@@ -36,6 +36,15 @@ extension FailureMessageX on AppLocalizations {
       RuleViolation.categoryNameTaken => errorCategoryNameTaken,
       RuleViolation.cashAccountRequired => errorCashAccountRequired,
     },
+    BackupFailure(:final error) => switch (error) {
+      BackupError.notABackup => backupErrorNotABackup,
+      BackupError.newerVersion => backupErrorNewerVersion,
+      BackupError.wrongPassphraseOrDamaged => backupErrorWrongPassphrase,
+      BackupError.failedChecks => backupErrorFailedChecks,
+      BackupError.tooLarge => backupErrorTooLarge,
+      BackupError.notSaved => backupErrorNotSaved,
+      BackupError.notInstalled => backupErrorNotInstalled,
+    },
     UnexpectedFailure() => errorUnexpected,
   };
 
@@ -57,6 +66,9 @@ extension FailureMessageX on AppLocalizations {
     ValidationError.allocationInvalid => validationAllocationInvalid,
     ValidationError.paidNowExceedsTotal => validationPaidNowExceedsTotal,
     ValidationError.categoryRequired => validationCategoryRequired,
+    ValidationError.invalidPin => validationInvalidPin,
+    ValidationError.doesNotMatch => validationDoesNotMatch,
+    ValidationError.passphraseTooShort => validationPassphraseTooShort,
   };
 
   /// The direction label shown next to a balance.

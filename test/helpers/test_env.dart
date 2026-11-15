@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:drift/drift.dart' show Variable;
 import 'package:smart_khata/core/database/app_database.dart' show AppDatabase;
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/features/backup/data/backup_codec.dart';
+import 'package:smart_khata/features/backup/data/drift_backup_repository.dart';
+import 'package:smart_khata/features/backup/domain/backup.dart';
 import 'package:smart_khata/features/daily_closing/data/drift_daily_closing_repository.dart';
 import 'package:smart_khata/features/daily_closing/domain/daily_closing.dart';
 import 'package:smart_khata/features/expenses/data/drift_expense_repository.dart';
@@ -16,7 +21,9 @@ import 'package:smart_khata/features/money/domain/money_account.dart';
 import 'package:smart_khata/features/parties/data/drift_party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_commands.dart';
 import 'package:smart_khata/features/parties/domain/party_use_cases.dart';
+import 'package:smart_khata/features/reminders/data/drift_reminder_repository.dart';
 import 'package:smart_khata/features/reports/data/drift_reports_repository.dart';
+import 'package:smart_khata/features/security/data/secure_app_lock_repository.dart';
 import 'package:smart_khata/features/shop/data/drift_shop_repository.dart';
 import 'package:smart_khata/features/shop/domain/create_shop.dart';
 import 'package:smart_khata/features/shop/domain/shop.dart';
@@ -34,7 +41,7 @@ class SequentialIdGenerator implements IdGenerator {
 
 /// The real repositories and use cases on an in-memory database.
 class TestEnv {
-  TestEnv() : db = createTestDatabase() {
+  TestEnv({AppDatabase? database}) : db = database ?? createTestDatabase() {
     shops = DriftShopRepository(
       dao: db.shopDao,
       clock: clock,
@@ -98,6 +105,35 @@ class TestEnv {
       shop: shops,
       logger: logger,
     );
+    appLock = SecureAppLockRepository(
+      store: secrets,
+      clock: clock,
+      logger: logger,
+      // Fast and on this isolate: tests check the rules, not the cost.
+      hasher: pbkdf2PinHash,
+      iterations: 10,
+    );
+    backup = DriftBackupRepository(
+      dao: db.backupDao,
+      shop: shops,
+      clock: clock,
+      ids: ids,
+      logger: logger,
+      installer: installer,
+      workDirectory: () async => workDirectory,
+      schemaVersion: db.schemaVersion,
+      run: runInline,
+      kdf: testKdf,
+    );
+    exportBackup = ExportBackup(backup, backupFiles);
+    reminders = DriftReminderRepository(
+      dao: db.remindersDao,
+      shop: shops,
+      clock: clock,
+      ids: ids,
+      logger: logger,
+      notifier: notifier,
+    );
     createShop = CreateShop(shops);
     saveParty = SaveParty(parties);
     findDuplicates = FindDuplicateParties(parties);
@@ -109,6 +145,27 @@ class TestEnv {
   final SequentialIdGenerator ids = SequentialIdGenerator();
   final RecordingLogger logger = RecordingLogger();
   final RecordingShareService share = RecordingShareService();
+  final InMemorySecretStore secrets = InMemorySecretStore();
+  final FakeBiometricAuth biometrics = FakeBiometricAuth();
+  final FakeBackupFiles backupFiles = FakeBackupFiles();
+  final RecordingRestoreInstaller installer = RecordingRestoreInstaller();
+  final FakeReminderNotifier notifier = FakeReminderNotifier();
+
+  /// What the screens use for backup in full-app tests.
+  final FakeBackupRepository fakeBackup = FakeBackupRepository();
+
+  /// A private folder for snapshots and staged restores, removed by
+  /// [dispose].
+  late final Directory workDirectory = Directory.systemTemp.createTempSync(
+    'smart_khata_test_',
+  );
+
+  /// Cheap key stretching so that backup tests run in milliseconds.
+  static const KdfParams testKdf = KdfParams(
+    memoryKib: 64,
+    iterations: 1,
+    parallelism: 1,
+  );
 
   late final DriftShopRepository shops;
   late final DriftPartyRepository parties;
@@ -127,6 +184,10 @@ class TestEnv {
   late final DriftDailyClosingRepository closings;
   late final CloseDay closeDay;
   late final DriftReportsRepository reports;
+  late final SecureAppLockRepository appLock;
+  late final DriftBackupRepository backup;
+  late final ExportBackup exportBackup;
+  late final DriftReminderRepository reminders;
   late final CreateShop createShop;
   late final SaveParty saveParty;
   late final FindDuplicateParties findDuplicates;
@@ -197,5 +258,14 @@ class TestEnv {
 
   Future<int> count(String table) => db.scalar('SELECT COUNT(*) FROM $table');
 
-  Future<void> dispose() => db.close();
+  Future<void> dispose() async {
+    await db.close();
+    if (workDirectory.existsSync()) {
+      try {
+        workDirectory.deleteSync(recursive: true);
+      } on FileSystemException {
+        // A file still held open on Windows; the OS clears temp later.
+      }
+    }
+  }
 }

@@ -48,6 +48,15 @@ enum ValidationError {
   allocationInvalid,
   paidNowExceedsTotal,
   categoryRequired,
+
+  /// A PIN must be four to six digits.
+  invalidPin,
+
+  /// The value typed a second time is different from the first.
+  doesNotMatch,
+
+  /// A backup passphrase needs more characters.
+  passphraseTooShort,
 }
 
 /// The same operation ID was already posted. The earlier write stands, so
@@ -142,6 +151,46 @@ enum RuleViolation {
 
   /// The cash account is always needed and cannot be deactivated.
   cashAccountRequired,
+}
+
+/// A backup could not be made or a backup file could not be used. The
+/// records on the phone were not changed.
+final class BackupFailure extends Failure {
+  const BackupFailure(this.error);
+
+  final BackupError error;
+
+  @override
+  String get code => 'backup_${error.name}';
+
+  @override
+  List<Object?> get props => [code, error];
+}
+
+enum BackupError {
+  /// The file is not a Smart Khata backup.
+  notABackup,
+
+  /// Made by a newer app: its format or database version is not known.
+  newerVersion,
+
+  /// Wrong passphrase, or the file was damaged or altered. The two cannot
+  /// be told apart, by design of authenticated encryption.
+  wrongPassphraseOrDamaged,
+
+  /// Decrypted, but the contents failed a check (hash, database
+  /// integrity, counts or balances).
+  failedChecks,
+
+  /// Larger than the app accepts.
+  tooLarge,
+
+  /// The file could not be written to the place the owner chose.
+  notSaved,
+
+  /// The restored database could not be put in place; the earlier
+  /// records are still there.
+  notInstalled,
 }
 
 /// Anything not recognised above.

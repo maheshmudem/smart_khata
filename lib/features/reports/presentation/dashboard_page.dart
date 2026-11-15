@@ -141,18 +141,38 @@ class _DashboardBody extends StatelessWidget {
             children: [
               Text(AppDateFormat.date(context, state.today), style: muted),
               const SizedBox(height: AppSpacing.xs),
-              // Backup arrives in a later phase; until an export exists
-              // the owner is told so plainly (WF-010).
-              Row(
-                children: [
-                  Icon(
-                    Icons.warning_amber_outlined,
-                    size: AppSizes.iconSm,
-                    color: semantic.warning,
+              // The date of the last backup saved outside the app, or a
+              // plain warning that there is none (WF-010, FR-BKP-009).
+              InkWell(
+                onTap: () => unawaited(context.push(AppRoutes.backup)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+                  child: Row(
+                    children: [
+                      Icon(
+                        state.lastBackupAt == null
+                            ? Icons.warning_amber_outlined
+                            : Icons.verified_outlined,
+                        size: AppSizes.iconSm,
+                        color: state.lastBackupAt == null
+                            ? semantic.warning
+                            : theme.colorScheme.onSurfaceVariant,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Expanded(
+                        child: Text(
+                          switch (state.lastBackupAt) {
+                            null => l10n.dashNoBackup,
+                            final at => l10n.backupLastOn(
+                              AppDateFormat.instant(context, at),
+                            ),
+                          },
+                          style: muted,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: AppSpacing.xs),
-                  Expanded(child: Text(l10n.dashNoBackup, style: muted)),
-                ],
+                ),
               ),
             ],
           ),

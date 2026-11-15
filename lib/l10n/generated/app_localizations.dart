@@ -2773,6 +2773,636 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unpaid entries'**
   String get csvOpenEntries;
+
+  /// No description provided for @validationInvalidPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter 4 to 6 digits'**
+  String get validationInvalidPin;
+
+  /// No description provided for @validationDoesNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The two entries are not the same'**
+  String get validationDoesNotMatch;
+
+  /// No description provided for @validationPassphraseTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters'**
+  String get validationPassphraseTooShort;
+
+  /// No description provided for @backupErrorNotABackup.
+  ///
+  /// In en, this message translates to:
+  /// **'This file is not a Smart Khata backup.'**
+  String get backupErrorNotABackup;
+
+  /// No description provided for @backupErrorNewerVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup was made by a newer version of the app. Update the app, then try again. Nothing was changed.'**
+  String get backupErrorNewerVersion;
+
+  /// No description provided for @backupErrorWrongPassphrase.
+  ///
+  /// In en, this message translates to:
+  /// **'The passphrase is wrong, or the file is damaged. Nothing was changed.'**
+  String get backupErrorWrongPassphrase;
+
+  /// No description provided for @backupErrorFailedChecks.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup did not pass the checks, so it was not used. Nothing was changed.'**
+  String get backupErrorFailedChecks;
+
+  /// No description provided for @backupErrorTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'This file is too large to be a Smart Khata backup.'**
+  String get backupErrorTooLarge;
+
+  /// No description provided for @backupErrorNotSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup could not be saved there. No backup was made. Choose another place and try again.'**
+  String get backupErrorNotSaved;
+
+  /// No description provided for @backupErrorNotInstalled.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup could not be put in place. Your earlier records are still here.'**
+  String get backupErrorNotInstalled;
+
+  /// No description provided for @lockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Khata is locked'**
+  String get lockTitle;
+
+  /// No description provided for @pinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN'**
+  String get pinLabel;
+
+  /// No description provided for @actionUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get actionUnlock;
+
+  /// No description provided for @actionUseBiometrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Use fingerprint or face'**
+  String get actionUseBiometrics;
+
+  /// No description provided for @biometricReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Smart Khata'**
+  String get biometricReason;
+
+  /// No description provided for @lockWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Wrong PIN. 1 try left.} other{Wrong PIN. {count} tries left.}}'**
+  String lockWrongPin(int count);
+
+  /// No description provided for @lockPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many wrong tries. Try again after {time}.'**
+  String lockPaused(String time);
+
+  /// No description provided for @lockForgotNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A forgotten PIN cannot be recovered. Removing the app deletes the records on this phone, so keep an exported backup.'**
+  String get lockForgotNote;
+
+  /// No description provided for @securityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock'**
+  String get securityTitle;
+
+  /// No description provided for @securityExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock asks for a PIN before the app opens. It covers the screen only: it does not encrypt the records on this phone and it is not a backup.'**
+  String get securityExplain;
+
+  /// No description provided for @securityOn.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock is on'**
+  String get securityOn;
+
+  /// No description provided for @securityOff.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock is off'**
+  String get securityOff;
+
+  /// No description provided for @actionSetPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a PIN'**
+  String get actionSetPin;
+
+  /// No description provided for @actionChangePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Change PIN'**
+  String get actionChangePin;
+
+  /// No description provided for @actionTurnOffLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off app lock'**
+  String get actionTurnOffLock;
+
+  /// No description provided for @currentPinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current PIN'**
+  String get currentPinLabel;
+
+  /// No description provided for @newPinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New PIN (4 to 6 digits)'**
+  String get newPinLabel;
+
+  /// No description provided for @confirmPinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New PIN again'**
+  String get confirmPinLabel;
+
+  /// No description provided for @biometricsSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with fingerprint or face'**
+  String get biometricsSwitch;
+
+  /// No description provided for @biometricsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No fingerprint or face is set up on this phone'**
+  String get biometricsUnavailable;
+
+  /// No description provided for @autoLockLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for the PIN'**
+  String get autoLockLabel;
+
+  /// No description provided for @timeoutImmediately.
+  ///
+  /// In en, this message translates to:
+  /// **'Every time the app is opened'**
+  String get timeoutImmediately;
+
+  /// No description provided for @timeoutOneMinute.
+  ///
+  /// In en, this message translates to:
+  /// **'After 1 minute away'**
+  String get timeoutOneMinute;
+
+  /// No description provided for @timeoutFiveMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'After 5 minutes away'**
+  String get timeoutFiveMinutes;
+
+  /// No description provided for @pinSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN saved'**
+  String get pinSaved;
+
+  /// No description provided for @lockTurnedOff.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock turned off'**
+  String get lockTurnedOff;
+
+  /// No description provided for @errorWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'That PIN is not right'**
+  String get errorWrongPin;
+
+  /// No description provided for @errorPinPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many wrong tries. Wait a little and try again.'**
+  String get errorPinPaused;
+
+  /// No description provided for @backupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup and restore'**
+  String get backupTitle;
+
+  /// No description provided for @backupLastLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last exported backup'**
+  String get backupLastLabel;
+
+  /// No description provided for @backupLastOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup: {date}'**
+  String backupLastOn(String date);
+
+  /// No description provided for @actionCreateBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Create encrypted backup'**
+  String get actionCreateBackup;
+
+  /// No description provided for @actionRestoreBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from a backup'**
+  String get actionRestoreBackup;
+
+  /// No description provided for @backupIncludesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What a backup holds'**
+  String get backupIncludesTitle;
+
+  /// No description provided for @backupIncludesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Parties, every ledger entry, payments, the cash book, expenses, daily closings and settings. The app lock PIN is not included.'**
+  String get backupIncludesBody;
+
+  /// No description provided for @backupWhereNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You choose where the file is saved: this phone, a memory card or your own drive. Keep a copy outside this phone, because a lost phone takes its files with it.'**
+  String get backupWhereNote;
+
+  /// No description provided for @backupNoCloudNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The app does not upload anything. There is no automatic online backup in this version.'**
+  String get backupNoCloudNote;
+
+  /// No description provided for @backupCreateExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup file is locked with a passphrase that you choose. You will need the same passphrase to restore it, on this phone or a new one.'**
+  String get backupCreateExplain;
+
+  /// No description provided for @passphraseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase'**
+  String get passphraseLabel;
+
+  /// No description provided for @passphraseHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters. A few words work well.'**
+  String get passphraseHelp;
+
+  /// No description provided for @passphraseAgainLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase again'**
+  String get passphraseAgainLabel;
+
+  /// No description provided for @passphraseForgetWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the passphrase down and keep it safe. If it is forgotten, nobody can open this backup, not even the makers of the app.'**
+  String get passphraseForgetWarning;
+
+  /// No description provided for @actionCreateAndSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Create and save'**
+  String get actionCreateAndSave;
+
+  /// No description provided for @backupSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved'**
+  String get backupSaved;
+
+  /// No description provided for @backupNotSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'No backup was saved'**
+  String get backupNotSaved;
+
+  /// No description provided for @restoreExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a Smart Khata backup file and enter its passphrase. The file is checked first; nothing on this phone changes until you confirm.'**
+  String get restoreExplain;
+
+  /// No description provided for @actionChooseBackupFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose backup file'**
+  String get actionChooseBackupFile;
+
+  /// No description provided for @actionChooseAnotherFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose another file'**
+  String get actionChooseAnotherFile;
+
+  /// No description provided for @restorePassphraseHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The passphrase used when this backup was made'**
+  String get restorePassphraseHelp;
+
+  /// No description provided for @actionCheckBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Check backup'**
+  String get actionCheckBackup;
+
+  /// No description provided for @restoreCheckedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup passed the checks'**
+  String get restoreCheckedTitle;
+
+  /// No description provided for @restoreBackupDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup made on'**
+  String get restoreBackupDate;
+
+  /// No description provided for @restoreParties.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers and suppliers'**
+  String get restoreParties;
+
+  /// No description provided for @restoreEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries'**
+  String get restoreEntries;
+
+  /// No description provided for @restoreAppVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Made by app version'**
+  String get restoreAppVersion;
+
+  /// No description provided for @restoreReplaceWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring replaces every record now on this phone with the records in this backup. The two are not combined.'**
+  String get restoreReplaceWarning;
+
+  /// No description provided for @actionReplaceRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace records with this backup'**
+  String get actionReplaceRecords;
+
+  /// No description provided for @restoreConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace all records on this phone?'**
+  String get restoreConfirmTitle;
+
+  /// No description provided for @restoreConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries made on this phone after this backup will no longer be shown. The app will start again on the restored records.'**
+  String get restoreConfirmBody;
+
+  /// No description provided for @restoreSafetyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Before replacing, the app keeps the current records as a safety copy inside the app on this phone, until the next restore. It is not a backup: removing the app deletes it.'**
+  String get restoreSafetyNote;
+
+  /// No description provided for @remindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get remindersTitle;
+
+  /// No description provided for @remindersExplainCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers with unpaid entries that have a due date. Sharing a reminder opens your phone\'s share sheet; the app sends nothing by itself.'**
+  String get remindersExplainCustomers;
+
+  /// No description provided for @remindersExplainSuppliers.
+  ///
+  /// In en, this message translates to:
+  /// **'Suppliers you still have to pay, where the entry has a due date. You can set a reminder for yourself.'**
+  String get remindersExplainSuppliers;
+
+  /// No description provided for @remindersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No unpaid entry has a due date'**
+  String get remindersEmpty;
+
+  /// No description provided for @reminderOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} past due date'**
+  String reminderOverdue(String amount);
+
+  /// No description provided for @reminderOldestDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest due date {date}'**
+  String reminderOldestDue(String date);
+
+  /// No description provided for @reminderLastShared.
+  ///
+  /// In en, this message translates to:
+  /// **'Share sheet opened on {date}'**
+  String reminderLastShared(String date);
+
+  /// No description provided for @reminderSetFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Your reminder is set for {date}'**
+  String reminderSetFor(String date);
+
+  /// No description provided for @actionShareReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Share reminder'**
+  String get actionShareReminder;
+
+  /// No description provided for @actionRemindMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me'**
+  String get actionRemindMe;
+
+  /// No description provided for @actionCancelReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel my reminder'**
+  String get actionCancelReminder;
+
+  /// No description provided for @reminderPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder message'**
+  String get reminderPreviewTitle;
+
+  /// No description provided for @reminderMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello {party}, this is a reminder from {shop}. {amount} is pending in your account. Please pay when you can. Thank you.'**
+  String reminderMessage(String party, String amount, String shop);
+
+  /// No description provided for @reminderSharedRecently.
+  ///
+  /// In en, this message translates to:
+  /// **'You opened the share sheet for this customer on {date}. Remind again only if needed.'**
+  String reminderSharedRecently(String date);
+
+  /// No description provided for @reminderNotificationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You set a payment reminder for today. Open the app to see it.'**
+  String get reminderNotificationBody;
+
+  /// No description provided for @reminderSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder set'**
+  String get reminderSet;
+
+  /// No description provided for @reminderCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder cancelled'**
+  String get reminderCancelled;
+
+  /// No description provided for @reminderNotificationsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off for Smart Khata. Turn them on in the phone settings to get reminders.'**
+  String get reminderNotificationsOff;
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help and about'**
+  String get helpTitle;
+
+  /// No description provided for @helpHowToTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to use Smart Khata'**
+  String get helpHowToTitle;
+
+  /// No description provided for @helpStepParties.
+  ///
+  /// In en, this message translates to:
+  /// **'Add each customer and supplier once, from Parties.'**
+  String get helpStepParties;
+
+  /// No description provided for @helpStepCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the Add button to give credit or record a purchase.'**
+  String get helpStepCredit;
+
+  /// No description provided for @helpStepPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Record every payment when it happens. It is taken off the oldest dues first.'**
+  String get helpStepPayment;
+
+  /// No description provided for @helpStepMistake.
+  ///
+  /// In en, this message translates to:
+  /// **'A wrong entry is not erased. Open it and reverse it with a reason, then add the right one.'**
+  String get helpStepMistake;
+
+  /// No description provided for @helpStepClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'At the end of the day, count the cash and close the day.'**
+  String get helpStepClosing;
+
+  /// No description provided for @helpStepBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a backup often and keep the file outside this phone.'**
+  String get helpStepBackup;
+
+  /// No description provided for @helpDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where your records are'**
+  String get helpDataTitle;
+
+  /// No description provided for @helpDataOnPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'All records are kept on this phone only, inside the app.'**
+  String get helpDataOnPhone;
+
+  /// No description provided for @helpDataNoNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'The app does not use the internet and sends nothing to anyone. Records leave the phone only when you share or export them yourself.'**
+  String get helpDataNoNetwork;
+
+  /// No description provided for @helpDataUninstall.
+  ///
+  /// In en, this message translates to:
+  /// **'Removing the app, or losing the phone, deletes the records. Only an exported backup can bring them back.'**
+  String get helpDataUninstall;
+
+  /// No description provided for @helpDataNotEncrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup files are encrypted with your passphrase. The records inside the app are protected by the phone itself and by the app lock, not by separate encryption.'**
+  String get helpDataNotEncrypted;
+
+  /// No description provided for @helpSupportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get helpSupportTitle;
+
+  /// No description provided for @helpAboutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get helpAboutTitle;
+
+  /// No description provided for @helpVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String helpVersion(String version);
+
+  /// No description provided for @helpLicences.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source licences'**
+  String get helpLicences;
 }
 
 class _AppLocalizationsDelegate

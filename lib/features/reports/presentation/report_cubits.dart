@@ -10,6 +10,7 @@ import 'package:smart_khata/core/errors/failure.dart';
 import 'package:smart_khata/core/errors/result.dart';
 import 'package:smart_khata/core/export/share_service.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
+import 'package:smart_khata/features/backup/domain/backup.dart';
 import 'package:smart_khata/features/reports/domain/reports.dart';
 import 'package:smart_khata/features/shop/domain/shop_repository.dart';
 
@@ -43,11 +44,15 @@ class DashboardState extends Equatable {
     this.shopName = '',
     this.summary,
     this.activity = const [],
+    this.lastBackupAt,
     this.failure,
   });
 
   final LoadStatus status;
   final BusinessDate today;
+
+  /// When the newest backup saved outside the app was made (FR-BKP-009).
+  final DateTime? lastBackupAt;
   final String shopName;
   final DashboardSummary? summary;
   final List<ActivityItem> activity;
@@ -63,6 +68,7 @@ class DashboardState extends Equatable {
     String? shopName,
     DashboardSummary? summary,
     List<ActivityItem>? activity,
+    DateTime? Function()? lastBackupAt,
     Failure? failure,
   }) => DashboardState(
     status: status ?? this.status,
@@ -70,6 +76,7 @@ class DashboardState extends Equatable {
     shopName: shopName ?? this.shopName,
     summary: summary ?? this.summary,
     activity: activity ?? this.activity,
+    lastBackupAt: lastBackupAt == null ? this.lastBackupAt : lastBackupAt(),
     failure: failure,
   );
 
@@ -80,6 +87,7 @@ class DashboardState extends Equatable {
     shopName,
     summary,
     activity,
+    lastBackupAt,
     failure,
   ];
 }
@@ -92,9 +100,15 @@ class DashboardCubit extends Cubit<DashboardState> {
     required this._reports,
     required this._shops,
     required this._today,
+    BackupRepository? backup,
   }) : super(DashboardState(today: _today())) {
     unawaited(_loadShop());
     _watch();
+    // Unknown is shown as "no backup yet", which errs on the safe side.
+    _backupSubscription = backup?.watchLastBackupAt().listen(
+      (at) => emit(state.copyWith(lastBackupAt: () => at)),
+      onError: (Object _) {},
+    );
   }
 
   static const int activityLimit = 5;
@@ -105,6 +119,7 @@ class DashboardCubit extends Cubit<DashboardState> {
 
   StreamSubscription<DashboardSummary>? _summarySubscription;
   StreamSubscription<List<ActivityItem>>? _activitySubscription;
+  StreamSubscription<DateTime?>? _backupSubscription;
 
   Future<void> _loadShop() async {
     final shop = (await _shops.getShop()).valueOrNull;
@@ -155,6 +170,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   Future<void> close() async {
     await _summarySubscription?.cancel();
     await _activitySubscription?.cancel();
+    await _backupSubscription?.cancel();
     return super.close();
   }
 }

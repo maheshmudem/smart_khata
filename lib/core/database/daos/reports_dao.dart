@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:smart_khata/core/database/app_database.dart';
 import 'package:smart_khata/core/database/converters.dart';
+import 'package:smart_khata/core/database/sql_fragments.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 
 part 'reports_dao.g.dart';
@@ -159,30 +160,6 @@ const int _maxInstant = 9007199254740991;
 const String _minDate = '0000-00-00';
 const String _maxDate = '9999-99-99';
 
-/// A live transaction: not reversed. (A reversal itself has its own type
-/// and is never matched by the type filters below.)
-const String _notReversed = '''
-  NOT EXISTS (SELECT 1 FROM financial_transactions r
-              WHERE r.reversal_of_transaction_id = t.id)''';
-
-/// Charges that are not fully settled, with what is still open on each and
-/// the instant it ages from (due date, else entry date). The same rule as
-/// `LedgerDao.openCharges`, over every account of the shop (`?1`).
-const String _openCharges = '''
-  SELECT e.party_account_id AS account_id, e.due_at AS due_at,
-         COALESCE(e.due_at, t.effective_at) AS aging_at,
-         e.amount_paise - COALESCE((
-           SELECT SUM(CASE WHEN x.event_type = 'allocate'
-                           THEN x.amount_paise ELSE -x.amount_paise END)
-           FROM ledger_allocation_events x
-           WHERE x.target_entry_id = e.id
-         ), 0) AS open_paise
-  FROM party_ledger_entries e
-  JOIN financial_transactions t ON t.id = e.transaction_id
-  WHERE e.shop_id = ?1
-    AND e.amount_paise > 0 AND e.entry_kind IN ('charge', 'opening')
-    AND $_notReversed''';
-
 /// Read-only queries behind the dashboard and reports. Every figure is
 /// computed from ledger entries, allocation events and money movements;
 /// nothing is stored.
@@ -218,14 +195,14 @@ class ReportsDao extends DatabaseAccessor<AppDatabase> with _$ReportsDaoMixin {
     ),
     overdue AS (
       SELECT DISTINCT a.id AS account_id, a.role AS role
-      FROM ($_openCharges) o
+      FROM ($sqlOpenCharges) o
       JOIN party_accounts a ON a.id = o.account_id
       WHERE o.open_paise > 0 AND o.due_at IS NOT NULL AND o.due_at < ?2
     ),
     today AS (
       SELECT t.transaction_type AS type, SUM(t.amount_paise) AS paise
       FROM financial_transactions t
-      WHERE t.shop_id = ?1 AND t.business_date = ?3 AND $_notReversed
+      WHERE t.shop_id = ?1 AND t.business_date = ?3 AND $sqlNotReversed
       GROUP BY t.transaction_type
     )
     SELECT
@@ -368,7 +345,7 @@ class ReportsDao extends DatabaseAccessor<AppDatabase> with _$ReportsDaoMixin {
   }) => customSelect(
     '''
     SELECT $_agingColumns
-    FROM ($_openCharges) o
+    FROM ($sqlOpenCharges) o
     JOIN party_accounts a ON a.id = o.account_id
     WHERE a.role = ?2 AND o.open_paise > 0
     ''',
@@ -389,7 +366,7 @@ class ReportsDao extends DatabaseAccessor<AppDatabase> with _$ReportsDaoMixin {
     SELECT p.id AS party_id, a.id AS account_id, p.display_name AS party_name,
            MIN(o.aging_at) AS oldest_aging_at, COUNT(*) AS open_count,
            $_agingColumns
-    FROM ($_openCharges) o
+    FROM ($sqlOpenCharges) o
     JOIN party_accounts a ON a.id = o.account_id
     JOIN parties p ON p.id = a.party_id
     WHERE a.role = ?2 AND o.open_paise > 0
@@ -470,7 +447,7 @@ class ReportsDao extends DatabaseAccessor<AppDatabase> with _$ReportsDaoMixin {
       SELECT t.transaction_type AS type, SUM(t.amount_paise) AS paise
       FROM financial_transactions t
       WHERE t.shop_id = ? AND t.business_date >= ? AND t.business_date <= ?
-        AND t.transaction_type <> 'transaction_reversal' AND $_notReversed
+        AND t.transaction_type <> 'transaction_reversal' AND $sqlNotReversed
       GROUP BY t.transaction_type
       ''',
       variables: _periodVariables(shopId, fromDate, toDate),
@@ -494,7 +471,7 @@ class ReportsDao extends DatabaseAccessor<AppDatabase> with _$ReportsDaoMixin {
       JOIN financial_transactions t ON t.id = v.transaction_id
       WHERE t.shop_id = ? AND t.business_date >= ? AND t.business_date <= ?
         AND t.transaction_type = 'customer_payment'
-        AND v.direction = 'inflow' AND $_notReversed
+        AND v.direction = 'inflow' AND $sqlNotReversed
       GROUP BY v.payment_method
       ''',
       variables: _periodVariables(shopId, fromDate, toDate),
@@ -516,7 +493,7 @@ class ReportsDao extends DatabaseAccessor<AppDatabase> with _$ReportsDaoMixin {
     FROM expenses x
     JOIN financial_transactions t ON t.id = x.transaction_id
     WHERE t.shop_id = ? AND t.business_date >= ? AND t.business_date <= ?
-      AND $_notReversed
+      AND $sqlNotReversed
     GROUP BY x.category_name_snapshot
     ORDER BY paise DESC, category ASC
     ''',
@@ -543,7 +520,7 @@ class ReportsDao extends DatabaseAccessor<AppDatabase> with _$ReportsDaoMixin {
     WHERE t.shop_id = ? AND t.business_date >= ? AND t.business_date <= ?
       AND t.transaction_type IN
           ('customer_credit', 'customer_payment', 'expense')
-      AND $_notReversed
+      AND $sqlNotReversed
     GROUP BY t.business_date
     ORDER BY t.business_date DESC
     LIMIT ?

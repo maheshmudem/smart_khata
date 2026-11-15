@@ -1,4 +1,10 @@
+import 'dart:io';
+
 import 'package:get_it/get_it.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:smart_khata/app/platform/platform_backup_files.dart';
+import 'package:smart_khata/app/platform/platform_reminder_notifier.dart';
+import 'package:smart_khata/app/security/platform_security.dart';
 import 'package:smart_khata/app/share/platform_share_service.dart';
 import 'package:smart_khata/core/database/app_database.dart';
 import 'package:smart_khata/core/date_time/clock.dart';
@@ -6,6 +12,9 @@ import 'package:smart_khata/core/domain/shop_context.dart';
 import 'package:smart_khata/core/export/share_service.dart';
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
+import 'package:smart_khata/core/security/secret_store.dart';
+import 'package:smart_khata/features/backup/data/drift_backup_repository.dart';
+import 'package:smart_khata/features/backup/domain/backup.dart';
 import 'package:smart_khata/features/daily_closing/data/drift_daily_closing_repository.dart';
 import 'package:smart_khata/features/daily_closing/domain/daily_closing.dart';
 import 'package:smart_khata/features/expenses/data/drift_expense_repository.dart';
@@ -21,8 +30,12 @@ import 'package:smart_khata/features/money/domain/money_account.dart';
 import 'package:smart_khata/features/parties/data/drift_party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_use_cases.dart';
+import 'package:smart_khata/features/reminders/data/drift_reminder_repository.dart';
+import 'package:smart_khata/features/reminders/domain/reminders.dart';
 import 'package:smart_khata/features/reports/data/drift_reports_repository.dart';
 import 'package:smart_khata/features/reports/domain/reports.dart';
+import 'package:smart_khata/features/security/data/secure_app_lock_repository.dart';
+import 'package:smart_khata/features/security/domain/app_lock.dart';
 import 'package:smart_khata/features/settings/data/drift_settings_repository.dart';
 import 'package:smart_khata/features/settings/domain/settings_repository.dart';
 import 'package:smart_khata/features/shop/data/drift_shop_repository.dart';
@@ -45,6 +58,14 @@ void configureDependencies({
   Clock? clock,
   IdGenerator? idGenerator,
   ShareService? shareService,
+  SecretStore? secretStore,
+  BiometricAuth? biometricAuth,
+  BackupFilePort? backupFiles,
+  RestoreInstaller? restoreInstaller,
+  BackupRepository? backupRepository,
+  ReminderNotifier? reminderNotifier,
+  Future<Directory> Function()? workDirectory,
+  Future<void> Function()? restartApp,
 }) {
   getIt
     // Core
@@ -185,5 +206,62 @@ void configureDependencies({
     )
     ..registerSingleton<ShareService>(
       shareService ?? const PlatformShareService(),
+    )
+    // App lock
+    ..registerSingleton<SecretStore>(
+      secretStore ?? const PlatformSecretStore(),
+    )
+    ..registerLazySingleton<BiometricAuth>(
+      () => biometricAuth ?? PlatformBiometricAuth(),
+    )
+    ..registerLazySingleton<AppLockRepository>(
+      () => SecureAppLockRepository(
+        store: getIt<SecretStore>(),
+        clock: getIt<Clock>(),
+        logger: getIt<AppLogger>(),
+      ),
+    )
+    // Backup and restore
+    ..registerSingleton<BackupFilePort>(
+      backupFiles ?? const PlatformBackupFiles(),
+    )
+    ..registerLazySingleton<RestoreInstaller>(
+      () =>
+          restoreInstaller ??
+          AppRestoreInstaller(
+            closeDatabase: () => getIt<AppDatabase>().close(),
+            restart: restartApp ?? () async {},
+          ),
+    )
+    ..registerLazySingleton<BackupRepository>(
+      () =>
+          backupRepository ??
+          DriftBackupRepository(
+            dao: getIt<AppDatabase>().backupDao,
+            shop: getIt<ShopContext>(),
+            clock: getIt<Clock>(),
+            ids: getIt<IdGenerator>(),
+            logger: getIt<AppLogger>(),
+            installer: getIt<RestoreInstaller>(),
+            workDirectory: workDirectory ?? getTemporaryDirectory,
+            schemaVersion: getIt<AppDatabase>().schemaVersion,
+          ),
+    )
+    ..registerFactory<ExportBackup>(
+      () => ExportBackup(getIt<BackupRepository>(), getIt<BackupFilePort>()),
+    )
+    // Reminders
+    ..registerLazySingleton<ReminderNotifier>(
+      () => reminderNotifier ?? PlatformReminderNotifier(),
+    )
+    ..registerLazySingleton<ReminderRepository>(
+      () => DriftReminderRepository(
+        dao: getIt<AppDatabase>().remindersDao,
+        shop: getIt<ShopContext>(),
+        clock: getIt<Clock>(),
+        ids: getIt<IdGenerator>(),
+        logger: getIt<AppLogger>(),
+        notifier: getIt<ReminderNotifier>(),
+      ),
     );
 }

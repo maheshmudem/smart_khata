@@ -8,11 +8,15 @@ import 'package:smart_khata/app/app.dart';
 import 'package:smart_khata/app/app_bloc_observer.dart';
 import 'package:smart_khata/app/di/injection.dart';
 import 'package:smart_khata/app/localization/locale_cubit.dart';
+import 'package:smart_khata/core/date_time/clock.dart';
 import 'package:smart_khata/core/date_time/shop_time_zone.dart';
 import 'package:smart_khata/core/errors/result.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
+import 'package:smart_khata/core/security/secret_store.dart';
 import 'package:smart_khata/core/theme/app_tokens.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
+import 'package:smart_khata/features/reminders/domain/reminders.dart';
+import 'package:smart_khata/features/security/domain/app_lock.dart';
 import 'package:smart_khata/features/settings/domain/settings_repository.dart';
 
 /// Starts the app: installs error handlers, wires dependencies, reads the
@@ -26,7 +30,7 @@ Future<void> bootstrap() async {
       _installErrorHandlers(logger);
       Bloc.observer = const AppBlocObserver(logger);
       ShopTimeZone.ensureInitialized();
-      configureDependencies(logger: logger);
+      configureDependencies(logger: logger, restartApp: restartApp);
       await _start();
     },
     (error, stackTrace) => logger.error(
@@ -35,6 +39,14 @@ Future<void> bootstrap() async {
       stackTrace: stackTrace,
     ),
   );
+}
+
+/// Starts the app again from nothing: every repository is rebuilt on the
+/// database file that is now in place. Used after a restore.
+Future<void> restartApp() async {
+  await getIt.reset();
+  configureDependencies(logger: const AppLogger(), restartApp: restartApp);
+  await _start();
 }
 
 /// Reads what the first frame needs. The first read also opens the
@@ -49,7 +61,13 @@ Future<void> _start() async {
     if (onboardingResult case Ok(value: final onboardingComplete)) {
       runApp(
         SmartKhataApp(
+          // A new key each start, so a restart rebuilds every screen.
+          key: UniqueKey(),
           settings: settings,
+          appLock: getIt<AppLockRepository>(),
+          biometrics: getIt<BiometricAuth>(),
+          reminders: getIt<ReminderRepository>(),
+          clock: getIt<Clock>(),
           initialLocale: AppLocales.resolveInitial(
             savedCode: savedCode,
             deviceLocale: PlatformDispatcher.instance.locale,

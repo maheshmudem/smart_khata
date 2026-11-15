@@ -5,6 +5,7 @@ import 'package:smart_khata/core/date_time/date_range.dart';
 import 'package:smart_khata/core/date_time/shop_time_zone.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/l10n/generated/app_localizations.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 /// Dates as the owner reads them: in the selected language and in the
 /// shop's time zone (wireframes 1.3).
@@ -14,6 +15,18 @@ abstract final class AppDateFormat {
     context,
     BusinessDate.fromInstant(instantUtc, ShopTimeZone.resolve(null)),
   );
+
+  /// A stored UTC instant as a time of day in the shop's zone, e.g.
+  /// `10:32 AM`.
+  static String timeOfDay(BuildContext context, DateTime instantUtc) {
+    final local = tz.TZDateTime.from(instantUtc, ShopTimeZone.resolve(null));
+    final locale = Localizations.localeOf(context).toLanguageTag();
+    return DateFormat.jm(
+      locale,
+    ).format(
+      DateTime(local.year, local.month, local.day, local.hour, local.minute),
+    );
+  }
 
   static String date(BuildContext context, BusinessDate date) {
     final locale = Localizations.localeOf(context).toLanguageTag();

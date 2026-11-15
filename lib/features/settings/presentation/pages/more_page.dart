@@ -8,8 +8,8 @@ import 'package:smart_khata/core/theme/app_tokens.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
 import 'package:smart_khata/core/widgets/language_options.dart';
 
-/// The More tab (WF-080). Only the language setting exists so far; the
-/// remaining rows arrive with their features.
+/// The More tab (WF-080): language, reminders, backup, app lock, the
+/// money and expense lists, and help.
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
 
@@ -32,6 +32,22 @@ class MorePage extends StatelessWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showLanguageSheet(context),
           ),
+          const Divider(),
+          for (final (icon, title, route) in [
+            (
+              Icons.notifications_none,
+              l10n.remindersTitle,
+              AppRoutes.reminders,
+            ),
+            (Icons.backup_outlined, l10n.backupTitle, AppRoutes.backup),
+            (Icons.lock_outline, l10n.securityTitle, AppRoutes.security),
+          ])
+            ListTile(
+              leading: Icon(icon),
+              title: Text(title),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push(route),
+            ),
           const Divider(),
           for (final (icon, title, route) in [
             (
@@ -58,6 +74,12 @@ class MorePage extends StatelessWidget {
               onTap: () => context.push(route),
             ),
           const Divider(),
+          ListTile(
+            leading: const Icon(Icons.help_outline),
+            title: Text(l10n.helpTitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(AppRoutes.help),
+          ),
           ListTile(
             leading: const Icon(Icons.cloud_off_outlined),
             title: Text(l10n.offlineReady),

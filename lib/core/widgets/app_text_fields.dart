@@ -25,6 +25,8 @@ class AppTextField extends StatelessWidget {
     this.enabled = true,
     this.isRequired = false,
     this.autofocus = false,
+    this.obscureText = false,
+    this.onSubmitted,
     super.key,
   });
 
@@ -44,6 +46,10 @@ class AppTextField extends StatelessWidget {
   final bool isRequired;
   final bool autofocus;
 
+  /// Hides what is typed (a PIN or passphrase).
+  final bool obscureText;
+  final ValueChanged<String>? onSubmitted;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -58,6 +64,11 @@ class AppTextField extends StatelessWidget {
       maxLength: maxLength,
       enabled: enabled,
       autofocus: autofocus,
+      obscureText: obscureText,
+      // A secret is never offered to the keyboard's suggestions.
+      enableSuggestions: !obscureText,
+      autocorrect: !obscureText,
+      onFieldSubmitted: onSubmitted,
       decoration: InputDecoration(
         labelText: isRequired ? '$label *' : label,
         errorText: errorText,

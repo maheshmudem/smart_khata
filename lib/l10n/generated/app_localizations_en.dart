@@ -1497,4 +1497,379 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csvOpenEntries => 'Unpaid entries';
+
+  @override
+  String get validationInvalidPin => 'Enter 4 to 6 digits';
+
+  @override
+  String get validationDoesNotMatch => 'The two entries are not the same';
+
+  @override
+  String get validationPassphraseTooShort => 'Use at least 8 characters';
+
+  @override
+  String get backupErrorNotABackup => 'This file is not a Smart Khata backup.';
+
+  @override
+  String get backupErrorNewerVersion =>
+      'This backup was made by a newer version of the app. Update the app, then try again. Nothing was changed.';
+
+  @override
+  String get backupErrorWrongPassphrase =>
+      'The passphrase is wrong, or the file is damaged. Nothing was changed.';
+
+  @override
+  String get backupErrorFailedChecks =>
+      'This backup did not pass the checks, so it was not used. Nothing was changed.';
+
+  @override
+  String get backupErrorTooLarge =>
+      'This file is too large to be a Smart Khata backup.';
+
+  @override
+  String get backupErrorNotSaved =>
+      'The backup could not be saved there. No backup was made. Choose another place and try again.';
+
+  @override
+  String get backupErrorNotInstalled =>
+      'The backup could not be put in place. Your earlier records are still here.';
+
+  @override
+  String get lockTitle => 'Smart Khata is locked';
+
+  @override
+  String get pinLabel => 'PIN';
+
+  @override
+  String get actionUnlock => 'Unlock';
+
+  @override
+  String get actionUseBiometrics => 'Use fingerprint or face';
+
+  @override
+  String get biometricReason => 'Unlock Smart Khata';
+
+  @override
+  String lockWrongPin(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wrong PIN. $count tries left.',
+      one: 'Wrong PIN. 1 try left.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String lockPaused(String time) {
+    return 'Too many wrong tries. Try again after $time.';
+  }
+
+  @override
+  String get lockForgotNote =>
+      'A forgotten PIN cannot be recovered. Removing the app deletes the records on this phone, so keep an exported backup.';
+
+  @override
+  String get securityTitle => 'App lock';
+
+  @override
+  String get securityExplain =>
+      'App lock asks for a PIN before the app opens. It covers the screen only: it does not encrypt the records on this phone and it is not a backup.';
+
+  @override
+  String get securityOn => 'App lock is on';
+
+  @override
+  String get securityOff => 'App lock is off';
+
+  @override
+  String get actionSetPin => 'Set a PIN';
+
+  @override
+  String get actionChangePin => 'Change PIN';
+
+  @override
+  String get actionTurnOffLock => 'Turn off app lock';
+
+  @override
+  String get currentPinLabel => 'Current PIN';
+
+  @override
+  String get newPinLabel => 'New PIN (4 to 6 digits)';
+
+  @override
+  String get confirmPinLabel => 'New PIN again';
+
+  @override
+  String get biometricsSwitch => 'Unlock with fingerprint or face';
+
+  @override
+  String get biometricsUnavailable =>
+      'No fingerprint or face is set up on this phone';
+
+  @override
+  String get autoLockLabel => 'Ask for the PIN';
+
+  @override
+  String get timeoutImmediately => 'Every time the app is opened';
+
+  @override
+  String get timeoutOneMinute => 'After 1 minute away';
+
+  @override
+  String get timeoutFiveMinutes => 'After 5 minutes away';
+
+  @override
+  String get pinSaved => 'PIN saved';
+
+  @override
+  String get lockTurnedOff => 'App lock turned off';
+
+  @override
+  String get errorWrongPin => 'That PIN is not right';
+
+  @override
+  String get errorPinPaused =>
+      'Too many wrong tries. Wait a little and try again.';
+
+  @override
+  String get backupTitle => 'Backup and restore';
+
+  @override
+  String get backupLastLabel => 'Last exported backup';
+
+  @override
+  String backupLastOn(String date) {
+    return 'Last backup: $date';
+  }
+
+  @override
+  String get actionCreateBackup => 'Create encrypted backup';
+
+  @override
+  String get actionRestoreBackup => 'Restore from a backup';
+
+  @override
+  String get backupIncludesTitle => 'What a backup holds';
+
+  @override
+  String get backupIncludesBody =>
+      'Parties, every ledger entry, payments, the cash book, expenses, daily closings and settings. The app lock PIN is not included.';
+
+  @override
+  String get backupWhereNote =>
+      'You choose where the file is saved: this phone, a memory card or your own drive. Keep a copy outside this phone, because a lost phone takes its files with it.';
+
+  @override
+  String get backupNoCloudNote =>
+      'The app does not upload anything. There is no automatic online backup in this version.';
+
+  @override
+  String get backupCreateExplain =>
+      'The backup file is locked with a passphrase that you choose. You will need the same passphrase to restore it, on this phone or a new one.';
+
+  @override
+  String get passphraseLabel => 'Passphrase';
+
+  @override
+  String get passphraseHelp => 'At least 8 characters. A few words work well.';
+
+  @override
+  String get passphraseAgainLabel => 'Passphrase again';
+
+  @override
+  String get passphraseForgetWarning =>
+      'Write the passphrase down and keep it safe. If it is forgotten, nobody can open this backup, not even the makers of the app.';
+
+  @override
+  String get actionCreateAndSave => 'Create and save';
+
+  @override
+  String get backupSaved => 'Backup saved';
+
+  @override
+  String get backupNotSaved => 'No backup was saved';
+
+  @override
+  String get restoreExplain =>
+      'Choose a Smart Khata backup file and enter its passphrase. The file is checked first; nothing on this phone changes until you confirm.';
+
+  @override
+  String get actionChooseBackupFile => 'Choose backup file';
+
+  @override
+  String get actionChooseAnotherFile => 'Choose another file';
+
+  @override
+  String get restorePassphraseHelp =>
+      'The passphrase used when this backup was made';
+
+  @override
+  String get actionCheckBackup => 'Check backup';
+
+  @override
+  String get restoreCheckedTitle => 'This backup passed the checks';
+
+  @override
+  String get restoreBackupDate => 'Backup made on';
+
+  @override
+  String get restoreParties => 'Customers and suppliers';
+
+  @override
+  String get restoreEntries => 'Entries';
+
+  @override
+  String get restoreAppVersion => 'Made by app version';
+
+  @override
+  String get restoreReplaceWarning =>
+      'Restoring replaces every record now on this phone with the records in this backup. The two are not combined.';
+
+  @override
+  String get actionReplaceRecords => 'Replace records with this backup';
+
+  @override
+  String get restoreConfirmTitle => 'Replace all records on this phone?';
+
+  @override
+  String get restoreConfirmBody =>
+      'Entries made on this phone after this backup will no longer be shown. The app will start again on the restored records.';
+
+  @override
+  String get restoreSafetyNote =>
+      'Before replacing, the app keeps the current records as a safety copy inside the app on this phone, until the next restore. It is not a backup: removing the app deletes it.';
+
+  @override
+  String get remindersTitle => 'Reminders';
+
+  @override
+  String get remindersExplainCustomers =>
+      'Customers with unpaid entries that have a due date. Sharing a reminder opens your phone\'s share sheet; the app sends nothing by itself.';
+
+  @override
+  String get remindersExplainSuppliers =>
+      'Suppliers you still have to pay, where the entry has a due date. You can set a reminder for yourself.';
+
+  @override
+  String get remindersEmpty => 'No unpaid entry has a due date';
+
+  @override
+  String reminderOverdue(String amount) {
+    return '$amount past due date';
+  }
+
+  @override
+  String reminderOldestDue(String date) {
+    return 'Oldest due date $date';
+  }
+
+  @override
+  String reminderLastShared(String date) {
+    return 'Share sheet opened on $date';
+  }
+
+  @override
+  String reminderSetFor(String date) {
+    return 'Your reminder is set for $date';
+  }
+
+  @override
+  String get actionShareReminder => 'Share reminder';
+
+  @override
+  String get actionRemindMe => 'Remind me';
+
+  @override
+  String get actionCancelReminder => 'Cancel my reminder';
+
+  @override
+  String get reminderPreviewTitle => 'Reminder message';
+
+  @override
+  String reminderMessage(String party, String amount, String shop) {
+    return 'Hello $party, this is a reminder from $shop. $amount is pending in your account. Please pay when you can. Thank you.';
+  }
+
+  @override
+  String reminderSharedRecently(String date) {
+    return 'You opened the share sheet for this customer on $date. Remind again only if needed.';
+  }
+
+  @override
+  String get reminderNotificationBody =>
+      'You set a payment reminder for today. Open the app to see it.';
+
+  @override
+  String get reminderSet => 'Reminder set';
+
+  @override
+  String get reminderCancelled => 'Reminder cancelled';
+
+  @override
+  String get reminderNotificationsOff =>
+      'Notifications are off for Smart Khata. Turn them on in the phone settings to get reminders.';
+
+  @override
+  String get helpTitle => 'Help and about';
+
+  @override
+  String get helpHowToTitle => 'How to use Smart Khata';
+
+  @override
+  String get helpStepParties =>
+      'Add each customer and supplier once, from Parties.';
+
+  @override
+  String get helpStepCredit =>
+      'Use the Add button to give credit or record a purchase.';
+
+  @override
+  String get helpStepPayment =>
+      'Record every payment when it happens. It is taken off the oldest dues first.';
+
+  @override
+  String get helpStepMistake =>
+      'A wrong entry is not erased. Open it and reverse it with a reason, then add the right one.';
+
+  @override
+  String get helpStepClosing =>
+      'At the end of the day, count the cash and close the day.';
+
+  @override
+  String get helpStepBackup =>
+      'Create a backup often and keep the file outside this phone.';
+
+  @override
+  String get helpDataTitle => 'Where your records are';
+
+  @override
+  String get helpDataOnPhone =>
+      'All records are kept on this phone only, inside the app.';
+
+  @override
+  String get helpDataNoNetwork =>
+      'The app does not use the internet and sends nothing to anyone. Records leave the phone only when you share or export them yourself.';
+
+  @override
+  String get helpDataUninstall =>
+      'Removing the app, or losing the phone, deletes the records. Only an exported backup can bring them back.';
+
+  @override
+  String get helpDataNotEncrypted =>
+      'Backup files are encrypted with your passphrase. The records inside the app are protected by the phone itself and by the app lock, not by separate encryption.';
+
+  @override
+  String get helpSupportTitle => 'Support';
+
+  @override
+  String get helpAboutTitle => 'About';
+
+  @override
+  String helpVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get helpLicences => 'Open-source licences';
 }

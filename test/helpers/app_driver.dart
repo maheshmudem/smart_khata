@@ -35,6 +35,13 @@ extension AppDriver on WidgetTester {
       clock: env.clock,
       idGenerator: env.ids,
       shareService: env.share,
+      secretStore: env.secrets,
+      biometricAuth: env.biometrics,
+      backupFiles: env.backupFiles,
+      restoreInstaller: env.installer,
+      backupRepository: env.fakeBackup,
+      reminderNotifier: env.notifier,
+      workDirectory: () async => env.workDirectory,
     );
     return env;
   }
@@ -67,6 +74,10 @@ extension AppDriver on WidgetTester {
     await pumpWidget(
       SmartKhataApp(
         settings: getIt<SettingsRepository>(),
+        appLock: env.appLock,
+        biometrics: env.biometrics,
+        reminders: env.reminders,
+        clock: env.clock,
         initialLocale: AppLocales.english,
         onboardingComplete: onboarded,
       ),

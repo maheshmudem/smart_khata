@@ -6,10 +6,17 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_khata/app/localization/locale_cubit.dart';
 import 'package:smart_khata/app/router/app_messenger.dart';
 import 'package:smart_khata/app/router/app_router.dart';
+import 'package:smart_khata/core/date_time/clock.dart';
+import 'package:smart_khata/core/security/secret_store.dart';
 import 'package:smart_khata/core/theme/app_theme.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
 import 'package:smart_khata/core/widgets/state_views.dart';
 import 'package:smart_khata/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:smart_khata/features/reminders/domain/reminders.dart';
+import 'package:smart_khata/features/reminders/presentation/reminders_page.dart';
+import 'package:smart_khata/features/security/domain/app_lock.dart';
+import 'package:smart_khata/features/security/presentation/app_lock_cubit.dart';
+import 'package:smart_khata/features/security/presentation/lock_screen.dart';
 import 'package:smart_khata/features/settings/domain/settings_repository.dart';
 import 'package:smart_khata/l10n/generated/app_localizations.dart';
 
@@ -17,12 +24,20 @@ import 'package:smart_khata/l10n/generated/app_localizations.dart';
 class SmartKhataApp extends StatefulWidget {
   const SmartKhataApp({
     required this.settings,
+    required this.appLock,
+    required this.biometrics,
+    required this.reminders,
+    required this.clock,
     required this.initialLocale,
     required this.onboardingComplete,
     super.key,
   });
 
   final SettingsRepository settings;
+  final AppLockRepository appLock;
+  final BiometricAuth biometrics;
+  final ReminderRepository reminders;
+  final Clock clock;
   final Locale initialLocale;
   final bool onboardingComplete;
 
@@ -40,6 +55,24 @@ class _SmartKhataAppState extends State<SmartKhataApp> {
     isComplete: widget.onboardingComplete,
   );
   late final GoRouter _router = createAppRouter(onboarding: _onboardingCubit);
+  late final AppLockCubit _lockCubit = AppLockCubit(
+    repository: widget.appLock,
+    biometrics: widget.biometrics,
+    clock: widget.clock,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_lockCubit.start());
+    if (widget.onboardingComplete) unawaited(_resyncReminders());
+  }
+
+  /// After a restore on a new phone the saved reminders exist but the
+  /// phone's alarms do not; set them again. Best effort.
+  Future<void> _resyncReminders() => widget.reminders.resync(
+    lookupAppLocalizations(widget.initialLocale).reminderTexts,
+  );
 
   @override
   void dispose() {
@@ -47,6 +80,7 @@ class _SmartKhataAppState extends State<SmartKhataApp> {
     // Cubit.close is async; nothing awaits the root widget's disposal.
     unawaited(_localeCubit.close());
     unawaited(_onboardingCubit.close());
+    unawaited(_lockCubit.close());
     super.dispose();
   }
 
@@ -56,6 +90,7 @@ class _SmartKhataAppState extends State<SmartKhataApp> {
       providers: [
         BlocProvider.value(value: _localeCubit),
         BlocProvider.value(value: _onboardingCubit),
+        BlocProvider.value(value: _lockCubit),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) => MaterialApp.router(
@@ -68,6 +103,9 @@ class _SmartKhataAppState extends State<SmartKhataApp> {
           supportedLocales: AppLocales.supported,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           routerConfig: _router,
+          // The lock sits above every screen, dialogs included.
+          builder: (context, child) =>
+              AppLockGate(child: child ?? const SizedBox.shrink()),
         ),
       ),
     );

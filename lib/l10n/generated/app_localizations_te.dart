@@ -1498,4 +1498,379 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get csvOpenEntries => 'చెల్లించని ఎంట్రీలు';
+
+  @override
+  String get validationInvalidPin => '4 నుండి 6 అంకెలు నమోదు చేయండి';
+
+  @override
+  String get validationDoesNotMatch => 'రెండు సార్లు నమోదు చేసినవి ఒకటి కావు';
+
+  @override
+  String get validationPassphraseTooShort => 'కనీసం 8 అక్షరాలు వాడండి';
+
+  @override
+  String get backupErrorNotABackup => 'ఈ ఫైల్ Smart Khata బ్యాకప్ కాదు.';
+
+  @override
+  String get backupErrorNewerVersion =>
+      'ఈ బ్యాకప్ యాప్ కొత్త వెర్షన్‌లో తయారైంది. యాప్‌ను అప్‌డేట్ చేసి మళ్లీ ప్రయత్నించండి. ఏదీ మార్చబడలేదు.';
+
+  @override
+  String get backupErrorWrongPassphrase =>
+      'పాస్‌ఫ్రేజ్ తప్పు, లేదా ఫైల్ పాడైంది. ఏదీ మార్చబడలేదు.';
+
+  @override
+  String get backupErrorFailedChecks =>
+      'ఈ బ్యాకప్ తనిఖీల్లో సరిపోలేదు, కాబట్టి వాడలేదు. ఏదీ మార్చబడలేదు.';
+
+  @override
+  String get backupErrorTooLarge =>
+      'ఈ ఫైల్ Smart Khata బ్యాకప్‌కు చాలా పెద్దది.';
+
+  @override
+  String get backupErrorNotSaved =>
+      'బ్యాకప్‌ను అక్కడ సేవ్ చేయలేకపోయాం. బ్యాకప్ తయారు కాలేదు. వేరే చోటు ఎంచుకుని మళ్లీ ప్రయత్నించండి.';
+
+  @override
+  String get backupErrorNotInstalled =>
+      'బ్యాకప్‌ను అమర్చలేకపోయాం. మీ పాత రికార్డులు అలాగే ఉన్నాయి.';
+
+  @override
+  String get lockTitle => 'Smart Khata లాక్ చేయబడింది';
+
+  @override
+  String get pinLabel => 'పిన్';
+
+  @override
+  String get actionUnlock => 'తెరవండి';
+
+  @override
+  String get actionUseBiometrics => 'వేలిముద్ర లేదా ముఖం వాడండి';
+
+  @override
+  String get biometricReason => 'Smart Khata తెరవండి';
+
+  @override
+  String lockWrongPin(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'పిన్ తప్పు. ఇంకా $count ప్రయత్నాలు ఉన్నాయి.',
+      one: 'పిన్ తప్పు. ఇంకా 1 ప్రయత్నం ఉంది.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String lockPaused(String time) {
+    return 'చాలా సార్లు తప్పు పిన్. $time తర్వాత మళ్లీ ప్రయత్నించండి.';
+  }
+
+  @override
+  String get lockForgotNote =>
+      'మరచిపోయిన పిన్‌ను తిరిగి పొందలేరు. యాప్ తీసేస్తే ఈ ఫోన్‌లోని రికార్డులు పోతాయి, కాబట్టి ఎగుమతి చేసిన బ్యాకప్ ఉంచుకోండి.';
+
+  @override
+  String get securityTitle => 'యాప్ లాక్';
+
+  @override
+  String get securityExplain =>
+      'యాప్ లాక్ యాప్ తెరిచే ముందు పిన్ అడుగుతుంది. ఇది స్క్రీన్‌ను మాత్రమే కప్పుతుంది: ఈ ఫోన్‌లోని రికార్డులను ఎన్‌క్రిప్ట్ చేయదు, ఇది బ్యాకప్ కాదు.';
+
+  @override
+  String get securityOn => 'యాప్ లాక్ ఆన్‌లో ఉంది';
+
+  @override
+  String get securityOff => 'యాప్ లాక్ ఆఫ్‌లో ఉంది';
+
+  @override
+  String get actionSetPin => 'పిన్ పెట్టండి';
+
+  @override
+  String get actionChangePin => 'పిన్ మార్చండి';
+
+  @override
+  String get actionTurnOffLock => 'యాప్ లాక్ ఆఫ్ చేయండి';
+
+  @override
+  String get currentPinLabel => 'ప్రస్తుత పిన్';
+
+  @override
+  String get newPinLabel => 'కొత్త పిన్ (4 నుండి 6 అంకెలు)';
+
+  @override
+  String get confirmPinLabel => 'కొత్త పిన్ మళ్లీ';
+
+  @override
+  String get biometricsSwitch => 'వేలిముద్ర లేదా ముఖంతో తెరవండి';
+
+  @override
+  String get biometricsUnavailable =>
+      'ఈ ఫోన్‌లో వేలిముద్ర లేదా ముఖం సెట్ చేయలేదు';
+
+  @override
+  String get autoLockLabel => 'పిన్ ఎప్పుడు అడగాలి';
+
+  @override
+  String get timeoutImmediately => 'యాప్ తెరిచిన ప్రతిసారి';
+
+  @override
+  String get timeoutOneMinute => '1 నిమిషం తర్వాత';
+
+  @override
+  String get timeoutFiveMinutes => '5 నిమిషాల తర్వాత';
+
+  @override
+  String get pinSaved => 'పిన్ సేవ్ అయింది';
+
+  @override
+  String get lockTurnedOff => 'యాప్ లాక్ ఆఫ్ అయింది';
+
+  @override
+  String get errorWrongPin => 'ఆ పిన్ సరైనది కాదు';
+
+  @override
+  String get errorPinPaused =>
+      'చాలా సార్లు తప్పు పిన్. కొంచెం ఆగి మళ్లీ ప్రయత్నించండి.';
+
+  @override
+  String get backupTitle => 'బ్యాకప్ మరియు పునరుద్ధరణ';
+
+  @override
+  String get backupLastLabel => 'చివరిగా ఎగుమతి చేసిన బ్యాకప్';
+
+  @override
+  String backupLastOn(String date) {
+    return 'చివరి బ్యాకప్: $date';
+  }
+
+  @override
+  String get actionCreateBackup => 'ఎన్‌క్రిప్ట్ చేసిన బ్యాకప్ తయారు చేయండి';
+
+  @override
+  String get actionRestoreBackup => 'బ్యాకప్ నుండి పునరుద్ధరించండి';
+
+  @override
+  String get backupIncludesTitle => 'బ్యాకప్‌లో ఏమి ఉంటుంది';
+
+  @override
+  String get backupIncludesBody =>
+      'పార్టీలు, ప్రతి ఖాతా ఎంట్రీ, చెల్లింపులు, నగదు పుస్తకం, ఖర్చులు, రోజు ముగింపులు, సెట్టింగులు. యాప్ లాక్ పిన్ ఇందులో ఉండదు.';
+
+  @override
+  String get backupWhereNote =>
+      'ఫైల్ ఎక్కడ సేవ్ కావాలో మీరే ఎంచుకుంటారు: ఈ ఫోన్, మెమరీ కార్డ్ లేదా మీ డ్రైవ్. ఒక కాపీ ఈ ఫోన్ బయట ఉంచండి, ఎందుకంటే ఫోన్ పోతే అందులోని ఫైళ్లూ పోతాయి.';
+
+  @override
+  String get backupNoCloudNote =>
+      'యాప్ ఏదీ అప్‌లోడ్ చేయదు. ఈ వెర్షన్‌లో ఆటోమేటిక్ ఆన్‌లైన్ బ్యాకప్ లేదు.';
+
+  @override
+  String get backupCreateExplain =>
+      'బ్యాకప్ ఫైల్ మీరు ఎంచుకున్న పాస్‌ఫ్రేజ్‌తో లాక్ అవుతుంది. ఈ ఫోన్‌లో లేదా కొత్త ఫోన్‌లో పునరుద్ధరించడానికి అదే పాస్‌ఫ్రేజ్ కావాలి.';
+
+  @override
+  String get passphraseLabel => 'పాస్‌ఫ్రేజ్';
+
+  @override
+  String get passphraseHelp =>
+      'కనీసం 8 అక్షరాలు. కొన్ని పదాలు కలిపితే బాగుంటుంది.';
+
+  @override
+  String get passphraseAgainLabel => 'పాస్‌ఫ్రేజ్ మళ్లీ';
+
+  @override
+  String get passphraseForgetWarning =>
+      'పాస్‌ఫ్రేజ్‌ను రాసుకుని భద్రంగా ఉంచండి. అది మరచిపోతే ఈ బ్యాకప్‌ను ఎవరూ తెరవలేరు, యాప్ తయారీదారులు కూడా.';
+
+  @override
+  String get actionCreateAndSave => 'తయారు చేసి సేవ్ చేయండి';
+
+  @override
+  String get backupSaved => 'బ్యాకప్ సేవ్ అయింది';
+
+  @override
+  String get backupNotSaved => 'బ్యాకప్ సేవ్ కాలేదు';
+
+  @override
+  String get restoreExplain =>
+      'Smart Khata బ్యాకప్ ఫైల్‌ను ఎంచుకుని దాని పాస్‌ఫ్రేజ్ నమోదు చేయండి. ముందు ఫైల్ తనిఖీ అవుతుంది; మీరు నిర్ధారించే వరకు ఈ ఫోన్‌లో ఏదీ మారదు.';
+
+  @override
+  String get actionChooseBackupFile => 'బ్యాకప్ ఫైల్ ఎంచుకోండి';
+
+  @override
+  String get actionChooseAnotherFile => 'వేరే ఫైల్ ఎంచుకోండి';
+
+  @override
+  String get restorePassphraseHelp =>
+      'ఈ బ్యాకప్ తయారు చేసినప్పుడు వాడిన పాస్‌ఫ్రేజ్';
+
+  @override
+  String get actionCheckBackup => 'బ్యాకప్ తనిఖీ చేయండి';
+
+  @override
+  String get restoreCheckedTitle => 'ఈ బ్యాకప్ తనిఖీల్లో సరిపోయింది';
+
+  @override
+  String get restoreBackupDate => 'బ్యాకప్ తయారైన తేదీ';
+
+  @override
+  String get restoreParties => 'కస్టమర్లు, సరఫరాదారులు';
+
+  @override
+  String get restoreEntries => 'ఎంట్రీలు';
+
+  @override
+  String get restoreAppVersion => 'తయారు చేసిన యాప్ వెర్షన్';
+
+  @override
+  String get restoreReplaceWarning =>
+      'పునరుద్ధరిస్తే ఈ ఫోన్‌లో ఇప్పుడున్న ప్రతి రికార్డు స్థానంలో ఈ బ్యాకప్‌లోని రికార్డులు వస్తాయి. రెండూ కలవవు.';
+
+  @override
+  String get actionReplaceRecords => 'ఈ బ్యాకప్‌తో రికార్డులను మార్చండి';
+
+  @override
+  String get restoreConfirmTitle => 'ఈ ఫోన్‌లోని అన్ని రికార్డులను మార్చాలా?';
+
+  @override
+  String get restoreConfirmBody =>
+      'ఈ బ్యాకప్ తర్వాత ఈ ఫోన్‌లో చేసిన ఎంట్రీలు ఇక కనిపించవు. పునరుద్ధరించిన రికార్డులతో యాప్ మళ్లీ మొదలవుతుంది.';
+
+  @override
+  String get restoreSafetyNote =>
+      'మార్చే ముందు, యాప్ ప్రస్తుత రికార్డులను ఈ ఫోన్‌లోని యాప్‌లోనే భద్రతా కాపీగా ఉంచుతుంది, తదుపరి పునరుద్ధరణ వరకు. అది బ్యాకప్ కాదు: యాప్ తీసేస్తే అదీ పోతుంది.';
+
+  @override
+  String get remindersTitle => 'రిమైండర్లు';
+
+  @override
+  String get remindersExplainCustomers =>
+      'గడువు తేదీ ఉన్న, ఇంకా చెల్లించని ఎంట్రీలు గల కస్టమర్లు. రిమైండర్ పంచుకుంటే మీ ఫోన్ షేర్ షీట్ తెరుచుకుంటుంది; యాప్ తనంతట తాను ఏదీ పంపదు.';
+
+  @override
+  String get remindersExplainSuppliers =>
+      'గడువు తేదీ ఉన్న, మీరు ఇంకా చెల్లించాల్సిన సరఫరాదారులు. మీ కోసం రిమైండర్ పెట్టుకోవచ్చు.';
+
+  @override
+  String get remindersEmpty => 'గడువు తేదీ ఉన్న చెల్లించని ఎంట్రీలు లేవు';
+
+  @override
+  String reminderOverdue(String amount) {
+    return '$amount గడువు దాటింది';
+  }
+
+  @override
+  String reminderOldestDue(String date) {
+    return 'అతి పాత గడువు $date';
+  }
+
+  @override
+  String reminderLastShared(String date) {
+    return '$dateన షేర్ షీట్ తెరిచారు';
+  }
+
+  @override
+  String reminderSetFor(String date) {
+    return 'మీ రిమైండర్ $dateకి పెట్టబడింది';
+  }
+
+  @override
+  String get actionShareReminder => 'రిమైండర్ పంచుకోండి';
+
+  @override
+  String get actionRemindMe => 'నాకు గుర్తు చేయండి';
+
+  @override
+  String get actionCancelReminder => 'నా రిమైండర్ రద్దు చేయండి';
+
+  @override
+  String get reminderPreviewTitle => 'రిమైండర్ సందేశం';
+
+  @override
+  String reminderMessage(String party, String amount, String shop) {
+    return 'నమస్కారం $party, $shop నుండి ఒక గుర్తు. మీ ఖాతాలో $amount బాకీ ఉంది. వీలైనప్పుడు చెల్లించండి. ధన్యవాదాలు.';
+  }
+
+  @override
+  String reminderSharedRecently(String date) {
+    return 'ఈ కస్టమర్ కోసం $dateన షేర్ షీట్ తెరిచారు. అవసరమైతేనే మళ్లీ గుర్తు చేయండి.';
+  }
+
+  @override
+  String get reminderNotificationBody =>
+      'ఈ రోజుకు మీరు చెల్లింపు రిమైండర్ పెట్టుకున్నారు. చూడటానికి యాప్ తెరవండి.';
+
+  @override
+  String get reminderSet => 'రిమైండర్ పెట్టబడింది';
+
+  @override
+  String get reminderCancelled => 'రిమైండర్ రద్దు అయింది';
+
+  @override
+  String get reminderNotificationsOff =>
+      'Smart Khataకు నోటిఫికేషన్లు ఆఫ్‌లో ఉన్నాయి. రిమైండర్లు రావాలంటే ఫోన్ సెట్టింగుల్లో ఆన్ చేయండి.';
+
+  @override
+  String get helpTitle => 'సహాయం మరియు వివరాలు';
+
+  @override
+  String get helpHowToTitle => 'Smart Khata ఎలా వాడాలి';
+
+  @override
+  String get helpStepParties =>
+      'ప్రతి కస్టమర్‌ను, సరఫరాదారును పార్టీలలో ఒకసారి జోడించండి.';
+
+  @override
+  String get helpStepCredit =>
+      'అప్పు ఇవ్వడానికి లేదా కొనుగోలు రాయడానికి జోడించు బటన్ వాడండి.';
+
+  @override
+  String get helpStepPayment =>
+      'ప్రతి చెల్లింపును అప్పుడే రాయండి. అది ముందు పాత బాకీల నుండి తగ్గుతుంది.';
+
+  @override
+  String get helpStepMistake =>
+      'తప్పు ఎంట్రీ చెరిపివేయబడదు. దాన్ని తెరిచి కారణంతో రద్దు చేసి, సరైనది జోడించండి.';
+
+  @override
+  String get helpStepClosing => 'రోజు చివర నగదు లెక్కించి రోజును ముగించండి.';
+
+  @override
+  String get helpStepBackup =>
+      'తరచుగా బ్యాకప్ తయారు చేసి, ఫైల్‌ను ఈ ఫోన్ బయట ఉంచండి.';
+
+  @override
+  String get helpDataTitle => 'మీ రికార్డులు ఎక్కడ ఉంటాయి';
+
+  @override
+  String get helpDataOnPhone =>
+      'అన్ని రికార్డులు ఈ ఫోన్‌లోనే, యాప్ లోపల ఉంటాయి.';
+
+  @override
+  String get helpDataNoNetwork =>
+      'యాప్ ఇంటర్నెట్ వాడదు, ఎవరికీ ఏదీ పంపదు. మీరే పంచుకున్నప్పుడు లేదా ఎగుమతి చేసినప్పుడు మాత్రమే రికార్డులు ఫోన్ బయటికి వెళ్తాయి.';
+
+  @override
+  String get helpDataUninstall =>
+      'యాప్ తీసేసినా, ఫోన్ పోయినా రికార్డులు పోతాయి. ఎగుమతి చేసిన బ్యాకప్ మాత్రమే వాటిని తిరిగి తేగలదు.';
+
+  @override
+  String get helpDataNotEncrypted =>
+      'బ్యాకప్ ఫైళ్లు మీ పాస్‌ఫ్రేజ్‌తో ఎన్‌క్రిప్ట్ అవుతాయి. యాప్ లోపలి రికార్డులను ఫోన్, యాప్ లాక్ కాపాడతాయి; వాటికి వేరే ఎన్‌క్రిప్షన్ లేదు.';
+
+  @override
+  String get helpSupportTitle => 'సహాయ సంప్రదింపు';
+
+  @override
+  String get helpAboutTitle => 'యాప్ గురించి';
+
+  @override
+  String helpVersion(String version) {
+    return 'వెర్షన్ $version';
+  }
+
+  @override
+  String get helpLicences => 'ఓపెన్ సోర్స్ లైసెన్సులు';
 }

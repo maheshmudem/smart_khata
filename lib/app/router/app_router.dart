@@ -16,6 +16,9 @@ import 'package:smart_khata/core/export/share_service.dart';
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/features/backup/domain/backup.dart';
+import 'package:smart_khata/features/backup/presentation/backup_cubits.dart';
+import 'package:smart_khata/features/backup/presentation/backup_pages.dart';
 import 'package:smart_khata/features/daily_closing/domain/daily_closing.dart';
 import 'package:smart_khata/features/daily_closing/presentation/closing_cubits.dart';
 import 'package:smart_khata/features/daily_closing/presentation/closing_pages.dart';
@@ -53,10 +56,15 @@ import 'package:smart_khata/features/parties/presentation/pages/parties_page.dar
 import 'package:smart_khata/features/parties/presentation/pages/party_detail_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_form_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_picker_page.dart';
+import 'package:smart_khata/features/reminders/domain/reminders.dart';
+import 'package:smart_khata/features/reminders/presentation/reminders_cubit.dart';
+import 'package:smart_khata/features/reminders/presentation/reminders_page.dart';
 import 'package:smart_khata/features/reports/domain/reports.dart';
 import 'package:smart_khata/features/reports/presentation/dashboard_page.dart';
 import 'package:smart_khata/features/reports/presentation/report_cubits.dart';
 import 'package:smart_khata/features/reports/presentation/reports_pages.dart';
+import 'package:smart_khata/features/security/presentation/security_settings_page.dart';
+import 'package:smart_khata/features/settings/presentation/pages/help_page.dart';
 import 'package:smart_khata/features/settings/presentation/pages/more_page.dart';
 import 'package:smart_khata/features/shop/domain/create_shop.dart';
 import 'package:smart_khata/features/shop/domain/shop_repository.dart';
@@ -97,6 +105,10 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
         path: AppRoutes.onboardingComplete,
         builder: (context, state) => const SetupCompletePage(),
       ),
+      GoRoute(
+        path: AppRoutes.onboardingRestore,
+        builder: (context, state) => _restorePage(),
+      ),
 
       // ---- Tabs ----------------------------------------------------------
       StatefulShellRoute.indexedStack(
@@ -110,6 +122,7 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
                 builder: (context, state) => BlocProvider(
                   create: (_) => DashboardCubit(
                     reports: getIt<ReportsRepository>(),
+                    backup: getIt<BackupRepository>(),
                     shops: getIt<ShopRepository>(),
                     today: _today,
                   ),
@@ -248,6 +261,48 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
           ),
           child: const StatementPage(),
         ),
+      ),
+
+      // ---- Backup, app lock, reminders, help -------------------------------
+      GoRoute(
+        path: AppRoutes.backup,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              BackupStatusCubit(repository: getIt<BackupRepository>()),
+          child: const BackupHomePage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.backupCreate,
+        builder: (context, state) => BlocProvider(
+          create: (_) => CreateBackupCubit(export: getIt<ExportBackup>()),
+          child: const CreateBackupPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.backupRestore,
+        builder: (context, state) => _restorePage(),
+      ),
+      GoRoute(
+        path: AppRoutes.security,
+        builder: (context, state) => const SecuritySettingsPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.reminders,
+        builder: (context, state) => BlocProvider(
+          create: (_) => RemindersCubit(
+            reminders: getIt<ReminderRepository>(),
+            shops: getIt<ShopRepository>(),
+            share: getIt<ShareService>(),
+            clock: getIt<Clock>(),
+            today: _today(),
+          ),
+          child: const RemindersPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.help,
+        builder: (context, state) => const HelpPage(),
       ),
 
       // ---- Reports ---------------------------------------------------------
@@ -457,6 +512,14 @@ Widget _entryForm(GoRouterState state, EntryFormKind kind) {
     child: ChargeFormPage(today: today),
   );
 }
+
+Widget _restorePage() => BlocProvider(
+  create: (_) => RestoreCubit(
+    repository: getIt<BackupRepository>(),
+    files: getIt<BackupFilePort>(),
+  ),
+  child: const RestoreBackupPage(),
+);
 
 /// The business date of the shop right now.
 BusinessDate _today() => BusinessDate.fromInstant(

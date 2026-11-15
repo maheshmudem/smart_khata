@@ -5,7 +5,12 @@ import 'package:smart_khata/app/localization/locale_cubit.dart';
 import 'package:smart_khata/core/date_time/business_date.dart';
 import 'package:smart_khata/core/date_time/date_range.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
+import 'package:smart_khata/core/domain/submission_status.dart';
+import 'package:smart_khata/core/errors/failure.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/features/backup/domain/backup.dart';
+import 'package:smart_khata/features/backup/presentation/backup_cubits.dart';
+import 'package:smart_khata/features/backup/presentation/backup_pages.dart';
 import 'package:smart_khata/features/daily_closing/domain/daily_closing.dart';
 import 'package:smart_khata/features/daily_closing/presentation/closing_cubits.dart';
 import 'package:smart_khata/features/daily_closing/presentation/closing_pages.dart';
@@ -39,9 +44,17 @@ import 'package:smart_khata/features/parties/presentation/pages/parties_page.dar
 import 'package:smart_khata/features/parties/presentation/pages/party_detail_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_form_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_picker_page.dart';
+import 'package:smart_khata/features/reminders/domain/reminders.dart';
+import 'package:smart_khata/features/reminders/presentation/reminders_cubit.dart';
+import 'package:smart_khata/features/reminders/presentation/reminders_page.dart';
 import 'package:smart_khata/features/reports/presentation/dashboard_page.dart';
 import 'package:smart_khata/features/reports/presentation/report_cubits.dart';
 import 'package:smart_khata/features/reports/presentation/reports_pages.dart';
+import 'package:smart_khata/features/security/domain/app_lock.dart';
+import 'package:smart_khata/features/security/presentation/app_lock_cubit.dart';
+import 'package:smart_khata/features/security/presentation/lock_screen.dart';
+import 'package:smart_khata/features/security/presentation/security_settings_page.dart';
+import 'package:smart_khata/features/settings/presentation/pages/help_page.dart';
 
 import '../../helpers/fakes.dart';
 import '../../helpers/pump_app.dart';
@@ -77,6 +90,33 @@ void main() {
         id: 'e1',
         accountId: customerAccountId,
         signed: Money.fromPaise(9999999999),
+      );
+      // An overdue credit with a due date, shared and with a reminder
+      // set: every line of the reminders row.
+      await env.recordCharge(
+        RecordChargeCommand(
+          operationId: 'op-due-seed',
+          role: PartyRole.customer,
+          partyId: partyId,
+          accountId: customerAccountId,
+          amount: Money.fromPaise(9999999900),
+          date: BusinessDate(2026, 11, 1),
+          dueDate: BusinessDate(2026, 11, 5),
+        ),
+      );
+      await env.reminders.recordShareOpened(
+        partyId: partyId,
+        role: PartyRole.customer,
+      );
+      await env.reminders.schedule(
+        partyId: partyId,
+        role: PartyRole.customer,
+        on: BusinessDate(2026, 11, 20),
+        texts: const ReminderTexts(
+          title: 'Smart Khata',
+          body: 'Reminder',
+          channelName: 'Reminders',
+        ),
       );
       await env.addParty(
         const SavePartyCommand(
@@ -415,6 +455,91 @@ void main() {
       ),
       child: const StatementPage(),
     ),
+    'lock screen after a wrong PIN': () => BlocProvider(
+      create: (_) =>
+          AppLockCubit(
+            repository: env.appLock,
+            biometrics: env.biometrics..available = true,
+            clock: env.clock,
+          )..emit(
+            const AppLockState(
+              phase: LockPhase.locked,
+              config: AppLockConfig(
+                enabled: true,
+                biometricsEnabled: true,
+                timeout: AutoLockTimeout.immediately,
+              ),
+              biometricsAvailable: true,
+              attemptsLeft: 1,
+            ),
+          ),
+      child: const LockScreen(),
+    ),
+    'app lock settings, lock on': () => BlocProvider(
+      create: (_) =>
+          AppLockCubit(
+            repository: env.appLock,
+            biometrics: env.biometrics,
+            clock: env.clock,
+          )..emit(
+            const AppLockState(
+              phase: LockPhase.unlocked,
+              config: AppLockConfig(
+                enabled: true,
+                biometricsEnabled: false,
+                timeout: AutoLockTimeout.fiveMinutes,
+              ),
+            ),
+          ),
+      child: const SecuritySettingsPage(),
+    ),
+    'backup home': () => BlocProvider(
+      create: (_) => BackupStatusCubit(repository: env.fakeBackup),
+      child: const BackupHomePage(),
+    ),
+    'create backup with errors': () => BlocProvider(
+      create: (_) =>
+          CreateBackupCubit(
+            export: ExportBackup(env.fakeBackup, env.backupFiles),
+          )..emit(
+            const CreateBackupState(
+              status: SubmissionStatus.failure,
+              errors: {
+                ExportBackup.passphraseField:
+                    ValidationError.passphraseTooShort,
+                ExportBackup.confirmationField: ValidationError.doesNotMatch,
+              },
+              failure: BackupFailure(BackupError.notSaved),
+            ),
+          ),
+      child: const CreateBackupPage(),
+    ),
+    'restore preview': () => BlocProvider(
+      create: (_) =>
+          RestoreCubit(repository: env.fakeBackup, files: env.backupFiles)
+            ..emit(
+              RestoreState(
+                step: RestoreStep.preview,
+                staged: StagedRestore(
+                  manifest: FakeBackupRepository.manifest,
+                  stagedPath: 'staged.sqlite',
+                ),
+                failure: const BackupFailure(BackupError.notInstalled),
+              ),
+            ),
+      child: const RestoreBackupPage(),
+    ),
+    'reminders': () => BlocProvider(
+      create: (_) => RemindersCubit(
+        reminders: env.reminders,
+        shops: env.shops,
+        share: env.share,
+        clock: env.clock,
+        today: BusinessDate(2026, 11, 15),
+      ),
+      child: const RemindersPage(),
+    ),
+    'help and about': () => const HelpPage(),
     'reverse entry': () => BlocProvider(
       create: (_) => ReverseTransactionCubit(
         ledger: env.ledger,

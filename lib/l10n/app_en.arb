@@ -731,5 +731,186 @@
   "csvParty": "Party",
   "csvTotalDue": "Total due",
   "csvOldestDate": "Oldest due date",
-  "csvOpenEntries": "Unpaid entries"
+  "csvOpenEntries": "Unpaid entries",
+  "validationInvalidPin": "Enter 4 to 6 digits",
+  "validationDoesNotMatch": "The two entries are not the same",
+  "validationPassphraseTooShort": "Use at least 8 characters",
+  "backupErrorNotABackup": "This file is not a Smart Khata backup.",
+  "backupErrorNewerVersion": "This backup was made by a newer version of the app. Update the app, then try again. Nothing was changed.",
+  "backupErrorWrongPassphrase": "The passphrase is wrong, or the file is damaged. Nothing was changed.",
+  "backupErrorFailedChecks": "This backup did not pass the checks, so it was not used. Nothing was changed.",
+  "backupErrorTooLarge": "This file is too large to be a Smart Khata backup.",
+  "backupErrorNotSaved": "The backup could not be saved there. No backup was made. Choose another place and try again.",
+  "backupErrorNotInstalled": "The backup could not be put in place. Your earlier records are still here.",
+  "lockTitle": "Smart Khata is locked",
+  "pinLabel": "PIN",
+  "actionUnlock": "Unlock",
+  "actionUseBiometrics": "Use fingerprint or face",
+  "biometricReason": "Unlock Smart Khata",
+  "lockWrongPin": "{count, plural, =1{Wrong PIN. 1 try left.} other{Wrong PIN. {count} tries left.}}",
+  "@lockWrongPin": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "lockPaused": "Too many wrong tries. Try again after {time}.",
+  "@lockPaused": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "lockForgotNote": "A forgotten PIN cannot be recovered. Removing the app deletes the records on this phone, so keep an exported backup.",
+  "securityTitle": "App lock",
+  "securityExplain": "App lock asks for a PIN before the app opens. It covers the screen only: it does not encrypt the records on this phone and it is not a backup.",
+  "securityOn": "App lock is on",
+  "securityOff": "App lock is off",
+  "actionSetPin": "Set a PIN",
+  "actionChangePin": "Change PIN",
+  "actionTurnOffLock": "Turn off app lock",
+  "currentPinLabel": "Current PIN",
+  "newPinLabel": "New PIN (4 to 6 digits)",
+  "confirmPinLabel": "New PIN again",
+  "biometricsSwitch": "Unlock with fingerprint or face",
+  "biometricsUnavailable": "No fingerprint or face is set up on this phone",
+  "autoLockLabel": "Ask for the PIN",
+  "timeoutImmediately": "Every time the app is opened",
+  "timeoutOneMinute": "After 1 minute away",
+  "timeoutFiveMinutes": "After 5 minutes away",
+  "pinSaved": "PIN saved",
+  "lockTurnedOff": "App lock turned off",
+  "errorWrongPin": "That PIN is not right",
+  "errorPinPaused": "Too many wrong tries. Wait a little and try again.",
+  "backupTitle": "Backup and restore",
+  "backupLastLabel": "Last exported backup",
+  "backupLastOn": "Last backup: {date}",
+  "@backupLastOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "actionCreateBackup": "Create encrypted backup",
+  "actionRestoreBackup": "Restore from a backup",
+  "backupIncludesTitle": "What a backup holds",
+  "backupIncludesBody": "Parties, every ledger entry, payments, the cash book, expenses, daily closings and settings. The app lock PIN is not included.",
+  "backupWhereNote": "You choose where the file is saved: this phone, a memory card or your own drive. Keep a copy outside this phone, because a lost phone takes its files with it.",
+  "backupNoCloudNote": "The app does not upload anything. There is no automatic online backup in this version.",
+  "backupCreateExplain": "The backup file is locked with a passphrase that you choose. You will need the same passphrase to restore it, on this phone or a new one.",
+  "passphraseLabel": "Passphrase",
+  "passphraseHelp": "At least 8 characters. A few words work well.",
+  "passphraseAgainLabel": "Passphrase again",
+  "passphraseForgetWarning": "Write the passphrase down and keep it safe. If it is forgotten, nobody can open this backup, not even the makers of the app.",
+  "actionCreateAndSave": "Create and save",
+  "backupSaved": "Backup saved",
+  "backupNotSaved": "No backup was saved",
+  "restoreExplain": "Choose a Smart Khata backup file and enter its passphrase. The file is checked first; nothing on this phone changes until you confirm.",
+  "actionChooseBackupFile": "Choose backup file",
+  "actionChooseAnotherFile": "Choose another file",
+  "restorePassphraseHelp": "The passphrase used when this backup was made",
+  "actionCheckBackup": "Check backup",
+  "restoreCheckedTitle": "This backup passed the checks",
+  "restoreBackupDate": "Backup made on",
+  "restoreParties": "Customers and suppliers",
+  "restoreEntries": "Entries",
+  "restoreAppVersion": "Made by app version",
+  "restoreReplaceWarning": "Restoring replaces every record now on this phone with the records in this backup. The two are not combined.",
+  "actionReplaceRecords": "Replace records with this backup",
+  "restoreConfirmTitle": "Replace all records on this phone?",
+  "restoreConfirmBody": "Entries made on this phone after this backup will no longer be shown. The app will start again on the restored records.",
+  "restoreSafetyNote": "Before replacing, the app keeps the current records as a safety copy inside the app on this phone, until the next restore. It is not a backup: removing the app deletes it.",
+  "remindersTitle": "Reminders",
+  "remindersExplainCustomers": "Customers with unpaid entries that have a due date. Sharing a reminder opens your phone's share sheet; the app sends nothing by itself.",
+  "remindersExplainSuppliers": "Suppliers you still have to pay, where the entry has a due date. You can set a reminder for yourself.",
+  "remindersEmpty": "No unpaid entry has a due date",
+  "reminderOverdue": "{amount} past due date",
+  "@reminderOverdue": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderOldestDue": "Oldest due date {date}",
+  "@reminderOldestDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderLastShared": "Share sheet opened on {date}",
+  "@reminderLastShared": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderSetFor": "Your reminder is set for {date}",
+  "@reminderSetFor": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "actionShareReminder": "Share reminder",
+  "actionRemindMe": "Remind me",
+  "actionCancelReminder": "Cancel my reminder",
+  "reminderPreviewTitle": "Reminder message",
+  "reminderMessage": "Hello {party}, this is a reminder from {shop}. {amount} is pending in your account. Please pay when you can. Thank you.",
+  "@reminderMessage": {
+    "placeholders": {
+      "party": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "shop": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderSharedRecently": "You opened the share sheet for this customer on {date}. Remind again only if needed.",
+  "@reminderSharedRecently": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderNotificationBody": "You set a payment reminder for today. Open the app to see it.",
+  "reminderSet": "Reminder set",
+  "reminderCancelled": "Reminder cancelled",
+  "reminderNotificationsOff": "Notifications are off for Smart Khata. Turn them on in the phone settings to get reminders.",
+  "helpTitle": "Help and about",
+  "helpHowToTitle": "How to use Smart Khata",
+  "helpStepParties": "Add each customer and supplier once, from Parties.",
+  "helpStepCredit": "Use the Add button to give credit or record a purchase.",
+  "helpStepPayment": "Record every payment when it happens. It is taken off the oldest dues first.",
+  "helpStepMistake": "A wrong entry is not erased. Open it and reverse it with a reason, then add the right one.",
+  "helpStepClosing": "At the end of the day, count the cash and close the day.",
+  "helpStepBackup": "Create a backup often and keep the file outside this phone.",
+  "helpDataTitle": "Where your records are",
+  "helpDataOnPhone": "All records are kept on this phone only, inside the app.",
+  "helpDataNoNetwork": "The app does not use the internet and sends nothing to anyone. Records leave the phone only when you share or export them yourself.",
+  "helpDataUninstall": "Removing the app, or losing the phone, deletes the records. Only an exported backup can bring them back.",
+  "helpDataNotEncrypted": "Backup files are encrypted with your passphrase. The records inside the app are protected by the phone itself and by the app lock, not by separate encryption.",
+  "helpSupportTitle": "Support",
+  "helpAboutTitle": "About",
+  "helpVersion": "Version {version}",
+  "@helpVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "helpLicences": "Open-source licences"
 }

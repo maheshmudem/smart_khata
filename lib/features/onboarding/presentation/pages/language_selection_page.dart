@@ -69,6 +69,13 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                 onPressed: () =>
                     unawaited(context.push(AppRoutes.onboardingShop)),
               ),
+              // A new phone: bring the records back instead of starting
+              // an empty shop.
+              TextButton(
+                onPressed: () =>
+                    unawaited(context.push(AppRoutes.onboardingRestore)),
+                child: Text(l10n.actionRestoreBackup),
+              ),
             ],
           ),
         ),

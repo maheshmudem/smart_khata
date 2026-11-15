@@ -8,6 +8,9 @@ abstract final class AppRoutes {
   static const String onboardingShop = '/onboarding/shop';
   static const String onboardingComplete = '/onboarding/complete';
 
+  /// Restore on a new phone, before any shop exists.
+  static const String onboardingRestore = '/onboarding/restore';
+
   static const String home = '/home';
   static const String parties = '/parties';
   static const String reports = '/reports';
@@ -84,6 +87,13 @@ abstract final class AppRoutes {
 
   static String statement(String partyId, String accountId) =>
       '/party/$partyId/statement/$accountId';
+
+  static const String backup = '/backup';
+  static const String backupCreate = '/backup/create';
+  static const String backupRestore = '/backup/restore';
+  static const String security = '/security';
+  static const String reminders = '/reminders';
+  static const String help = '/help';
 
   static const String accountIdParam = 'account';
   static const String directionParam = 'direction';
