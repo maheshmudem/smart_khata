@@ -5,6 +5,13 @@ import 'package:smart_khata/app/localization/locale_cubit.dart';
 import 'package:smart_khata/core/date_time/business_date.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/features/ledger/domain/ledger_models.dart';
+import 'package:smart_khata/features/ledger/presentation/cubit/charge_form_cubit.dart';
+import 'package:smart_khata/features/ledger/presentation/cubit/ledger_cubits.dart';
+import 'package:smart_khata/features/ledger/presentation/pages/charge_form_page.dart';
+import 'package:smart_khata/features/ledger/presentation/pages/ledger_page.dart';
+import 'package:smart_khata/features/ledger/presentation/pages/reverse_transaction_page.dart';
+import 'package:smart_khata/features/ledger/presentation/pages/transaction_detail_page.dart';
 import 'package:smart_khata/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:smart_khata/features/onboarding/presentation/cubit/shop_setup_cubit.dart';
 import 'package:smart_khata/features/onboarding/presentation/pages/setup_complete_page.dart';
@@ -18,12 +25,13 @@ import 'package:smart_khata/features/parties/presentation/pages/opening_balance_
 import 'package:smart_khata/features/parties/presentation/pages/parties_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_detail_page.dart';
 import 'package:smart_khata/features/parties/presentation/pages/party_form_page.dart';
+import 'package:smart_khata/features/parties/presentation/pages/party_picker_page.dart';
 
 import '../../helpers/fakes.dart';
 import '../../helpers/pump_app.dart';
 import '../../helpers/test_env.dart';
 
-/// Every Phase 1 screen is pumped in English and Telugu at twice the normal
+/// Every screen built so far is pumped in English and Telugu at twice the normal
 /// text size on a 320dp-wide phone. A layout overflow or a build error is
 /// reported as a test exception, so "no exception" is the assertion
 /// (PRD 10.4, SK-1204).
@@ -57,6 +65,20 @@ void main() {
         const SavePartyCommand(
           displayName: 'Ravi',
           roles: {PartyRole.customer},
+        ),
+      );
+      // A second entry with a long description, then reversed, so the
+      // ledger shows a due date, a "Reversed" tag and a reversal line.
+      await env.postEntry(
+        id: 'e2',
+        accountId: customerAccountId,
+        signed: Money.fromPaise(125000),
+      );
+      await env.reverseTransaction(
+        const ReverseTransactionCommand(
+          operationId: 'op-rev-seed',
+          transactionId: 'txn-e2',
+          reason: 'తప్పు మొత్తం నమోదు చేశాను, సరిచేయడానికి రద్దు',
         ),
       );
     });
@@ -114,6 +136,53 @@ void main() {
         today: BusinessDate(2026, 11, 15),
       ),
       child: OpeningBalancePage(today: BusinessDate(2026, 11, 15)),
+    ),
+    'give credit': () => BlocProvider(
+      create: (_) => ChargeFormCubit(
+        parties: env.parties,
+        recordCharge: env.recordCharge,
+        role: PartyRole.customer,
+        operationId: 'op-charge-layout',
+        today: BusinessDate(2026, 11, 15),
+        partyId: partyId,
+      )..amountChanged(Money.fromPaise(9999999900)),
+      child: ChargeFormPage(today: BusinessDate(2026, 11, 15)),
+    ),
+    'party picker': () => BlocProvider(
+      create: (_) => PartiesListCubit(repository: env.parties),
+      child: const PartyPickerPage(role: PartyRole.customer),
+    ),
+    'ledger': () => BlocProvider(
+      create: (_) => LedgerCubit(
+        ledger: env.ledger,
+        parties: env.parties,
+        partyId: partyId,
+        accountId: customerAccountId,
+      ),
+      child: const LedgerPage(),
+    ),
+    'entry details': () => BlocProvider(
+      create: (_) => TransactionDetailCubit(
+        ledger: env.ledger,
+        transactionId: 'txn-e1',
+      ),
+      child: const TransactionDetailPage(),
+    ),
+    'reversed entry details': () => BlocProvider(
+      create: (_) => TransactionDetailCubit(
+        ledger: env.ledger,
+        transactionId: 'txn-e2',
+      ),
+      child: const TransactionDetailPage(),
+    ),
+    'reverse entry': () => BlocProvider(
+      create: (_) => ReverseTransactionCubit(
+        ledger: env.ledger,
+        reverse: env.reverseTransaction,
+        transactionId: 'txn-e1',
+        operationId: 'op-reverse-layout',
+      ),
+      child: const ReverseTransactionPage(),
     ),
   };
 

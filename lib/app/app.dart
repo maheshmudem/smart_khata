@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_khata/app/localization/locale_cubit.dart';
+import 'package:smart_khata/app/router/app_messenger.dart';
 import 'package:smart_khata/app/router/app_router.dart';
 import 'package:smart_khata/core/theme/app_theme.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
@@ -60,6 +61,7 @@ class _SmartKhataAppState extends State<SmartKhataApp> {
         builder: (context, locale) => MaterialApp.router(
           onGenerateTitle: (context) => context.l10n.appTitle,
           debugShowCheckedModeBanner: false,
+          scaffoldMessengerKey: AppMessenger.key,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           locale: locale,

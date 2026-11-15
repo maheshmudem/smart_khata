@@ -21,7 +21,11 @@ import 'package:smart_khata/features/parties/presentation/cubit/party_form_cubit
 
 /// WF-021: add or edit a party.
 class PartyFormPage extends StatelessWidget {
-  const PartyFormPage({super.key});
+  const PartyFormPage({this.returnOnSave = false, super.key});
+
+  /// Pop with the saved party ID instead of opening its page. Used when a
+  /// party is created from inside an entry form.
+  final bool returnOnSave;
 
   static final List<TextInputFormatter> _phoneFormatters = [
     FilteringTextInputFormatter.allow(RegExp(r'[\d+ ]')),
@@ -40,7 +44,9 @@ class PartyFormPage extends StatelessWidget {
       listener: (context, state) async {
         if (state.status == SubmissionStatus.success) {
           final partyId = state.savedPartyId!;
-          if (state.isEditing) {
+          if (returnOnSave) {
+            context.pop(partyId);
+          } else if (state.isEditing) {
             context.pop();
           } else {
             // Replace the form with the new party's page.

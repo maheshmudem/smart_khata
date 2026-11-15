@@ -10,7 +10,6 @@ import 'package:smart_khata/core/errors/failure.dart';
 import 'package:smart_khata/core/money/money.dart';
 import 'package:smart_khata/core/money/money_formatter.dart';
 import 'package:smart_khata/core/theme/app_colors.dart';
-import 'package:smart_khata/core/theme/app_theme.dart';
 import 'package:smart_khata/core/theme/app_tokens.dart';
 import 'package:smart_khata/core/widgets/app_buttons.dart';
 import 'package:smart_khata/core/widgets/dialogs.dart';
@@ -18,6 +17,7 @@ import 'package:smart_khata/core/widgets/formatters.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
 import 'package:smart_khata/core/widgets/money_text.dart';
 import 'package:smart_khata/core/widgets/state_views.dart';
+import 'package:smart_khata/features/ledger/presentation/widgets/ledger_line_tile.dart';
 import 'package:smart_khata/features/parties/domain/party.dart';
 import 'package:smart_khata/features/parties/presentation/cubit/party_detail_cubit.dart';
 
@@ -127,6 +127,30 @@ class PartyDetailPage extends StatelessWidget {
               _BalanceCard(party: party, account: account),
               const SizedBox(height: AppSpacing.md),
               _TotalsCard(account: account),
+              if (!party.isArchived) ...[
+                const SizedBox(height: AppSpacing.lg),
+                AppPrimaryButton(
+                  label: account.role == PartyRole.customer
+                      ? l10n.actionGiveCredit
+                      : l10n.actionAddPurchase,
+                  icon: Icons.add,
+                  onPressed: () => unawaited(
+                    context.push(
+                      AppRoutes.charge(role: account.role, partyId: party.id),
+                    ),
+                  ),
+                ),
+              ],
+              const SizedBox(height: AppSpacing.sm),
+              AppSecondaryButton(
+                label: l10n.actionViewLedger,
+                icon: Icons.receipt_long_outlined,
+                onPressed: () => unawaited(
+                  context.push(
+                    AppRoutes.partyLedger(party.id, account.accountId),
+                  ),
+                ),
+              ),
               if (!account.hasOpeningBalance && !party.isArchived) ...[
                 const SizedBox(height: AppSpacing.lg),
                 Text(
@@ -165,7 +189,17 @@ class PartyDetailPage extends StatelessWidget {
                 )
               else
                 for (final entry in state.entries) ...[
-                  _EntryRow(entry: entry),
+                  LedgerLineTile(
+                    transactionType: entry.transactionType,
+                    amount: entry.amount,
+                    effectiveAt: entry.effectiveAt,
+                    description: entry.description,
+                    isReversed: entry.isReversed,
+                    horizontalPadding: 0,
+                    onTap: () => unawaited(
+                      context.push(AppRoutes.transaction(entry.transactionId)),
+                    ),
+                  ),
                   const Divider(),
                 ],
             ],
@@ -277,72 +311,6 @@ class _TotalsCard extends StatelessWidget {
             row(settlementsLabel, account.totalSettlements),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// One ledger line: date and type in words, and the effect on the balance
-/// as "Added"/"Reduced" with an icon, not a bare sign.
-class _EntryRow extends StatelessWidget {
-  const _EntryRow({required this.entry});
-
-  final LedgerEntrySummary entry;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    final increases = entry.amount.isPositive;
-    final formatted = MoneyFormatter.format(entry.amount.abs());
-    final muted = theme.textTheme.bodySmall?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.transactionTypeLabel(entry.transactionType),
-                  style: theme.textTheme.titleSmall,
-                ),
-                Text(
-                  AppDateFormat.instant(context, entry.effectiveAt),
-                  style: muted,
-                ),
-                if (entry.description case final String description)
-                  Text(description, style: muted),
-              ],
-            ),
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Semantics(
-            label: increases
-                ? l10n.entryIncrease(formatted)
-                : l10n.entryDecrease(formatted),
-            excludeSemantics: true,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  increases ? Icons.add : Icons.remove,
-                  size: AppSizes.iconSm,
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                Text(
-                  formatted,
-                  style: AppTheme.amountStyle(theme.textTheme.titleMedium),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

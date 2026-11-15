@@ -305,26 +305,38 @@ class _PartyTile extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppSpacing.md),
-            Semantics(
-              label: l10n.amountSemantics(
-                l10n.balanceLabel(kind),
-                MoneyFormatter.format(item.balance.abs()),
-              ),
-              excludeSemantics: true,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    l10n.balanceLabel(kind),
-                    style: theme.textTheme.labelMedium?.copyWith(color: color),
-                    textAlign: TextAlign.end,
-                  ),
-                  if (kind != BalanceKind.settled)
+            // Bounded to half the row: the label wraps and a very large
+            // amount shrinks, so the row never overflows.
+            Flexible(
+              child: Semantics(
+                label: l10n.amountSemantics(
+                  l10n.balanceLabel(kind),
+                  MoneyFormatter.format(item.balance.abs()),
+                ),
+                excludeSemantics: true,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
                     Text(
-                      MoneyFormatter.format(item.balance.abs()),
-                      style: AppTheme.amountStyle(theme.textTheme.titleMedium),
+                      l10n.balanceLabel(kind),
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: color,
+                      ),
+                      textAlign: TextAlign.end,
                     ),
-                ],
+                    if (kind != BalanceKind.settled)
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Text(
+                          MoneyFormatter.format(item.balance.abs()),
+                          style: AppTheme.amountStyle(
+                            theme.textTheme.titleMedium,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
           ],

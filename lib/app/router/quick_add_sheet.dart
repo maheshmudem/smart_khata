@@ -1,4 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_khata/app/router/app_routes.dart';
+import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/core/theme/app_tokens.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
 
@@ -18,36 +23,44 @@ class _QuickAddSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final entries = <(IconData, String, String)>[
+    // Entries whose form exists carry a route; the rest say they are not
+    // available yet instead of doing nothing.
+    final entries = <(IconData, String, String, String?)>[
       (
         Icons.south_west,
         l10n.quickAddGiveCredit,
         l10n.quickAddGiveCreditHint,
+        AppRoutes.charge(role: PartyRole.customer),
       ),
       (
         Icons.payments_outlined,
         l10n.quickAddReceivePayment,
         l10n.quickAddReceivePaymentHint,
+        null,
       ),
       (
         Icons.local_shipping_outlined,
         l10n.quickAddSupplierPurchase,
         l10n.quickAddSupplierPurchaseHint,
+        AppRoutes.charge(role: PartyRole.supplier),
       ),
       (
         Icons.north_east,
         l10n.quickAddPaySupplier,
         l10n.quickAddPaySupplierHint,
+        null,
       ),
       (
         Icons.receipt_long_outlined,
         l10n.quickAddExpense,
         l10n.quickAddExpenseHint,
+        null,
       ),
       (
         Icons.calculate_outlined,
         l10n.quickAddCashCount,
         l10n.quickAddCashCountHint,
+        null,
       ),
     ];
 
@@ -70,16 +83,21 @@ class _QuickAddSheet extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  for (final (icon, title, hint) in entries)
+                  for (final (icon, title, hint, route) in entries)
                     ListTile(
                       leading: Icon(icon),
                       title: Text(title),
                       subtitle: Text(hint),
-                      // The entry forms are built in later phases; until
-                      // then each row says so instead of doing nothing.
+                      // Choosing an entry only opens its form; nothing is
+                      // posted from this sheet.
                       onTap: () {
                         final messenger = ScaffoldMessenger.of(context);
+                        final router = GoRouter.of(context);
                         Navigator.of(context).pop();
+                        if (route != null) {
+                          unawaited(router.push(route));
+                          return;
+                        }
                         messenger
                           ..hideCurrentSnackBar()
                           ..showSnackBar(

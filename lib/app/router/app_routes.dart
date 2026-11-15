@@ -20,10 +20,43 @@ abstract final class AppRoutes {
   static const String partyOpeningBalancePattern =
       '/party/:partyId/opening-balance/:accountId';
 
-  static const String roleParam = 'role';
+  static const String partyPickPattern = '/party-pick/:role';
+  static const String partyLedgerPattern = '/party/:partyId/ledger/:accountId';
+  static const String chargePattern = '/charge/:role';
+  static const String transactionPattern = '/transaction/:transactionId';
+  static const String transactionReversePattern =
+      '/transaction/:transactionId/reverse';
 
-  static String partyNew({required PartyRole role}) =>
-      '$partyNewPattern?$roleParam=${role.code}';
+  static const String roleParam = 'role';
+  static const String partyIdParam = 'partyId';
+  static const String returnOnSaveParam = 'return';
+
+  /// The add-party form. With [returnOnSave] it pops with the new party ID
+  /// instead of opening the party page (create-inline from a picker).
+  static String partyNew({
+    required PartyRole role,
+    bool returnOnSave = false,
+  }) =>
+      '$partyNewPattern?$roleParam=${role.code}'
+      '${returnOnSave ? '&$returnOnSaveParam=1' : ''}';
+
+  /// Party chooser for an entry form; pops with the chosen party ID.
+  static String partyPick({required PartyRole role}) =>
+      '/party-pick/${role.code}';
+
+  static String partyLedger(String partyId, String accountId) =>
+      '/party/$partyId/ledger/$accountId';
+
+  /// Give customer credit (customer) or add a purchase (supplier).
+  static String charge({required PartyRole role, String? partyId}) =>
+      '/charge/${role.code}'
+      '${partyId == null ? '' : '?$partyIdParam=$partyId'}';
+
+  static String transaction(String transactionId) =>
+      '/transaction/$transactionId';
+
+  static String transactionReverse(String transactionId) =>
+      '/transaction/$transactionId/reverse';
 
   static String partyDetail(String partyId, {PartyRole? role}) => role == null
       ? '/party/$partyId'

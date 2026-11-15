@@ -4,6 +4,9 @@ import 'package:smart_khata/core/date_time/clock.dart';
 import 'package:smart_khata/core/domain/shop_context.dart';
 import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
+import 'package:smart_khata/features/ledger/data/drift_ledger_repository.dart';
+import 'package:smart_khata/features/ledger/domain/ledger_repository.dart';
+import 'package:smart_khata/features/ledger/domain/ledger_use_cases.dart';
 import 'package:smart_khata/features/parties/data/drift_party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_repository.dart';
 import 'package:smart_khata/features/parties/domain/party_use_cases.dart';
@@ -76,5 +79,21 @@ void configureDependencies({
     )
     ..registerFactory<RecordOpeningBalance>(
       () => RecordOpeningBalance(getIt<PartyRepository>(), getIt<Clock>()),
+    )
+    // Ledger
+    ..registerLazySingleton<LedgerRepository>(
+      () => DriftLedgerRepository(
+        dao: getIt<AppDatabase>().ledgerDao,
+        shop: getIt<ShopContext>(),
+        clock: getIt<Clock>(),
+        ids: getIt<IdGenerator>(),
+        logger: getIt<AppLogger>(),
+      ),
+    )
+    ..registerFactory<RecordCharge>(
+      () => RecordCharge(getIt<LedgerRepository>(), getIt<Clock>()),
+    )
+    ..registerFactory<ReverseTransaction>(
+      () => ReverseTransaction(getIt<LedgerRepository>(), getIt<Clock>()),
     );
 }
