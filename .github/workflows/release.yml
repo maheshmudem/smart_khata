@@ -25,7 +25,7 @@ jobs:
     timeout-minutes: 40
     environment: production
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Tag matches pubspec version
         run: |
