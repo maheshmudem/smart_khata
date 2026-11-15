@@ -85,7 +85,7 @@ jobs:
         if: always()
         run: rm -f android/key.properties "$RUNNER_TEMP/upload-keystore.jks"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: smart-khata-${{ github.ref_name }}
           path: |
