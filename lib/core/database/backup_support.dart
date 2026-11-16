@@ -15,6 +15,7 @@ class DatabaseFacts {
     required this.recordCounts,
     required this.ledgerTotalPaise,
     required this.movementTotalPaise,
+    required this.schemaObjects,
   });
 
   /// `PRAGMA user_version`, which Drift sets to the schema version.
@@ -30,6 +31,27 @@ class DatabaseFacts {
 
   /// Money in minus money out, over every movement.
   final int movementTotalPaise;
+
+  /// Every table, index and trigger in the file: `type:name` → its
+  /// definition with whitespace collapsed. A restored file must have
+  /// exactly the objects this app creates, so that a file without, say,
+  /// an append-only trigger can never become the live database.
+  final Map<String, String> schemaObjects;
+
+  /// The SQL both the live database and a staged file are read with, so
+  /// the two descriptions can be compared.
+  static const String schemaObjectsSql =
+      'SELECT type, name, sql FROM sqlite_master '
+      "WHERE name NOT LIKE 'sqlite_%' ORDER BY type, name";
+
+  static final RegExp _whitespace = RegExp(r'\s+');
+
+  /// One row of [schemaObjectsSql] as a map entry.
+  static MapEntry<String, String> schemaObject(
+    String type,
+    String name,
+    String? sql,
+  ) => MapEntry('$type:$name', (sql ?? '').replaceAll(_whitespace, ' ').trim());
 
   /// The tables whose row counts go in a backup manifest (FR-BKP-003).
   static const List<String> countedTables = [
@@ -52,7 +74,7 @@ class DatabaseInspectionException implements Exception {
   const DatabaseInspectionException(this.code);
 
   /// A fixed code, never file contents: `integrity`, `foreign_keys`,
-  /// `no_shop` or `unreadable`.
+  /// `no_shop`, `schema` or `unreadable`.
   final String code;
 
   @override
@@ -84,8 +106,23 @@ abstract final class DatabaseInspector {
       }
       int scalar(String sql) => db.select(sql).first.values.first! as int;
 
+      final schemaVersion = scalar('PRAGMA user_version');
+      // Version 0 means "never set up": Drift would run its create step
+      // on top of a file that already has tables.
+      if (schemaVersion < 1) {
+        throw const DatabaseInspectionException('schema');
+      }
+
       return DatabaseFacts(
-        schemaVersion: scalar('PRAGMA user_version'),
+        schemaVersion: schemaVersion,
+        schemaObjects: Map.fromEntries([
+          for (final row in db.select(DatabaseFacts.schemaObjectsSql))
+            DatabaseFacts.schemaObject(
+              row['type'] as String,
+              row['name'] as String,
+              row['sql'] as String?,
+            ),
+        ]),
         shopId: shops.first['id'] as String,
         shopName: shops.first['name'] as String,
         recordCounts: {

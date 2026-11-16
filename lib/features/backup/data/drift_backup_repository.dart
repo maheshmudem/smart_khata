@@ -170,7 +170,15 @@ final class DriftBackupRepository implements BackupRepository {
           await staged.writeAsBytes(contents.database, flush: true);
           try {
             final facts = _inspect(staged.path);
+            // The file must have exactly this app's tables, indexes and
+            // triggers. Without this a file could arrive with the
+            // append-only guards removed and still pass every count.
+            // (Only schema 1 exists. The first schema change must teach
+            // this check what an older version looks like.)
+            final expected = await _dao.schemaObjects();
             final matches =
+                facts.schemaVersion == _schemaVersion &&
+                _sameObjects(facts.schemaObjects, expected) &&
                 facts.schemaVersion == manifest.schemaVersion &&
                 facts.shopId == manifest.shopId &&
                 facts.ledgerTotalPaise == manifest.ledgerTotalPaise &&
@@ -260,6 +268,10 @@ final class DriftBackupRepository implements BackupRepository {
       throw const FailureException(BackupFailure(BackupError.failedChecks));
     }
   }
+
+  static bool _sameObjects(Map<String, String> a, Map<String, String> b) =>
+      a.length == b.length &&
+      a.entries.every((entry) => b[entry.key] == entry.value);
 
   static bool _sameCounts(Map<String, int> a, Map<String, int> b) =>
       a.length == b.length &&

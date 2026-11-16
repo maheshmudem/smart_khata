@@ -19,6 +19,7 @@ import 'package:smart_khata/features/backup/domain/backup.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_models.dart';
 import 'package:smart_khata/features/ledger/domain/payment_models.dart';
 import 'package:smart_khata/features/parties/domain/party_commands.dart';
+import 'package:sqlite3/sqlite3.dart';
 
 import '../../helpers/test_database.dart';
 import '../../helpers/test_env.dart';
@@ -484,6 +485,54 @@ void main() {
         BackupError.failedChecks,
       );
       expect(env.workDirectory.listSync(), isEmpty);
+    });
+
+    test('a backup whose database lost a trigger or gained a table is '
+        'refused', () async {
+      await seed(env);
+      final real = (await env.backup.prepare(passphrase)).valueOrNull!;
+      final database = (await BackupCodec.open(
+        real.bytes,
+        passphrase,
+      )).database;
+
+      /// The same backup with [sql] run on its database first, and a
+      /// manifest that matches the changed file in every figure.
+      Future<Uint8List> tampered(String sql) async {
+        final file = File(p.join(env.workDirectory.path, 'tamper.sqlite'))
+          ..writeAsBytesSync(database);
+        sqlite3.open(file.path)
+          ..execute(sql)
+          ..close();
+        final bytes = file.readAsBytesSync();
+        file.deleteSync();
+        final manifest = BackupManifest.fromJson({
+          ...real.manifest.toJson(),
+          'database_sha256': await BackupCodec.sha256Hex(bytes),
+        });
+        return seal(manifest, bytes);
+      }
+
+      // Counts, totals, hash and integrity all still pass; only the
+      // schema differs.
+      for (final sql in [
+        'DROP TRIGGER party_ledger_entries_no_delete',
+        'DROP TRIGGER allocation_event_validate_insert',
+        'DROP INDEX parties_shop_name_idx',
+        'CREATE TABLE extra (id INTEGER)',
+        'PRAGMA user_version = 0',
+      ]) {
+        expect(
+          errorOf(await env.backup.stage(await tampered(sql), passphrase)),
+          BackupError.failedChecks,
+          reason: sql,
+        );
+      }
+      expect(env.workDirectory.listSync(), isEmpty);
+
+      // An untouched copy still passes.
+      final same = await tampered('SELECT 1');
+      expect((await env.backup.stage(same, passphrase)).isOk, isTrue);
     });
 
     test(

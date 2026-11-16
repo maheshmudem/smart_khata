@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:smart_khata/core/database/app_database.dart';
+import 'package:smart_khata/core/database/backup_support.dart';
 import 'package:smart_khata/core/domain/ledger_enums.dart';
 
 part 'backup_dao.g.dart';
@@ -38,6 +39,20 @@ class BackupDao extends DatabaseAccessor<AppDatabase> with _$BackupDaoMixin {
             ..limit(1))
           .watchSingleOrNull()
           .map((row) => row?.createdAt);
+
+  /// The tables, indexes and triggers of the live database, in the same
+  /// form as [DatabaseFacts.schemaObjects].
+  Future<Map<String, String>> schemaObjects() async {
+    final rows = await customSelect(DatabaseFacts.schemaObjectsSql).get();
+    return Map.fromEntries([
+      for (final row in rows)
+        DatabaseFacts.schemaObject(
+          row.read<String>('type'),
+          row.read<String>('name'),
+          row.readNullable<String>('sql'),
+        ),
+    ]);
+  }
 
   Future<void> insertHistory(BackupHistoryCompanion row) =>
       into(backupHistory).insert(row);
