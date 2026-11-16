@@ -65,9 +65,9 @@ void main() {
         expect(value, isNot(contains('482913')));
       }
       // The same PIN set again gets a new salt and so a different hash.
-      final first = env.secrets.values['app_lock.pin_hash'];
+      final first = env.secrets.values['app_lock.pin'];
       await env.appLock.setPin('482913');
-      expect(env.secrets.values['app_lock.pin_hash'], isNot(first));
+      expect(env.secrets.values['app_lock.pin'], isNot(first));
       // Nothing about it reaches the log.
       expect(
         env.logger.records.where((r) => r.message.contains('482913')),
@@ -119,6 +119,57 @@ void main() {
         PinLockedOut(until: env.clock.now.add(const Duration(minutes: 1))),
       );
       wait(const Duration(minutes: 2));
+      expect(
+        (await env.appLock.verifyPin('1234')).valueOrNull,
+        const PinAccepted(),
+      );
+    });
+
+    test(
+      'the PIN record is one value, so a change cannot be half done',
+      () async {
+        await env.appLock.setPin('1234');
+        // Hash, salt and rounds live under a single key.
+        expect(env.secrets.values.keys, ['app_lock.pin']);
+
+        // Storage fails while the PIN is being changed: the old PIN must
+        // still open the app.
+        env.secrets.fail = true;
+        expect((await env.appLock.setPin('5678')).isOk, isFalse);
+        env.secrets.fail = false;
+        expect(
+          (await env.appLock.verifyPin('1234')).valueOrNull,
+          const PinAccepted(),
+        );
+        expect(
+          (await env.appLock.verifyPin('5678')).valueOrNull,
+          const PinRejected(attemptsLeft: 4),
+        );
+      },
+    );
+
+    test('a damaged PIN record is a failure, never an open door', () async {
+      await env.appLock.setPin('1234');
+      env.secrets.values['app_lock.pin'] = '{"hash": 7}';
+      expect((await env.appLock.verifyPin('1234')).isOk, isFalse);
+      expect((await env.appLock.readConfig()).isOk, isFalse);
+    });
+
+    test('setting the clock back does not end or stretch a pause', () async {
+      await env.appLock.setPin('1234');
+      for (var i = 0; i < 5; i++) {
+        await env.appLock.verifyPin('0000');
+      }
+      // The owner (or anyone) moves the phone's date back a year.
+      env.clock.now = env.clock.now.subtract(const Duration(days: 365));
+      final check = (await env.appLock.verifyPin('1234')).valueOrNull;
+      // Still paused, and only for the 30 seconds that were earned: not
+      // for a year.
+      expect(
+        check,
+        PinLockedOut(until: env.clock.now.add(const Duration(seconds: 30))),
+      );
+      wait(const Duration(seconds: 31));
       expect(
         (await env.appLock.verifyPin('1234')).valueOrNull,
         const PinAccepted(),
