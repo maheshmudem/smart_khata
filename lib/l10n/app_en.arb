@@ -807,6 +807,7 @@
   "passphraseForgetWarning": "Write the passphrase down and keep it safe. If it is forgotten, nobody can open this backup, not even the makers of the app.",
   "actionCreateAndSave": "Create and save",
   "backupSaved": "Backup saved",
+  "restoreDone": "Records restored from the backup.",
   "backupNotSaved": "No backup was saved",
   "restoreExplain": "Choose a Smart Khata backup file and enter its passphrase. The file is checked first; nothing on this phone changes until you confirm.",
   "actionChooseBackupFile": "Choose backup file",

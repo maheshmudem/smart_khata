@@ -20,6 +20,15 @@ import 'package:smart_khata/features/security/presentation/lock_screen.dart';
 import 'package:smart_khata/features/settings/domain/settings_repository.dart';
 import 'package:smart_khata/l10n/generated/app_localizations.dart';
 
+/// Why the app has just started again.
+enum StartupNotice {
+  /// The records were replaced from a backup.
+  restored,
+
+  /// A restore could not be put in place; the earlier records are shown.
+  restoreFailed,
+}
+
 /// The root widget. Owns the app-wide cubits and the router.
 class SmartKhataApp extends StatefulWidget {
   const SmartKhataApp({
@@ -30,6 +39,7 @@ class SmartKhataApp extends StatefulWidget {
     required this.clock,
     required this.initialLocale,
     required this.onboardingComplete,
+    this.startupNotice,
     super.key,
   });
 
@@ -40,6 +50,9 @@ class SmartKhataApp extends StatefulWidget {
   final Clock clock;
   final Locale initialLocale;
   final bool onboardingComplete;
+
+  /// Something to tell the owner once, right after this start.
+  final StartupNotice? startupNotice;
 
   @override
   State<SmartKhataApp> createState() => _SmartKhataAppState();
@@ -66,6 +79,25 @@ class _SmartKhataAppState extends State<SmartKhataApp> {
     super.initState();
     unawaited(_lockCubit.start());
     if (widget.onboardingComplete) unawaited(_resyncReminders());
+    final notice = widget.startupNotice;
+    if (notice != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _show(notice));
+    }
+  }
+
+  /// A restore replaces the whole app, so its result is shown by the app
+  /// that comes up afterwards.
+  void _show(StartupNotice notice) {
+    final l10n = lookupAppLocalizations(_localeCubit.state);
+    AppMessenger.key.currentState?.showSnackBar(
+      SnackBar(
+        content: Text(switch (notice) {
+          StartupNotice.restored => l10n.restoreDone,
+          StartupNotice.restoreFailed => l10n.backupErrorNotInstalled,
+        }),
+        duration: const Duration(seconds: 8),
+      ),
+    );
   }
 
   /// After a restore on a new phone the saved reminders exist but the

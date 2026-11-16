@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_khata/app/app.dart';
 import 'package:smart_khata/app/di/injection.dart';
 import 'package:smart_khata/app/localization/locale_cubit.dart';
 import 'package:smart_khata/core/app_info.dart';
@@ -201,6 +202,28 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
       expect(env.fakeBackup.installed, hasLength(1));
+    });
+
+    testWidgets('after a restart the app says what the restore came to', (
+      tester,
+    ) async {
+      await tester.pumpSmartKhata(
+        env,
+        tallScreen: true,
+        startupNotice: StartupNotice.restored,
+      );
+      expect(find.text(en.restoreDone), findsOneWidget);
+    });
+
+    testWidgets('a restore that could not be put in place is not shown as '
+        'done', (tester) async {
+      await tester.pumpSmartKhata(
+        env,
+        tallScreen: true,
+        startupNotice: StartupNotice.restoreFailed,
+      );
+      expect(find.text(en.backupErrorNotInstalled), findsOneWidget);
+      expect(find.text(en.restoreDone), findsNothing);
     });
 
     testWidgets('a new phone can restore before setting up a shop', (

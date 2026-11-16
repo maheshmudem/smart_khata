@@ -1688,6 +1688,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupSaved => 'Backup saved';
 
   @override
+  String get restoreDone => 'Records restored from the backup.';
+
+  @override
   String get backupNotSaved => 'No backup was saved';
 
   @override

@@ -222,78 +222,83 @@ class _RestoreBackupPageState extends State<RestoreBackupPage> {
       builder: (context, state) {
         final failure = state.failure;
         final staged = state.staged;
-        return Scaffold(
-          appBar: AppBar(title: Text(l10n.actionRestoreBackup)),
-          body: ListView(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            children: [
-              Text(l10n.restoreExplain),
-              const SizedBox(height: AppSpacing.lg),
-              if (failure != null) ...[
-                InlineError(message: l10n.failureMessage(failure)),
-                const SizedBox(height: AppSpacing.md),
+        // While the database is being replaced there is nothing to go
+        // back to; the app restarts by itself.
+        return PopScope(
+          canPop: state.step != RestoreStep.installing,
+          child: Scaffold(
+            appBar: AppBar(title: Text(l10n.actionRestoreBackup)),
+            body: ListView(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              children: [
+                Text(l10n.restoreExplain),
+                const SizedBox(height: AppSpacing.lg),
+                if (failure != null) ...[
+                  InlineError(message: l10n.failureMessage(failure)),
+                  const SizedBox(height: AppSpacing.md),
+                ],
+                switch (state.step) {
+                  RestoreStep.chooseFile => AppPrimaryButton(
+                    label: l10n.actionChooseBackupFile,
+                    icon: Icons.folder_open,
+                    isLoading: state.isBusy,
+                    onPressed: () => unawaited(cubit.chooseFile()),
+                  ),
+                  RestoreStep.enterPassphrase => Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      AppTextField(
+                        label: l10n.passphraseLabel,
+                        helperText: l10n.restorePassphraseHelp,
+                        obscureText: true,
+                        isRequired: true,
+                        onChanged: (value) => _passphrase = value,
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      AppPrimaryButton(
+                        label: l10n.actionCheckBackup,
+                        isLoading: state.isBusy,
+                        onPressed: () => unawaited(cubit.check(_passphrase)),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      AppSecondaryButton(
+                        label: l10n.actionChooseAnotherFile,
+                        onPressed: state.isBusy
+                            ? null
+                            : () => unawaited(cubit.reset()),
+                      ),
+                    ],
+                  ),
+                  RestoreStep.preview || RestoreStep.installing => Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (staged != null) _Preview(manifest: staged.manifest),
+                      _Warning(l10n.restoreReplaceWarning),
+                      const SizedBox(height: AppSpacing.md),
+                      AppPrimaryButton(
+                        label: l10n.actionReplaceRecords,
+                        isLoading: state.isBusy,
+                        onPressed: () => unawaited(_confirmInstall(context)),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      AppSecondaryButton(
+                        label: l10n.actionChooseAnotherFile,
+                        onPressed: state.isBusy
+                            ? null
+                            : () => unawaited(cubit.reset()),
+                      ),
+                    ],
+                  ),
+                },
+                const SizedBox(height: AppSpacing.lg),
+                Text(
+                  l10n.restoreSafetyNote,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
               ],
-              switch (state.step) {
-                RestoreStep.chooseFile => AppPrimaryButton(
-                  label: l10n.actionChooseBackupFile,
-                  icon: Icons.folder_open,
-                  isLoading: state.isBusy,
-                  onPressed: () => unawaited(cubit.chooseFile()),
-                ),
-                RestoreStep.enterPassphrase => Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AppTextField(
-                      label: l10n.passphraseLabel,
-                      helperText: l10n.restorePassphraseHelp,
-                      obscureText: true,
-                      isRequired: true,
-                      onChanged: (value) => _passphrase = value,
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
-                    AppPrimaryButton(
-                      label: l10n.actionCheckBackup,
-                      isLoading: state.isBusy,
-                      onPressed: () => unawaited(cubit.check(_passphrase)),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    AppSecondaryButton(
-                      label: l10n.actionChooseAnotherFile,
-                      onPressed: state.isBusy
-                          ? null
-                          : () => unawaited(cubit.reset()),
-                    ),
-                  ],
-                ),
-                RestoreStep.preview || RestoreStep.installing => Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    if (staged != null) _Preview(manifest: staged.manifest),
-                    _Warning(l10n.restoreReplaceWarning),
-                    const SizedBox(height: AppSpacing.md),
-                    AppPrimaryButton(
-                      label: l10n.actionReplaceRecords,
-                      isLoading: state.isBusy,
-                      onPressed: () => unawaited(_confirmInstall(context)),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    AppSecondaryButton(
-                      label: l10n.actionChooseAnotherFile,
-                      onPressed: state.isBusy
-                          ? null
-                          : () => unawaited(cubit.reset()),
-                    ),
-                  ],
-                ),
-              },
-              const SizedBox(height: AppSpacing.lg),
-              Text(
-                l10n.restoreSafetyNote,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ],
+            ),
           ),
         );
       },

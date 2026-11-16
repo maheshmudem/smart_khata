@@ -58,6 +58,7 @@ extension AppDriver on WidgetTester {
     bool onboarded = true,
     bool tallScreen = false,
     Future<void> Function()? seed,
+    StartupNotice? startupNotice,
   }) async {
     if (tallScreen) {
       view.physicalSize = const Size(800, 4000);
@@ -80,6 +81,7 @@ extension AppDriver on WidgetTester {
         clock: env.clock,
         initialLocale: AppLocales.english,
         onboardingComplete: onboarded,
+        startupNotice: startupNotice,
       ),
     );
     await pumpAndSettle();

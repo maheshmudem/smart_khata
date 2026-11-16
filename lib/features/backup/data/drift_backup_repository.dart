@@ -64,8 +64,10 @@ final class DriftBackupRepository implements BackupRepository {
   final KdfParams _kdf;
   final Random _random;
 
-  static const String _snapshotName = 'backup_snapshot.sqlite';
-  static const String _stagedName = 'restore_staged.sqlite';
+  /// Plain (unencrypted) work files in the app's cache. Each is deleted
+  /// as soon as it has been used; startup clears any left by a crash.
+  static const String snapshotName = 'backup_snapshot.sqlite';
+  static const String stagedName = 'restore_staged.sqlite';
 
   @override
   Stream<DateTime?> watchLastBackupAt() =>
@@ -77,7 +79,7 @@ final class DriftBackupRepository implements BackupRepository {
   Future<Result<PreparedBackup>> prepare(String passphrase) => guard(
     () async {
       final directory = await _workDirectory();
-      final snapshot = File(p.join(directory.path, _snapshotName));
+      final snapshot = File(p.join(directory.path, snapshotName));
       if (snapshot.existsSync()) await snapshot.delete();
 
       final Uint8List database;
@@ -166,7 +168,7 @@ final class DriftBackupRepository implements BackupRepository {
           }
 
           final directory = await _workDirectory();
-          final staged = File(p.join(directory.path, _stagedName));
+          final staged = File(p.join(directory.path, stagedName));
           await staged.writeAsBytes(contents.database, flush: true);
           try {
             final facts = _inspect(staged.path);

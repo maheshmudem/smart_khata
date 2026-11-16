@@ -65,7 +65,7 @@ void configureDependencies({
   BackupRepository? backupRepository,
   ReminderNotifier? reminderNotifier,
   Future<Directory> Function()? workDirectory,
-  Future<void> Function()? restartApp,
+  AppRestarter? restartApp,
 }) {
   getIt
     // Core
@@ -229,8 +229,9 @@ void configureDependencies({
       () =>
           restoreInstaller ??
           AppRestoreInstaller(
-            closeDatabase: () => getIt<AppDatabase>().close(),
-            restart: restartApp ?? () async {},
+            // Without a restarter (never the case on a device) the swap
+            // is refused rather than done under a running database.
+            restart: restartApp ?? (_) async {},
           ),
     )
     ..registerLazySingleton<BackupRepository>(

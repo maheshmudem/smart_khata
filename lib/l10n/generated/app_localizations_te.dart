@@ -1690,6 +1690,9 @@ class AppLocalizationsTe extends AppLocalizations {
   String get backupSaved => 'బ్యాకప్ సేవ్ అయింది';
 
   @override
+  String get restoreDone => 'బ్యాకప్ నుండి రికార్డులు పునరుద్ధరించబడ్డాయి.';
+
+  @override
   String get backupNotSaved => 'బ్యాకప్ సేవ్ కాలేదు';
 
   @override

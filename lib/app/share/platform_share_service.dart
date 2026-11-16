@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:smart_khata/app/platform/platform_backup_files.dart';
 import 'package:smart_khata/core/export/share_service.dart';
 
 /// [ShareService] on the device: the native share sheet through
@@ -23,9 +24,12 @@ final class PlatformShareService implements ShareService {
     required String mimeType,
     String? subject,
   }) async {
-    final directory = await getTemporaryDirectory();
-    // Only the base name is used, so a name can never point outside the
-    // cache directory.
+    final cache = await getTemporaryDirectory();
+    // A folder of its own, cleared at every start of the app, so that a
+    // shared statement does not sit in the cache for good.
+    final directory = Directory(p.join(cache.path, CacheJanitor.exportsFolder));
+    await directory.create(recursive: true);
+    // Only the base name is used, so a name can never point outside it.
     final file = File(p.join(directory.path, p.basename(fileName)));
     // UTF-8 is the default encoding.
     await file.writeAsString(content, flush: true);

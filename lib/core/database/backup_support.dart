@@ -163,15 +163,27 @@ abstract final class DatabaseFileSwap {
     final incoming = File('${live.path}.incoming');
 
     // Copy first, into the live database's own folder, so the final step
-    // is a rename within one folder.
+    // is a rename within one folder. The copy is forced to disk before it
+    // can become the live file: a power cut must not leave half a file
+    // under the live name.
     if (incoming.existsSync()) await incoming.delete();
     await staged.copy(incoming.path);
+    final handle = await incoming.open(mode: FileMode.append);
+    try {
+      await handle.flush();
+    } finally {
+      await handle.close();
+    }
 
     final hadLive = live.existsSync();
     if (hadLive) {
       if (safety.existsSync()) await safety.delete();
       await live.rename(safety.path);
     }
+    // Write-ahead files of the earlier database go before the new file
+    // takes the live name. Left behind, SQLite would replay them onto the
+    // restored database and corrupt it.
+    await _deleteWriteAheadFiles(live);
     try {
       await incoming.rename(live.path);
     } on FileSystemException {
@@ -179,8 +191,9 @@ abstract final class DatabaseFileSwap {
       if (incoming.existsSync()) await incoming.delete();
       rethrow;
     }
-    // Write-ahead files of the earlier database do not belong to the new
-    // one.
+  }
+
+  static Future<void> _deleteWriteAheadFiles(File live) async {
     for (final suffix in ['-wal', '-shm']) {
       final leftover = File('${live.path}$suffix');
       if (leftover.existsSync()) await leftover.delete();

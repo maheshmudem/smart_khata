@@ -3098,6 +3098,12 @@ abstract class AppLocalizations {
   /// **'Backup saved'**
   String get backupSaved;
 
+  /// No description provided for @restoreDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Records restored from the backup.'**
+  String get restoreDone;
+
   /// No description provided for @backupNotSaved.
   ///
   /// In en, this message translates to:
