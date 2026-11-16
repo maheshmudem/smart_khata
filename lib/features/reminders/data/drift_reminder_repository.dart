@@ -124,35 +124,46 @@ final class DriftReminderRepository implements ReminderRepository {
         on.day,
         ReminderPolicy.notifyHour,
       ).toUtc();
-      final notificationId = await _dao.nextNotificationId(shopId);
-
-      // The phone's alarm first: if it cannot be set, nothing is saved
-      // that claims a reminder exists.
-      await _notifier.schedule(id: notificationId, at: at, texts: texts);
-      final earlier = await _dao.pendingFor(
-        shopId: shopId,
-        partyId: partyId,
-        type: type,
-        now: now,
-      );
-      await _dao.transaction(() async {
-        for (final reminder in earlier) {
-          await _dao.markCancelled(shopId: shopId, id: reminder.id, now: now);
-        }
-        await _dao.insertReminder(
-          db.RemindersCompanion.insert(
-            id: _ids.newId(),
+      // The row and the phone's alarm must agree. The number is taken and
+      // the row written in one transaction; the alarm is set inside it,
+      // so a refused alarm rolls the row back, and a failed commit leaves
+      // an alarm that is taken down again below.
+      int? scheduledId;
+      final List<db.Reminder> earlier;
+      try {
+        earlier = await _dao.transaction(() async {
+          final pending = await _dao.pendingFor(
             shopId: shopId,
-            partyId: Value(partyId),
-            reminderType: type,
-            scheduledAt: at,
-            notificationId: notificationId,
-            status: ReminderStatus.scheduled,
-            createdAt: now,
-            updatedAt: now,
-          ),
-        );
-      });
+            partyId: partyId,
+            type: type,
+            now: now,
+          );
+          for (final reminder in pending) {
+            await _dao.markCancelled(shopId: shopId, id: reminder.id, now: now);
+          }
+          final notificationId = await _dao.nextNotificationId(shopId);
+          await _dao.insertReminder(
+            db.RemindersCompanion.insert(
+              id: _ids.newId(),
+              shopId: shopId,
+              partyId: Value(partyId),
+              reminderType: type,
+              scheduledAt: at,
+              notificationId: notificationId,
+              status: ReminderStatus.scheduled,
+              createdAt: now,
+              updatedAt: now,
+            ),
+          );
+          await _notifier.schedule(id: notificationId, at: at, texts: texts);
+          scheduledId = notificationId;
+          return pending;
+        });
+      } on Object {
+        final orphan = scheduledId;
+        if (orphan != null) await _notifier.cancel(orphan);
+        rethrow;
+      }
       for (final reminder in earlier) {
         await _notifier.cancel(reminder.notificationId);
       }

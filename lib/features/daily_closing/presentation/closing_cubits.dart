@@ -96,13 +96,20 @@ class DailyCloseCubit extends Cubit<DailyCloseState> {
   DailyCloseCubit({
     required this._closings,
     required this._closeDay,
+    required this._newOperationId,
     required BusinessDate date,
-  }) : super(DailyCloseState(date: date)) {
+  }) : _operationId = _newOperationId(),
+       super(DailyCloseState(date: date)) {
     unawaited(_load());
   }
 
   final DailyClosingRepository _closings;
   final CloseDay _closeDay;
+  final String Function() _newOperationId;
+
+  /// The ID of the save in progress. It is the same for every tap and
+  /// retry of one save, and a new one after that save has gone through.
+  String _operationId;
 
   Future<void> _load() async {
     final expected = await _closings.expectedCash(state.date);
@@ -162,12 +169,15 @@ class DailyCloseCubit extends Cubit<DailyCloseState> {
 
     final result = await _closeDay(
       CloseDayCommand(
+        operationId: _operationId,
         businessDate: state.date,
         count: state.count,
         note: state.note,
       ),
     );
     if (isClosed) return;
+    // Saved: a later re-count is a new save and gets its own ID.
+    if (result.isOk) _operationId = _newOperationId();
 
     emit(switch (result) {
       Ok(value: final closing) => state.copyWith(

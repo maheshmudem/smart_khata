@@ -304,6 +304,17 @@ void main() {
       },
     );
 
+    test('the same operation ID with a different amount is refused', () async {
+      await env.recordExpense(expense(300, operationId: 'same'));
+      final edited = await env.recordExpense(
+        expense(900, operationId: 'same'),
+      );
+      expect(edited.failureOrNull, const DuplicateOperationFailure());
+      expect(await env.count('expenses'), 1);
+      final log = (await env.db.select(env.db.auditLogs).get()).single;
+      expect(log.action, 'expense_recorded');
+    });
+
     test('repeating an operation posts once', () async {
       final command = expense(300, operationId: 'same');
       final first = (await env.recordExpense(command)).valueOrNull!;
@@ -477,7 +488,10 @@ void main() {
 
         await env.cashBook.setAccountActive(bank, active: true);
         expect((await env.money.getAccounts()).valueOrNull, hasLength(2));
-        final logs = await env.db.select(env.db.auditLogs).get();
+        // The account's own trail (the expense above has a row of its own).
+        final logs = (await env.db.select(env.db.auditLogs).get()).where(
+          (l) => l.entityType == 'money_account',
+        );
         expect(logs.map((l) => l.action), ['deactivated', 'reactivated']);
       },
     );
@@ -729,10 +743,16 @@ void main() {
       CashCount count, {
       BusinessDate? date,
       String? note,
+      String? operationId,
     }) async {
       tick();
       final result = await env.closeDay(
-        CloseDayCommand(businessDate: date ?? today, count: count, note: note),
+        CloseDayCommand(
+          operationId: operationId ?? 'close-${op++}',
+          businessDate: date ?? today,
+          count: count,
+          note: note,
+        ),
       );
       expect(result.failureOrNull, isNull);
       return result.valueOrNull!;
@@ -848,9 +868,33 @@ void main() {
       expect(closing.expectedCash, rupees(-200));
     });
 
+    test('a repeated save of one closing adds no second revision', () async {
+      await adjust(3500);
+      final first = await close(counted3500, operationId: 'close-once');
+      final again = await close(counted3500, operationId: 'close-once');
+      expect(again.id, first.id);
+      expect(await env.count('daily_closings'), 1);
+      // A deliberate second closing is a new operation and a new revision.
+      final recount = await close(counted3500, operationId: 'close-twice');
+      expect(recount.revisionNumber, 2);
+      // Each saved closing left one audit row; none holds an amount.
+      final logs = await env.db
+          .customSelect(
+            'SELECT "action", reason FROM audit_logs '
+            "WHERE entity_type = 'daily_closing'",
+          )
+          .get();
+      expect(logs, hasLength(2));
+      expect(logs.every((l) => l.data['reason'] == null), isTrue);
+    });
+
     test('a future day cannot be closed', () async {
       final result = await env.closeDay(
-        CloseDayCommand(businessDate: today.addDays(1), count: counted3500),
+        CloseDayCommand(
+          operationId: 'close-future',
+          businessDate: today.addDays(1),
+          count: counted3500,
+        ),
       );
       expect(
         result.failureOrNull,

@@ -73,7 +73,15 @@ final class Money implements Comparable<Money> {
   Money operator -() => Money._(-paise);
 
   /// Multiplies by a whole [quantity], e.g. a note count in a cash count.
-  Money times(int quantity) => Money.fromPaise(paise * quantity);
+  ///
+  /// The range is checked before multiplying: a huge quantity must fail
+  /// with [MoneyRangeError], not wrap around a 64-bit integer first.
+  Money times(int quantity) {
+    if (paise != 0 && quantity.abs() > maxPaise ~/ paise.abs()) {
+      throw MoneyRangeError(quantity);
+    }
+    return Money.fromPaise(paise * quantity);
+  }
 
   bool operator <(Money other) => paise < other.paise;
   bool operator <=(Money other) => paise <= other.paise;

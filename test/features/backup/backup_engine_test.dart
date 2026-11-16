@@ -228,6 +228,20 @@ void main() {
           const KdfParams(memoryKib: 64, iterations: 1, parallelism: 0).isSane,
           isFalse,
         );
+        // More than 64 MiB or 4 passes would get the app killed on a small
+        // phone, because the stretching runs in Dart.
+        expect(
+          const KdfParams(
+            memoryKib: 64 * 1024 + 1,
+            iterations: 1,
+            parallelism: 1,
+          ).isSane,
+          isFalse,
+        );
+        expect(
+          const KdfParams(memoryKib: 64, iterations: 5, parallelism: 1).isSane,
+          isFalse,
+        );
       },
     );
 

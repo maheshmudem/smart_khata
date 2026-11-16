@@ -41,6 +41,7 @@ final class DriftDailyClosingRepository implements DailyClosingRepository {
   /// Opening cash plus every cash movement dated up to the end of [date].
   Future<Money> _expected(String accountId, BusinessDate date) async {
     final summary = await _dao.getSummary(
+      shopId: await _shop.requireShopId(),
       accountId: accountId,
       from: null,
       to: date.endUtcExclusive(ShopTimeZone.resolve(null)),
@@ -72,12 +73,20 @@ final class DriftDailyClosingRepository implements DailyClosingRepository {
 
   @override
   Future<Result<DailyClosing>> saveClosing({
+    required String operationId,
     required BusinessDate date,
     required CashCount count,
     required String? note,
   }) => guard(
     () => _dao.transaction(() async {
       final account = await _cashAccount();
+      // A retry of a save that already committed adds no second revision.
+      final repeated = await _dao.closingOfOperation(
+        shopId: account.shopId,
+        operationId: operationId,
+      );
+      if (repeated != null) return _toDomain(repeated);
+
       // Read inside the transaction: the snapshot is of the books exactly
       // as they are when the closing is saved.
       final expected = await _expected(account.id, date);
@@ -88,6 +97,7 @@ final class DriftDailyClosingRepository implements DailyClosingRepository {
       );
 
       final id = _ids.newId();
+      final now = _clock.nowUtc();
       // A closing is only ever inserted. Closing a day again adds the next
       // revision, pointing at the one it replaces (WF-045). Nothing is
       // written to the cash book: a count is an observation.
@@ -104,7 +114,20 @@ final class DriftDailyClosingRepository implements DailyClosingRepository {
           note: Value(note),
           revisionNumber: (previous?.revisionNumber ?? 0) + 1,
           supersedesClosingId: Value(previous?.id),
-          createdAt: _clock.nowUtc(),
+          createdAt: now,
+        ),
+      );
+      // The audit row also carries the operation ID, which is how a
+      // repeated save is recognised.
+      await _dao.insertAuditLog(
+        db.AuditLogsCompanion.insert(
+          id: _ids.newId(),
+          shopId: account.shopId,
+          entityType: CashDao.closingEntityType,
+          entityId: id,
+          action: CashDao.closingAction,
+          metadataJson: Value(operationId),
+          createdAt: now,
         ),
       );
       final saved = await _dao.currentClosing(

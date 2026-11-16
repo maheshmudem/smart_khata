@@ -336,6 +336,7 @@ void main() {
       final cubit = DailyCloseCubit(
         closings: env.closings,
         closeDay: env.closeDay,
+        newOperationId: env.ids.newId,
         date: today,
       );
       addTearDown(cubit.close);
@@ -451,6 +452,7 @@ void main() {
       final close = DailyCloseCubit(
         closings: env.closings,
         closeDay: env.closeDay,
+        newOperationId: env.ids.newId,
         date: today,
       );
       addTearDown(close.close);

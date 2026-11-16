@@ -32,11 +32,14 @@ final class DriftCashBookRepository implements CashBookRepository {
   @override
   Stream<CashBookSummary> watchSummary(String accountId, DateRange range) {
     final zone = ShopTimeZone.resolve(null);
-    return _dao
-        .watchSummary(
-          accountId: accountId,
-          from: range.startUtc(zone),
-          to: range.endUtcExclusive(zone),
+    return Stream.fromFuture(_shop.requireShopId())
+        .asyncExpand(
+          (shopId) => _dao.watchSummary(
+            shopId: shopId,
+            accountId: accountId,
+            from: range.startUtc(zone),
+            to: range.endUtcExclusive(zone),
+          ),
         )
         .map(
           (row) => CashBookSummary(
@@ -90,7 +93,13 @@ final class DriftCashBookRepository implements CashBookRepository {
   Future<Result<String>> postAdjustment(AdjustmentPosting posting) => guard(
     () => _dao.transaction(() async {
       final existing = await _dao.findByOperationId(posting.operationId);
-      if (existing != null) return existing.id;
+      if (existing != null) {
+        // The same ID must be the same adjustment, not an edited one.
+        if (existing.amountPaise != posting.amount.paise) {
+          throw const FailureException(DuplicateOperationFailure());
+        }
+        return existing.id;
+      }
 
       final shopId = await _shop.requireShopId();
       final account = await _dao.findMoneyAccount(

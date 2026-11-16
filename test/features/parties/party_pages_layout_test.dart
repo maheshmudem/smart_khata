@@ -188,6 +188,7 @@ void main() {
       for (final quantity in [3, 99999]) {
         await env.closeDay(
           CloseDayCommand(
+            operationId: 'op-close-$quantity',
             businessDate: BusinessDate(2026, 11, 15),
             count: CashCount(quantities: {500: quantity}),
             note: 'సాయంత్రం లెక్క, ఒక నోటు తక్కువగా ఉంది',
@@ -375,6 +376,7 @@ void main() {
       create: (_) => DailyCloseCubit(
         closings: env.closings,
         closeDay: env.closeDay,
+        newOperationId: env.ids.newId,
         date: BusinessDate(2026, 11, 15),
       )..quantityChanged(500, 99999),
       child: const DailyClosePage(),

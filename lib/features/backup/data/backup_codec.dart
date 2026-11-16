@@ -25,12 +25,19 @@ class KdfParams {
   final int iterations;
   final int parallelism;
 
+  /// The most a file may ask for: 64 MiB and 4 passes, a little over
+  /// three times the standard cost. Key stretching runs in Dart, so a
+  /// header asking for a gigabyte would get the app killed on a small
+  /// phone.
+  static const int maxMemoryKib = 64 * 1024;
+  static const int maxIterations = 4;
+
   /// Refuses values a crafted file could use to exhaust the phone.
   bool get isSane =>
       memoryKib >= 8 &&
-      memoryKib <= 1024 * 1024 &&
+      memoryKib <= maxMemoryKib &&
       iterations >= 1 &&
-      iterations <= 16 &&
+      iterations <= maxIterations &&
       parallelism >= 1 &&
       parallelism <= 8;
 }

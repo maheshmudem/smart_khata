@@ -154,7 +154,14 @@ final class DriftExpenseRepository implements ExpenseRepository {
   Future<Result<String>> postExpense(ExpensePosting posting) => guard(
     () => _dao.transaction(() async {
       final existing = await _dao.findByOperationId(posting.operationId);
-      if (existing != null) return existing.id;
+      if (existing != null) {
+        // The same ID must be the same expense, not an edited one.
+        if (existing.amountPaise != posting.amount.paise ||
+            existing.transactionType != TransactionType.expense) {
+          throw const FailureException(DuplicateOperationFailure());
+        }
+        return existing.id;
+      }
 
       final shopId = await _shop.requireShopId();
       final category = await _dao.findCategory(
@@ -220,6 +227,16 @@ final class DriftExpenseRepository implements ExpenseRepository {
           paymentMethod: posting.method,
           direction: MovementDirection.outflow,
           amountPaise: posting.amount.paise,
+          createdAt: now,
+        ),
+      );
+      await _dao.insertAuditLog(
+        db.AuditLogsCompanion.insert(
+          id: _ids.newId(),
+          shopId: shopId,
+          entityType: 'financial_transaction',
+          entityId: transactionId,
+          action: 'expense_recorded',
           createdAt: now,
         ),
       );

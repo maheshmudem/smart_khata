@@ -465,6 +465,7 @@ GoRouter createAppRouter({required OnboardingCubit onboarding}) {
           create: (_) => DailyCloseCubit(
             closings: getIt<DailyClosingRepository>(),
             closeDay: getIt<CloseDay>(),
+            newOperationId: getIt<IdGenerator>().newId,
             date: _today(),
           ),
           child: const DailyClosePage(),

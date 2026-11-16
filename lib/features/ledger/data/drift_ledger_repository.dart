@@ -108,6 +108,20 @@ final class DriftLedgerRepository implements LedgerRepository {
     operation: 'ledger.getOpenCharges',
   );
 
+  /// An operation ID that already posted must be the same operation: the
+  /// same account and amount. A form that was edited after its first save
+  /// went through must not be told that the edited values were saved.
+  static void _requireSameOperation(
+    db.FinancialTransaction existing,
+    String accountId,
+    Money amount,
+  ) {
+    if (existing.partyAccountId != accountId ||
+        existing.amountPaise != amount.paise) {
+      throw const FailureException(DuplicateOperationFailure());
+    }
+  }
+
   // ---- Charges -----------------------------------------------------------
 
   @override
@@ -117,6 +131,7 @@ final class DriftLedgerRepository implements LedgerRepository {
       // reports the first posting (FR-PAY-006).
       final existing = await _dao.findByOperationId(posting.operationId);
       if (existing != null) {
+        _requireSameOperation(existing, posting.accountId, posting.amount);
         return _receipt(existing.id, posting.role, posting.accountId);
       }
 
@@ -197,6 +212,7 @@ final class DriftLedgerRepository implements LedgerRepository {
         accountId: posting.accountId,
         now: now,
       );
+      await _audit(shopId, transactionId, 'charge_recorded', now);
       return _receipt(transactionId, posting.role, posting.accountId);
     }),
     logger: _logger,
@@ -210,6 +226,7 @@ final class DriftLedgerRepository implements LedgerRepository {
     () => _dao.transaction(() async {
       final existing = await _dao.findByOperationId(posting.operationId);
       if (existing != null) {
+        _requireSameOperation(existing, posting.accountId, posting.amount);
         return _receipt(existing.id, posting.role, posting.accountId);
       }
 
@@ -282,16 +299,7 @@ final class DriftLedgerRepository implements LedgerRepository {
         now: now,
       );
 
-      await _dao.insertAuditLog(
-        db.AuditLogsCompanion.insert(
-          id: _ids.newId(),
-          shopId: shopId,
-          entityType: 'financial_transaction',
-          entityId: transactionId,
-          action: 'payment_recorded',
-          createdAt: now,
-        ),
-      );
+      await _audit(shopId, transactionId, 'payment_recorded', now);
       return _receipt(transactionId, posting.role, posting.accountId);
     }),
     logger: _logger,
@@ -303,6 +311,7 @@ final class DriftLedgerRepository implements LedgerRepository {
     () => _dao.transaction(() async {
       final existing = await _dao.findByOperationId(posting.operationId);
       if (existing != null) {
+        _requireSameOperation(existing, posting.accountId, posting.amount);
         return _receipt(existing.id, posting.role, posting.accountId);
       }
 
@@ -349,6 +358,7 @@ final class DriftLedgerRepository implements LedgerRepository {
         accountId: posting.accountId,
         now: now,
       );
+      await _audit(shopId, transactionId, 'return_recorded', now);
       return _receipt(transactionId, posting.role, posting.accountId);
     }),
     logger: _logger,
@@ -562,6 +572,24 @@ final class DriftLedgerRepository implements LedgerRepository {
   /// The ledger effect and the money movement are written here, together,
   /// inside the caller's transaction: there is never one without the other
   /// (invariants 7 and 8).
+  /// Every posting leaves a row in the audit trail saying what kind of
+  /// operation it was. It holds codes only: no name, amount or note.
+  Future<void> _audit(
+    String shopId,
+    String transactionId,
+    String action,
+    DateTime now,
+  ) => _dao.insertAuditLog(
+    db.AuditLogsCompanion.insert(
+      id: _ids.newId(),
+      shopId: shopId,
+      entityType: 'financial_transaction',
+      entityId: transactionId,
+      action: action,
+      createdAt: now,
+    ),
+  );
+
   Future<String> _insertPayment({
     required String shopId,
     required String accountId,

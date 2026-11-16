@@ -272,8 +272,9 @@ class LedgerDao extends DatabaseAccessor<AppDatabase> with _$LedgerDaoMixin {
            (SELECT r.id FROM financial_transactions r
             WHERE r.reversal_of_transaction_id = t.id) AS reversed_by_id,
            (SELECT l.reason FROM audit_logs l
-            WHERE l."action" = 'transaction_reversed'
+            WHERE l.entity_type = 'financial_transaction'
               AND l.entity_id = COALESCE(t.reversal_of_transaction_id, t.id)
+              AND l."action" = 'transaction_reversed'
             LIMIT 1) AS reversal_reason,
            a.id AS account_id, a.role AS role,
            p.id AS party_id, p.display_name AS party_name,

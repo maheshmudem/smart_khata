@@ -140,20 +140,23 @@ class CashDao extends DatabaseAccessor<AppDatabase> with _$CashDaoMixin {
       );
 
   Stream<CashSummaryRow> watchSummary({
+    required String shopId,
     required String accountId,
     required DateTime? from,
     required DateTime? to,
-  }) => _summary(accountId, from, to).watchSingle();
+  }) => _summary(shopId, accountId, from, to).watchSingle();
 
   Future<CashSummaryRow> getSummary({
+    required String shopId,
     required String accountId,
     required DateTime? from,
     required DateTime? to,
-  }) => _summary(accountId, from, to).getSingle();
+  }) => _summary(shopId, accountId, from, to).getSingle();
 
   /// Balance before `from` (the account's opening balance plus everything
   /// earlier), and the inflows and outflows in `[from, to)`.
   Selectable<CashSummaryRow> _summary(
+    String shopId,
     String accountId,
     DateTime? from,
     DateTime? to,
@@ -176,13 +179,14 @@ class CashDao extends DatabaseAccessor<AppDatabase> with _$CashDaoMixin {
       FROM money_accounts m
       LEFT JOIN money_movements v ON v.money_account_id = m.id
       LEFT JOIN financial_transactions t ON t.id = v.transaction_id
-      WHERE m.id = ?3
+      WHERE m.id = ?3 AND m.shop_id = ?4
       GROUP BY m.id
       ''',
       variables: [
         Variable.withInt(fromMs),
         Variable.withInt(toMs),
         Variable.withString(accountId),
+        Variable.withString(shopId),
       ],
       readsFrom: {moneyAccounts, moneyMovements, financialTransactions},
     ).map(
@@ -349,4 +353,32 @@ class CashDao extends DatabaseAccessor<AppDatabase> with _$CashDaoMixin {
 
   Future<void> insertClosing(DailyClosingsCompanion closing) =>
       into(dailyClosings).insert(closing);
+
+  /// The closing saved by [operationId], if that operation already ran.
+  /// A closing row has no operation column, so the ID is kept in the
+  /// audit row written with it.
+  Future<DailyClosing?> closingOfOperation({
+    required String shopId,
+    required String operationId,
+  }) async {
+    final log =
+        await (select(auditLogs)
+              ..where(
+                (t) =>
+                    t.shopId.equals(shopId) &
+                    t.entityType.equals(closingEntityType) &
+                    t.action.equals(closingAction) &
+                    t.metadataJson.equals(operationId),
+              )
+              ..limit(1))
+            .getSingleOrNull();
+    if (log == null) return null;
+    return (select(dailyClosings)..where(
+          (t) => t.id.equals(log.entityId) & t.shopId.equals(shopId),
+        ))
+        .getSingleOrNull();
+  }
+
+  static const String closingEntityType = 'daily_closing';
+  static const String closingAction = 'day_closed';
 }

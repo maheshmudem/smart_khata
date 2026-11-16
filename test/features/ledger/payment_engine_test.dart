@@ -257,7 +257,10 @@ void main() {
         expect(shown.allocatedTotal, rupees(500));
         expect(shown.unallocatedAmount, Money.zero);
 
-        final audit = await env.db.select(env.db.auditLogs).getSingle();
+        // The credit before it has its own row; this is the payment's.
+        final audit = (await env.db.select(env.db.auditLogs).get()).singleWhere(
+          (l) => l.action == 'payment_recorded',
+        );
         expect(audit.action, 'payment_recorded');
         expect(audit.entityId, receipt.transactionId);
         expect(audit.metadataJson, isNull);

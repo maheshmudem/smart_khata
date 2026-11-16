@@ -100,11 +100,14 @@ class DailyClosing extends Equatable {
 /// The daily-closing form.
 class CloseDayCommand extends Equatable {
   const CloseDayCommand({
+    required this.operationId,
     required this.businessDate,
     required this.count,
     this.note,
   });
 
+  /// One per save. A retry with the same ID saves nothing more.
+  final String operationId;
   final BusinessDate businessDate;
   final CashCount count;
   final String? note;
@@ -114,7 +117,7 @@ class CloseDayCommand extends Equatable {
   static const int maxNoteLength = 200;
 
   @override
-  List<Object?> get props => [businessDate, count, note];
+  List<Object?> get props => [operationId, businessDate, count, note];
 }
 
 abstract interface class DailyClosingRepository {
@@ -129,6 +132,7 @@ abstract interface class DailyClosingRepository {
   /// database transaction. If the day was closed before, this becomes the
   /// next revision; nothing is overwritten.
   Future<Result<DailyClosing>> saveClosing({
+    required String operationId,
     required BusinessDate date,
     required CashCount count,
     required String? note,
@@ -160,6 +164,7 @@ class CloseDay {
     if (errors.isNotEmpty) return Err(ValidationFailure(errors));
 
     return _repository.saveClosing(
+      operationId: command.operationId,
       date: command.businessDate,
       count: command.count,
       note: TextNormalizer.cleanOrNull(command.note),

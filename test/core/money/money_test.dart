@@ -91,6 +91,18 @@ void main() {
       expect(() => max + Money.fromPaise(1), throwsA(isA<MoneyRangeError>()));
       expect(() => -max - Money.fromPaise(1), throwsA(isA<MoneyRangeError>()));
       expect(() => max.times(2), throwsA(isA<MoneyRangeError>()));
+      // A quantity large enough to wrap a 64-bit integer is caught before
+      // the multiplication, not after it has wrapped into range.
+      expect(
+        () => Money.fromPaise(50000).times(0x7FFFFFFFFFFFFFFF),
+        throwsA(isA<MoneyRangeError>()),
+      );
+      expect(
+        () => Money.fromPaise(4).times(0x4000000000000000),
+        throwsA(isA<MoneyRangeError>()),
+      );
+      expect(Money.zero.times(0x7FFFFFFFFFFFFFFF), Money.zero);
+      expect(Money.fromPaise(-100).times(3).paise, -300);
       expect(
         () => Money.fromPaise(Money.maxPaise + 1),
         throwsA(isA<MoneyRangeError>()),

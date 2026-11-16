@@ -223,6 +223,35 @@ void main() {
       expect(await balance(raviAccount), 3015);
     });
 
+    test('the same operation ID with a different amount is refused, not '
+        'reported as saved', () async {
+      await env.recordCharge(charge(amount: rupees(500), operationId: 'same'));
+      // The form was edited after the first save went through, then
+      // saved again with the ID it already used.
+      final edited = await env.recordCharge(
+        charge(amount: rupees(900), operationId: 'same'),
+      );
+      expect(edited.failureOrNull, const DuplicateOperationFailure());
+      expect(await env.count('financial_transactions'), 1);
+      expect(
+        await env.db.scalar(
+          'SELECT SUM(amount_paise) FROM party_ledger_entries',
+        ),
+        50000,
+      );
+    });
+
+    test('every posting leaves an audit row that holds codes only', () async {
+      await env.recordCharge(
+        charge(amount: rupees(500), description: 'Rice for Ravi'),
+      );
+      final log = await env.db.select(env.db.auditLogs).getSingle();
+      expect(log.action, 'charge_recorded');
+      expect(log.entityType, 'financial_transaction');
+      expect(log.reason, isNull);
+      expect(log.metadataJson, isNull);
+    });
+
     test(
       'repeating an operation posts once and returns the same receipt',
       () async {
@@ -539,7 +568,10 @@ void main() {
       final wrong = await give(rupees(500));
       await reverse(wrong.transactionId, reason: '  Entered  twice ');
 
-      final log = await env.db.select(env.db.auditLogs).getSingle();
+      // The credit has its own row; this is the reversal's.
+      final log = (await env.db.select(env.db.auditLogs).get()).singleWhere(
+        (l) => l.action == 'transaction_reversed',
+      );
       expect(log.action, 'transaction_reversed');
       expect(log.entityId, wrong.transactionId);
       expect(log.reason, 'Entered twice');
