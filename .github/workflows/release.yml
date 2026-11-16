@@ -15,6 +15,12 @@ on:
 permissions:
   contents: write
 
+# One release at a time; a second run for the same tag waits rather than
+# racing the first.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 env:
   FLUTTER_VERSION: "3.44.6"
 
@@ -50,10 +56,23 @@ jobs:
 
       - run: flutter pub get --enforce-lockfile
 
-      - name: Analyze and test
+      - name: Generated code is up to date
         run: |
+          flutter gen-l10n
+          dart run build_runner build
+          dart run drift_dev schema dump lib/core/database/app_database.dart drift_schemas/
+          if [ -n "$(git status --porcelain -- lib drift_schemas)" ]; then
+            git status --short -- lib drift_schemas
+            echo "::error::Generated files are stale."
+            exit 1
+          fi
+
+      - name: Format, analyze, test, coverage
+        run: |
+          dart format --output=none --set-exit-if-changed lib test tool integration_test
           flutter analyze --fatal-infos
-          flutter test
+          flutter test --coverage
+          dart run tool/check_coverage.dart
 
       - name: Write signing config
         env:
@@ -81,6 +100,12 @@ jobs:
           --build-number=${{ github.run_number }}
           --obfuscate --split-debug-info=build/symbols
 
+      - name: The signed build requests only allowed permissions
+        # The bundle and this APK are built from the same manifest.
+        run: |
+          flutter build apk --release --build-number=${{ github.run_number }}
+          bash tool/check_permissions.sh build/app/outputs/flutter-apk/app-release.apk
+
       - name: Remove signing material
         if: always()
         run: rm -f android/key.properties "$RUNNER_TEMP/upload-keystore.jks"
@@ -91,11 +116,22 @@ jobs:
           path: |
             build/app/outputs/bundle/release/app-release.aab
             build/symbols
+            build/app/outputs/mapping/release/mapping.txt
           retention-days: 90
+
+      - name: Pack the files needed to read crash reports
+        # Dart symbols and R8's mapping. Without them a crash report from
+        # this build cannot be decoded, so they are kept with the release
+        # itself, not only as an artifact that expires.
+        run: |
+          tar -czf "smart-khata-${GITHUB_REF_NAME}-symbols.tar.gz" \
+            build/symbols build/app/outputs/mapping/release/mapping.txt
 
       - uses: softprops/action-gh-release@v2
         with:
-          files: build/app/outputs/bundle/release/app-release.aab
+          files: |
+            build/app/outputs/bundle/release/app-release.aab
+            smart-khata-${{ github.ref_name }}-symbols.tar.gz
           generate_release_notes: true
           draft: true
 
