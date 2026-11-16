@@ -15,6 +15,34 @@ if (hasReleaseKeystore) {
     keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
 }
 
+// A release build without the keystore would be debug-signed. Such an APK
+// can never be updated by the real one: the owner would have to remove the
+// app, which deletes the shop's records. So it is refused unless asked for
+// on purpose (CI smoke builds, local R8 checks):
+//   SMART_KHATA_ALLOW_DEBUG_SIGNED_RELEASE=true flutter build apk --release
+val allowDebugSignedRelease =
+    providers.environmentVariable("SMART_KHATA_ALLOW_DEBUG_SIGNED_RELEASE")
+        .orNull == "true"
+
+gradle.taskGraph.whenReady {
+    val buildsRelease = allTasks.any {
+        it.project == project &&
+            it.name.endsWith("Release") &&
+            (it.name.startsWith("assemble") ||
+                it.name.startsWith("bundle") ||
+                it.name.startsWith("package"))
+    }
+    if (buildsRelease && !hasReleaseKeystore && !allowDebugSignedRelease) {
+        throw GradleException(
+            "No android/key.properties: this release build would be " +
+                "debug-signed and could never be updated. Add the keystore " +
+                "(docs/engineering/ci-cd.md) or, for a build that will not " +
+                "be given to anyone, set " +
+                "SMART_KHATA_ALLOW_DEBUG_SIGNED_RELEASE=true.",
+        )
+    }
+}
+
 android {
     namespace = "com.maheshmudem.smartkhata"
     compileSdk = flutter.compileSdkVersion
@@ -30,7 +58,7 @@ android {
 
     defaultConfig {
         applicationId = "com.maheshmudem.smartkhata"
-        // minSdk 24 (Android 7.0); see docs/adr/ADR-018-android-sdk-levels.md.
+        // minSdk 24 (Android 7.0); see docs/adr/ADR-018-android-app-id-and-sdk-levels.md.
         minSdk = maxOf(24, flutter.minSdkVersion)
         // Play requires API 36 for new apps; recheck at submission time.
         targetSdk = maxOf(36, flutter.targetSdkVersion)
@@ -51,9 +79,8 @@ android {
 
     buildTypes {
         release {
-            // Without key.properties a release build is debug-signed so that
-            // `flutter run --release` works locally. Such a build must never
-            // be uploaded to Play; the release workflow fails without secrets.
+            // Without key.properties a release build is refused (see the
+            // check above) unless debug signing was asked for on purpose.
             signingConfig = if (hasReleaseKeystore) {
                 signingConfigs.getByName("release")
             } else {

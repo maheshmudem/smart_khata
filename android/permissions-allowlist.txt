@@ -1,0 +1,11 @@
+# Every permission the release build may request, one per line.
+# tool/check_permissions.sh fails the build if the APK asks for anything
+# else. Adding a line here needs an ADR (CLAUDE.md rule 14).
+#
+# There is no android.permission.INTERNET, and there must not be.
+android.permission.POST_NOTIFICATIONS
+android.permission.RECEIVE_BOOT_COMPLETED
+android.permission.USE_BIOMETRIC
+android.permission.USE_FINGERPRINT
+android.permission.VIBRATE
+com.maheshmudem.smartkhata.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION

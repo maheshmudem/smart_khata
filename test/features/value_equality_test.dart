@@ -6,6 +6,7 @@ import 'package:smart_khata/core/money/money.dart';
 import 'package:smart_khata/features/ledger/domain/allocation.dart';
 import 'package:smart_khata/features/ledger/domain/ledger_models.dart';
 import 'package:smart_khata/features/ledger/domain/payment_models.dart';
+import 'package:smart_khata/features/money/domain/cash_book.dart';
 import 'package:smart_khata/features/money/domain/money_account.dart';
 import 'package:smart_khata/features/parties/domain/party_commands.dart';
 
@@ -256,5 +257,50 @@ void main() {
     final accounts = (await env.money.getAccounts()).valueOrNull!;
     expect(accounts.last.name, 'UPI wallet');
     expect(accounts.last.type, MoneyAccountType.upiSettlement);
+  });
+
+  test('cash book lines, summaries and adjustment commands', () {
+    CashBookLine line({Money? amount, bool reversed = false, String? party}) =>
+        CashBookLine(
+          movementId: 'm',
+          transactionId: 't',
+          transactionType: TransactionType.customerPayment,
+          direction: MovementDirection.inflow,
+          amount: amount ?? hundred,
+          method: PaymentMethod.cash,
+          effectiveAt: DateTime.utc(2026, 11, 15),
+          isReversed: reversed,
+          partyName: party ?? 'Ravi',
+        );
+    expect(line().isInflow, isTrue);
+    expectValue(line(), line(), [
+      line(amount: two),
+      line(reversed: true),
+      line(party: 'Sita'),
+    ]);
+
+    CashBookSummary summary({Money? inflows}) => CashBookSummary(
+      openingBalance: hundred,
+      inflows: inflows ?? two,
+      outflows: hundred,
+    );
+    // Opening + in - out.
+    expect(summary().closingBalance, two);
+    expectValue(summary(), summary(), [summary(inflows: hundred)]);
+
+    RecordAdjustmentCommand adjustment({
+      String reason = 'Opening cash',
+      MovementDirection direction = MovementDirection.inflow,
+    }) => RecordAdjustmentCommand(
+      operationId: 'op',
+      moneyAccountId: 'cash',
+      direction: direction,
+      amount: hundred,
+      reason: reason,
+    );
+    expectValue(adjustment(), adjustment(), [
+      adjustment(reason: 'Counted extra'),
+      adjustment(direction: MovementDirection.outflow),
+    ]);
   });
 }
