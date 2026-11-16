@@ -126,6 +126,21 @@ class _MoneyAmountFieldState extends State<MoneyAmountField> {
         : MoneyFormatter.toInputText(widget.initialValue!),
   );
 
+  /// Follows a value changed from outside (a form that is cleared, or
+  /// pre-filled later). While the owner types, the parent's value is what
+  /// the text already says, so nothing is touched.
+  @override
+  void didUpdateWidget(MoneyAmountField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final wanted = widget.initialValue ?? Money.zero;
+    final shown = Money.tryParse(_controller.text) ?? Money.zero;
+    if (widget.initialValue != oldWidget.initialValue && wanted != shown) {
+      _controller.text = wanted.isZero
+          ? ''
+          : MoneyFormatter.toInputText(wanted);
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();

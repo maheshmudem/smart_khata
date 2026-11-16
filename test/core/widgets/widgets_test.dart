@@ -18,6 +18,37 @@ void main() {
   final en = l10nFor(AppLocales.english);
   final te = l10nFor(AppLocales.telugu);
 
+  group('MoneyAmountField follows a value changed from outside', () {
+    Future<void> pump(WidgetTester tester, Money? value) => tester.pumpApp(
+      MoneyAmountField(
+        label: 'Amount',
+        initialValue: value,
+        onChanged: (_) {},
+      ),
+    );
+
+    testWidgets('a cleared form empties the field', (tester) async {
+      await pump(tester, Money.fromPaise(50000));
+      expect(find.text('500'), findsOneWidget);
+      // The form is reset: the field must not go on showing ₹500 while
+      // the total leaves it out.
+      await pump(tester, Money.zero);
+      expect(find.text('500'), findsNothing);
+      await pump(tester, Money.fromPaise(7500));
+      expect(find.text('75'), findsOneWidget);
+    });
+
+    testWidgets('typing is never overwritten by the same value', (
+      tester,
+    ) async {
+      await pump(tester, null);
+      await tester.enterText(find.byType(TextFormField), '12.');
+      // The parent rebuilds with what was typed, parsed.
+      await pump(tester, Money.fromPaise(1200));
+      expect(find.text('12.'), findsOneWidget);
+    });
+  });
+
   group('MoneyAmountField', () {
     Future<List<Money?>> pumpField(WidgetTester tester) async {
       final changes = <Money?>[];

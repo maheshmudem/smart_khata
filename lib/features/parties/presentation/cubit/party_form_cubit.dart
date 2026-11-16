@@ -229,7 +229,11 @@ class PartyFormCubit extends Cubit<PartyFormState> {
   /// pauses with [PartyFormState.duplicates] set; the owner then opens the
   /// existing party or calls this again with [allowDuplicatePhone].
   Future<void> submit({bool allowDuplicatePhone = false}) async {
-    if (state.status.isSubmitting) return;
+    // A party has no operation ID, so a second tap must not get through:
+    // not while saving, and not after it saved while the page is closing.
+    if (state.status.isSubmitting || state.status == SubmissionStatus.success) {
+      return;
+    }
 
     final command = SavePartyCommand(
       partyId: state.partyId,

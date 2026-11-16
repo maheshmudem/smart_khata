@@ -222,7 +222,11 @@ class PartyFormPage extends StatelessWidget {
                         ],
                         AppPrimaryButton(
                           label: l10n.actionSave,
-                          isLoading: state.status.isSubmitting,
+                          // Stays busy after a save, until the page has
+                          // closed.
+                          isLoading:
+                              state.status.isSubmitting ||
+                              state.status == SubmissionStatus.success,
                           onPressed: cubit.submit,
                         ),
                       ],

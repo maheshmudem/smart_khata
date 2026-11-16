@@ -239,6 +239,22 @@ void main() {
       },
     );
 
+    test(
+      'a second tap on Save after it saved creates no second party',
+      () async {
+        final cubit = build()..nameChanged('Ravi Kumar');
+        addTearDown(cubit.close);
+
+        await cubit.submit();
+        // The page is still closing; the owner taps again.
+        await cubit.submit();
+        await cubit.submit();
+
+        expect(await env.count('parties'), 1);
+        expect(cubit.state.status, SubmissionStatus.success);
+      },
+    );
+
     test('saves a valid party and reports its ID', () async {
       final cubit = build()
         ..nameChanged('Ravi Kumar')
