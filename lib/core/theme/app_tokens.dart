@@ -17,11 +17,14 @@ abstract final class AppSpacing {
 
 abstract final class AppRadius {
   static const double sm = 8;
-  static const double md = 12;
-  static const double lg = 16;
+  static const double md = 14;
+  static const double lg = 20;
   static const double xl = 28;
 
-  static const BorderRadius card = BorderRadius.all(Radius.circular(md));
+  /// Fully rounded ends for pills and chips.
+  static const double pill = 999;
+
+  static const BorderRadius card = BorderRadius.all(Radius.circular(lg));
   static const BorderRadius control = BorderRadius.all(Radius.circular(md));
   static const BorderRadius sheet = BorderRadius.vertical(
     top: Radius.circular(xl),
@@ -38,6 +41,15 @@ abstract final class AppSizes {
   static const double iconSm = 18;
   static const double iconMd = 24;
   static const double iconLg = 48;
+
+  /// Avatar diameter in party lists.
+  static const double avatar = 46;
+
+  /// Round quick-action button.
+  static const double circleAction = 56;
+
+  /// Widest a form or list column grows on a large screen.
+  static const double maxContentWidth = 640;
 }
 
 abstract final class AppDurations {

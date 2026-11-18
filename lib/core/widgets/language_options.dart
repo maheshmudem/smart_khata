@@ -58,11 +58,13 @@ class _LanguageTile extends StatelessWidget {
       checked: isSelected,
       button: true,
       child: Material(
-        color: isSelected ? scheme.primaryContainer : scheme.surface,
+        color: isSelected
+            ? scheme.primaryContainer
+            : scheme.surfaceContainerLowest,
         shape: RoundedRectangleBorder(
           borderRadius: AppRadius.control,
           side: BorderSide(
-            color: isSelected ? scheme.primary : scheme.outline,
+            color: isSelected ? scheme.primary : scheme.outlineVariant,
             width: isSelected ? 2 : 1,
           ),
         ),

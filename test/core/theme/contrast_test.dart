@@ -54,6 +54,36 @@ void main() {
         'payable / card': (semantic.payable, scheme.surfaceContainerLow),
         'advance / card': (semantic.advance, scheme.surfaceContainerLow),
         'warning / card': (semantic.warning, scheme.surfaceContainerLow),
+        // Cards are surfaceContainerLowest on a surfaceContainerLow page.
+        'onSurface / raised card': (
+          scheme.onSurface,
+          scheme.surfaceContainerLowest,
+        ),
+        'onSurfaceVariant / page': (
+          scheme.onSurfaceVariant,
+          scheme.surfaceContainerLow,
+        ),
+        'receivable / raised card': (
+          semantic.receivable,
+          scheme.surfaceContainerLowest,
+        ),
+        'payable / raised card': (
+          semantic.payable,
+          scheme.surfaceContainerLowest,
+        ),
+        'advance / raised card': (
+          semantic.advance,
+          scheme.surfaceContainerLowest,
+        ),
+        'warning / raised card': (
+          semantic.warning,
+          scheme.surfaceContainerLowest,
+        ),
+        'onTertiaryContainer / badge': (
+          scheme.onTertiaryContainer,
+          scheme.tertiaryContainer,
+        ),
+        'error / raised card': (scheme.error, scheme.surfaceContainerLowest),
       };
 
       for (final MapEntry(key: label, value: (fg, bg)) in pairs.entries) {
@@ -67,6 +97,26 @@ void main() {
       }
     });
   }
+
+  group('hero gradients keep white text readable at both ends', () {
+    for (final (name, gradient) in [
+      ('customers', AppGradients.customers),
+      ('suppliers', AppGradients.suppliers),
+    ]) {
+      for (final stop in gradient.colors) {
+        test('$name ${stop.toARGB32().toRadixString(16)}', () {
+          expect(
+            contrastRatio(AppGradients.onGradient, stop),
+            greaterThanOrEqualTo(aaText),
+          );
+          expect(
+            contrastRatio(AppGradients.onGradientMuted, stop),
+            greaterThanOrEqualTo(aaText),
+          );
+        });
+      }
+    }
+  });
 
   test('both themes carry the semantic colours and bundled fonts', () {
     for (final theme in [AppTheme.light, AppTheme.dark]) {

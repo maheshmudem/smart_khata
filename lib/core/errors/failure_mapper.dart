@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/native.dart' show SqliteException;
 import 'package:smart_khata/core/errors/failure.dart';
 import 'package:smart_khata/core/errors/result.dart';
@@ -24,6 +26,27 @@ Future<Result<T>> guard<T>(
     return Err(failure);
   }
 }
+
+/// The stream version of [guard]: each value becomes `Ok`, each error a
+/// logged `Err`, so a live query never throws into a BLoC.
+Stream<Result<T>> guardStream<T>(
+  Stream<T> source, {
+  required AppLogger logger,
+  required String operation,
+}) => source.transform(
+  StreamTransformer<T, Result<T>>.fromHandlers(
+    handleData: (value, sink) => sink.add(Ok(value)),
+    handleError: (error, stackTrace, sink) {
+      final failure = mapErrorToFailure(error);
+      logger.error(
+        '$operation failed: ${failure.code}',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      sink.add(Err(failure));
+    },
+  ),
+);
 
 /// Classifies [error]. SQLite errors are classified by extended result code,
 /// never by showing their text, which can contain statement parameters.

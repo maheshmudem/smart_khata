@@ -42,14 +42,14 @@ From `docs/product/04_Development_Testing_Plan.md` §5.2. Each one needs a passi
 
 | # | Invariant | Guarded by | Test status |
 |---|---|---|---|
-| 1 | Customer balance = sum of signed customer ledger entries | derived query | schema fixture ✅; repository test with E04 |
-| 2 | Supplier payable = sum of signed supplier ledger entries | derived query | schema fixture ✅; repository test with E04 |
+| 1 | Customer balance = sum of signed customer ledger entries | derived query | ✅ `ledger_test` (§5.3 fixture) |
+| 2 | Supplier payable = sum of signed supplier ledger entries | derived query | ✅ `ledger_test` (§5.3 fixture) |
 | 3 | Customer and supplier accounts of one party are not netted | separate `party_accounts` | ✅ `schema_test` |
 | 4 | Allocations never exceed the payment | allocation trigger + domain | ✅ trigger; domain with E05 |
 | 5 | A charge is never allocated more than its open amount | allocation trigger + domain | ✅ trigger; domain with E05 |
-| 6 | Unallocated payment is an advance, never lost | negative balance | ✅ schema fixture; use case with E05 |
-| 7 | Customer receipt: ledger decrease and money inflow are atomic | one transaction | E05 |
-| 8 | Supplier payment: ledger decrease and money outflow are atomic | one transaction | E05 |
+| 6 | Unallocated payment is an advance, never lost | negative balance | ✅ `ledger_test` |
+| 7 | Customer receipt: ledger decrease and money inflow are atomic | one transaction | ✅ `ledger_test` |
+| 8 | Supplier payment: ledger decrease and money outflow are atomic | one transaction | ✅ `ledger_test` |
 | 9 | Expense and money outflow are atomic | one transaction | E06 |
 | 10 | Reversal + original net to zero on every affected account | reversal service | E04 |
 | 11 | A failed operation leaves no partial rows | transaction rollback | ✅ rollback via `FailureException`; per use case as built |

@@ -59,6 +59,48 @@ class AppSecondaryButton extends StatelessWidget {
   }
 }
 
+/// The Save area of a form, pinned below the scrolling fields so the one
+/// primary action is always in thumb reach. Holds an optional
+/// `InlineError` above the button.
+///
+/// When a form opens it clears any message left by the previous screen, so
+/// a floating "Saved" note can never cover this form's Save button.
+class FormActionBar extends StatefulWidget {
+  const FormActionBar({required this.children, super.key});
+
+  final List<Widget> children;
+
+  @override
+  State<FormActionBar> createState() => _FormActionBarState();
+}
+
+class _FormActionBarState extends State<FormActionBar> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) ScaffoldMessenger.maybeOf(context)?.hideCurrentSnackBar();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final children = widget.children;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerLowest,
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Column(mainAxisSize: MainAxisSize.min, children: children),
+        ),
+      ),
+    );
+  }
+}
+
 class _ButtonContent extends StatelessWidget {
   const _ButtonContent({
     required this.label,

@@ -4,6 +4,10 @@ Material 3, light and dark, deep green with a warm amber accent. Built for a sho
 
 Code: `lib/core/theme/` and `lib/core/widgets/`. In a debug build, open **More → Widget gallery** to see every component; toggle light/dark there and switch language from More.
 
+**Look:** vivid emerald (`#0B7A55`) with an indigo partner for suppliers (`#3949AB`) and an amber accent; white cards with soft shadows on a grey-green page; gradient hero headers; a raised gradient "+" in the nav bar.
+
+**Screenshots without a phone:** `flutter test test_screenshots --update-goldens` renders the real app with sample data, real fonts and shadows to `test_screenshots/out/*.png` (git-ignored). Review them after any visual change.
+
 ## Principles
 
 1. **Direction in words.** Every balance says who owes whom. Colour and icon support the label; they never replace it.
@@ -39,7 +43,8 @@ Body line height is 1.5 because Telugu has marks above and below the line. Use `
 | Token | Values |
 |---|---|
 | `AppSpacing` | 2, 4, 8, 12, 16, 24, 32, 48 |
-| `AppRadius` | 8, 12 (cards, controls), 16, 28 (sheets, dialogs) |
+| `AppRadius` | 8, 14 (controls), 20 (cards), 28 (sheets, dialogs), pill |
+| `AppGradients` | `customers`, `suppliers`; text on them is `onGradient` (white), checked against both stops |
 | `AppSizes` | touch target 48, button height 52, icons 18 / 24 / 48 |
 | `AppDurations` | 150 ms, 250 ms |
 
@@ -61,7 +66,20 @@ Body line height is 1.5 because Telugu has marks above and below the line. Use `
 | `DiscardChangesGuard` | Any form | Back asks before discarding when dirty |
 | `LanguageOptions` | English / తెలుగు choice | Each name in its own script |
 
-Still to build with their features (wireframes §5): `PartySearchField`, `TransactionListTile`, `PaymentSplitEditor`, `AllocationEditor`, `DateRangePicker`, `BackupStatusTile`.
+| `GradientSurface` | Hero areas: Home header, party header, onboarding card | Emerald (customers) or indigo (suppliers) gradient with soft decorative rings; white content only |
+| `GlassTile` | A figure on a gradient (Home "Customers owe you" / "You owe suppliers") | Frosted tile; label in words, amount, optional advance note; one semantics node |
+| `CircleAction` | Round quick actions (Home, party page) | Tinted circle + label; `comingSoon` dims it and adds an amber dot |
+| `BalanceHeroCard` | The headline balance of a screen | Gradient (customers green, suppliers indigo), white text; label + amount read as one node; up to a few `HeroStat` pills |
+| `AppCard` | Any group of content | Borderless, raised by tone (`surfaceContainerLowest` on a `surfaceContainerLow` page), radius 20, optional tap |
+| `SectionHeader` | A titled group on a long page | Marked as a header for screen readers; optional text action |
+| `StatTile` | One small labelled amount (today's figures) | One semantics node |
+| `PartyAvatar` | A party's initials | Stable tonal colour per name; hidden from screen readers (the name is read instead) |
+| `PartySearchField` | Local search | Pill-shaped, debounced 250 ms, clear button with tooltip |
+| `ComingSoonBadge` + `showComingSoon` | An action that arrives in a later update | Never leave a button silently dead |
+| `FormActionBar` | The Save area of a form | Pinned below the scrolling fields; holds `InlineError` above the button |
+| `InfoRow` | A labelled detail (phone, address) | Icon, caption, value |
+
+Still to build with their features (wireframes §5): `TransactionListTile`, `PaymentSplitEditor`, `AllocationEditor`, `DateRangePicker`, `BackupStatusTile`.
 
 ## Money on screen
 

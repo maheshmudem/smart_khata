@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:smart_khata/core/domain/balance_kind.dart';
 import 'package:smart_khata/core/money/money.dart';
+import 'package:smart_khata/core/money/money_formatter.dart';
 import 'package:smart_khata/core/theme/app_theme.dart';
 import 'package:smart_khata/core/theme/app_tokens.dart';
 import 'package:smart_khata/core/widgets/app_buttons.dart';
+import 'package:smart_khata/core/widgets/app_cards.dart';
 import 'package:smart_khata/core/widgets/app_text_fields.dart';
 import 'package:smart_khata/core/widgets/dialogs.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
@@ -48,6 +50,76 @@ class _WidgetGalleryPageState extends State<WidgetGalleryPage> {
             body: ListView(
               padding: const EdgeInsets.all(AppSpacing.lg),
               children: [
+                const _Section('Hero cards'),
+                BalanceHeroCard(
+                  title: l10n.roleCustomers,
+                  kind: BalanceKind.customerOwes,
+                  amount: Money.fromPaise(4500000),
+                  tone: HeroTone.customers,
+                  onTap: () {},
+                  stats: [
+                    HeroStat(
+                      label: l10n.statAdvance,
+                      value: MoneyFormatter.format(Money.fromPaise(20000)),
+                    ),
+                    HeroStat(label: l10n.statWithDues, value: '12'),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.md),
+                BalanceHeroCard(
+                  title: l10n.roleSuppliers,
+                  kind: BalanceKind.youOweSupplier,
+                  amount: Money.fromPaise(1500000),
+                  tone: HeroTone.suppliers,
+                ),
+                const _Section('Cards, avatars, badges'),
+                AppCard(
+                  child: Row(
+                    children: [
+                      for (final name in ['Ravi Kumar', 'Suresh', 'ABC'])
+                        Padding(
+                          padding: const EdgeInsets.only(right: AppSpacing.sm),
+                          child: PartyAvatar(name: name),
+                        ),
+                      const Spacer(),
+                      const ComingSoonBadge(),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                AppCard(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: StatTile(
+                          label: l10n.todayCredit,
+                          amount: Money.fromPaise(500000),
+                          icon: Icons.south_west,
+                        ),
+                      ),
+                      Expanded(
+                        child: StatTile(
+                          label: l10n.todayCollected,
+                          amount: Money.fromPaise(350000),
+                          icon: Icons.payments_outlined,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                PartySearchField(
+                  hintText: l10n.partiesSearchHint,
+                  onChanged: (_) {},
+                ),
+                const SizedBox(height: AppSpacing.md),
+                AppCard(
+                  child: InfoRow(
+                    icon: Icons.phone_outlined,
+                    label: l10n.phoneLabel,
+                    value: '98765 43210',
+                  ),
+                ),
                 const _Section('Balances'),
                 for (final kind in BalanceKind.values)
                   Padding(

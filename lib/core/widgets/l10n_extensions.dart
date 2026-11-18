@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:smart_khata/core/domain/balance_kind.dart';
+import 'package:smart_khata/core/domain/ledger_enums.dart';
 import 'package:smart_khata/core/errors/failure.dart';
 import 'package:smart_khata/l10n/generated/app_localizations.dart';
 
@@ -23,6 +24,10 @@ extension FailureMessageX on AppLocalizations {
       errors.isEmpty ? errorUnexpected : validationMessage(errors.values.first),
     DuplicateOperationFailure() => errorAlreadySaved,
     NotFoundFailure() => errorNotFound,
+    BusinessRuleFailure(:final rule) => switch (rule) {
+      BusinessRule.partyArchived => errorPartyArchived,
+      BusinessRule.openingBalanceAlreadySet => errorOpeningBalanceExists,
+    },
     StorageFullFailure() => errorStorageFull,
     ConstraintFailure() || DatabaseFailure() => switch (context) {
       FailureContext.saving => errorSaveFailed,
@@ -39,6 +44,37 @@ extension FailureMessageX on AppLocalizations {
     ValidationError.invalidPhone => validationInvalidPhone,
     ValidationError.splitMustEqualTotal => validationSplitMismatch,
     ValidationError.endBeforeStart => validationEndBeforeStart,
+  };
+
+  /// "Customer" / "Supplier".
+  String roleLabel(PartyRole role) => switch (role) {
+    PartyRole.customer => roleCustomer,
+    PartyRole.supplier => roleSupplier,
+  };
+
+  /// "Customers" / "Suppliers".
+  String rolePlural(PartyRole role) => switch (role) {
+    PartyRole.customer => roleCustomers,
+    PartyRole.supplier => roleSuppliers,
+  };
+
+  /// "Cash" / "UPI" / "Bank transfer". Cheque and other are not offered in
+  /// V1 and read as cash-like "other" text if ever stored.
+  String methodLabel(PaymentMethod method) => switch (method) {
+    PaymentMethod.cash => methodCash,
+    PaymentMethod.upi => methodUpi,
+    PaymentMethod.bankTransfer => methodBankTransfer,
+    PaymentMethod.cheque || PaymentMethod.other => txnOther,
+  };
+
+  /// What a transaction was, in plain words.
+  String transactionLabel(TransactionType type) => switch (type) {
+    TransactionType.openingBalance => txnOpeningBalance,
+    TransactionType.customerCredit => txnCustomerCredit,
+    TransactionType.customerPayment => txnCustomerPayment,
+    TransactionType.supplierPurchase => txnSupplierPurchase,
+    TransactionType.supplierPayment => txnSupplierPayment,
+    _ => txnOther,
   };
 
   /// The direction label shown next to a balance.

@@ -49,7 +49,7 @@ These drafts are in `app_te.arb`. A native Telugu-speaking merchant must review 
 |---|---|---|
 | Customer | కస్టమర్ | Common spoken loanword |
 | Supplier | సరఫరాదారు | Check whether merchants say "హోల్‌సేలర్" or "డీలర్" instead |
-| Parties (tab) | ఖాతాదారులు | "Account holders"; confirm it reads as customers + suppliers |
+| Parties (tab) | ఖాతాలు | "Accounts". Shortened from ఖాతాదారులు, which wraps in the 5-item nav bar; confirm it reads as customers + suppliers |
 | Customer owes | కస్టమర్ బాకీ | |
 | Customer advance | కస్టమర్ అడ్వాన్స్ | |
 | You owe supplier | సరఫరాదారుకు మీరు చెల్లించాల్సింది | Long; check it fits list rows |

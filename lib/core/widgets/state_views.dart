@@ -28,7 +28,7 @@ class EmptyState extends StatelessWidget {
     final theme = Theme.of(context);
     return _CenteredMessage(
       icon: icon,
-      iconColor: theme.colorScheme.onSurfaceVariant,
+      iconColor: theme.colorScheme.primary,
       title: title,
       message: message,
       action: actionLabel == null
@@ -184,7 +184,16 @@ class _CenteredMessage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: AppSizes.iconLg, color: iconColor),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: iconColor.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.xl),
+                  child: Icon(icon, size: AppSizes.iconLg, color: iconColor),
+                ),
+              ),
               const SizedBox(height: AppSpacing.lg),
               Text(
                 title,

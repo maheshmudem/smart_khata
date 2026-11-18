@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_khata/core/theme/app_tokens.dart';
 import 'package:smart_khata/core/widgets/l10n_extensions.dart';
 
 /// Asks the owner to confirm an action.
@@ -41,6 +42,34 @@ Future<bool> showConfirmDialog(
     },
   );
   return confirmed ?? false;
+}
+
+/// Tells the owner that an action arrives in a later update. Used by every
+/// "Coming soon" button so none of them is silently dead.
+void showComingSoon(BuildContext context) {
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(SnackBar(content: Text(context.l10n.comingSoonMessage)));
+}
+
+/// Shows a short confirmation after a save that has committed.
+void showSavedMessage(BuildContext context, String message) {
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.check_circle,
+              color: Theme.of(context).colorScheme.inversePrimary,
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(child: Text(message)),
+          ],
+        ),
+      ),
+    );
 }
 
 /// Stops system back from silently throwing away a form the owner has

@@ -76,5 +76,215 @@
   "quickAddCashCountHint": "Count the cash drawer and close the day",
 
   "featureNotReadyTitle": "Not available in this build",
-  "featureNotReadyBody": "This screen is added in a later build."
+  "featureNotReadyBody": "This screen is added in a later build.",
+
+  "badgeComingSoon": "Coming soon",
+  "comingSoonMessage": "This arrives in the next update. Nothing was recorded.",
+  "actionClearSearch": "Clear search",
+  "actionEdit": "Edit",
+  "actionSaveAnyway": "Save anyway",
+  "actionOpenDashboard": "Open dashboard",
+  "tooltipMoreActions": "More actions",
+  "errorPartyArchived": "This party is archived. Reactivate it to add entries.",
+  "errorOpeningBalanceExists": "An opening balance is already recorded for this account.",
+
+  "onboardingStep": "Step {current} of {total}",
+  "@onboardingStep": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "languageSubtitle": "You can change this later from More.",
+
+  "shopSetupTitle": "Set up your shop",
+  "shopSetupSubtitle": "Only the shop name is needed. You can add the rest later.",
+  "shopContactSection": "Contact details (optional)",
+  "shopNameLabel": "Shop name",
+  "ownerNameLabel": "Owner name",
+  "phoneLabel": "Mobile number",
+  "addressLabel": "Address",
+  "localityLabel": "Area / locality",
+  "currencyLabel": "Currency",
+  "currencyValue": "Indian Rupee (₹)",
+  "openingCashLabel": "Cash in drawer now",
+  "openingCashHelper": "Optional. The starting cash for your cash book.",
+  "setupCompleteTitle": "Your shop is ready",
+  "setupCompleteStorage": "Your records are stored only on this phone and are not copied anywhere else.",
+  "setupCompleteBackup": "Backup to a file arrives in a later update. Until then, records cannot be recovered if this phone is lost or reset.",
+  "setupCompleteOffline": "Everything works without internet.",
+
+  "homeWelcome": "Welcome",
+  "homeCustomersOweYou": "Customers owe you",
+  "homeYouOweSuppliers": "You owe suppliers",
+  "homeAdvanceNote": "Advance {amount}",
+  "@homeAdvanceNote": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "roleCustomers": "Customers",
+  "roleSuppliers": "Suppliers",
+  "roleCustomer": "Customer",
+  "roleSupplier": "Supplier",
+  "statAdvance": "Advance",
+  "statWithDues": "With dues",
+  "homeToday": "Today",
+  "todayCredit": "Credit given",
+  "todayCollected": "Collected",
+  "todayExpenses": "Expenses",
+  "homeQuickActions": "Quick actions",
+  "homeRecentActivity": "Recent activity",
+  "homeNoActivity": "No entries yet. Opening balances appear here now; credit and payments arrive in the next update.",
+  "homeEmptyTitle": "Add your first customer",
+  "homeEmptyBody": "Add the people who buy on credit and the suppliers you buy from. Their balances appear here.",
+  "backupWarningTitle": "No exported backup yet",
+  "backupWarningBody": "Records are stored only on this phone. Backup to a file arrives in a later update.",
+  "actionAddCustomer": "Add customer",
+  "actionAddSupplier": "Add supplier",
+  "actionGiveCredit": "Give credit",
+  "actionReceivePayment": "Receive payment",
+  "actionAddPurchase": "Add purchase",
+  "actionPaySupplier": "Pay supplier",
+  "txnOpeningBalance": "Opening balance",
+  "txnCustomerCredit": "Credit given",
+  "txnCustomerPayment": "Payment received",
+  "txnSupplierPurchase": "Purchase",
+  "txnSupplierPayment": "Payment made",
+  "txnOther": "Entry",
+
+  "partiesSearchHint": "Search name or phone",
+  "filterAll": "All",
+  "filterHasDues": "Has dues",
+  "filterAdvance": "Advance",
+  "filterArchived": "Archived",
+  "partiesEmptyCustomers": "No customers yet",
+  "partiesEmptySuppliers": "No suppliers yet",
+  "partiesEmptyBody": "Add one to start keeping their account.",
+  "partiesNoMatch": "No party matches “{query}”",
+  "@partiesNoMatch": {
+    "placeholders": {
+      "query": {"type": "String"}
+    }
+  },
+  "partiesNoFilterMatch": "No parties in this filter.",
+  "actionLoadMore": "Show more",
+  "partyArchivedTag": "Archived",
+  "partyBothRoles": "Customer and supplier",
+
+  "partyFormAddTitle": "Add party",
+  "partyFormEditTitle": "Edit party",
+  "partyNameLabel": "Name",
+  "partyRolesLabel": "This party is a",
+  "partyRolesRequired": "Choose customer, supplier or both.",
+  "partyRoleLocked": "A role that already has an account cannot be removed.",
+  "partyAltPhoneLabel": "Other phone",
+  "partyNotesLabel": "Notes",
+  "partyCreditLimitLabel": "Credit limit",
+  "partyCreditLimitHelper": "Optional. For your reference.",
+  "partyOpeningHint": "Add an opening balance from the party page after saving.",
+  "partySaved": "Party saved",
+  "duplicatePhoneTitle": "This number is already saved",
+  "duplicatePhoneBody": "{names} already use this number. Save a separate party anyway?",
+  "@duplicatePhoneBody": {
+    "placeholders": {
+      "names": {"type": "String"}
+    }
+  },
+
+  "partyContactSection": "Contact",
+  "partyCreditLimitValue": "Credit limit {amount}",
+  "@partyCreditLimitValue": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "partyComingSoonEntries": "Credit, payments and purchases arrive in the next update.",
+  "partyNoContact": "No contact details saved.",
+  "archivedBanner": "This party is archived. Its history and balance are kept.",
+  "actionArchive": "Archive party",
+  "actionReactivate": "Reactivate party",
+  "archiveTitle": "Archive this party?",
+  "archiveBody": "Their history and balance stay as they are. New entries are blocked until you reactivate them.",
+  "openingBalanceAction": "Add opening balance",
+  "openingBalanceTitle": "Opening balance",
+  "openingBalanceIntro": "The balance before you started using Smart Khata. It is recorded once and moves no cash.",
+  "openingBalanceRecorded": "Opening balance recorded",
+  "openingBalanceSaved": "Opening balance saved",
+  "openingCustomerOwes": "Customer owes you",
+  "openingCustomerAdvance": "You hold the customer's advance",
+  "openingSupplierOwed": "You owe the supplier",
+  "openingSupplierAdvance": "The supplier holds your advance",
+  "reviewTitle": "Review",
+  "reviewCurrent": "Current balance",
+  "reviewAfter": "Balance after saving",
+
+  "moreSectionShop": "Shop",
+  "moreSectionApp": "App",
+  "moreSectionDanger": "Danger zone",
+  "shopProfileTitle": "Shop profile",
+  "shopProfileSaved": "Shop details saved",
+  "resetTitle": "Reset app data",
+  "resetSubtitle": "Erase everything on this phone and start over",
+  "resetStep1Title": "Erase all records?",
+  "resetStep1Body": "Every customer, supplier, balance and setting on this phone will be permanently deleted. There is no backup yet, so this cannot be undone.",
+  "resetStep2Title": "Type the shop name to confirm",
+  "resetStep2Body": "Type {shopName} below to erase everything.",
+  "@resetStep2Body": {
+    "placeholders": {
+      "shopName": {"type": "String"}
+    }
+  },
+  "actionEraseEverything": "Erase everything",
+  "resetInProgress": "Erasing records…",
+
+  "reportsComingTitle": "Reports are on the way",
+  "reportsComingBody": "Outstanding, aging and statements arrive after credit and payments.",
+
+  "quickAddSectionPeople": "People",
+  "quickAddSectionEntries": "Entries",
+  "quickAddAddCustomerHint": "Someone who buys from you",
+  "quickAddAddSupplierHint": "Someone you buy from",
+
+  "entryChooseCustomer": "Choose a customer",
+  "entryChooseSupplier": "Choose a supplier",
+  "entryPartyRequired": "Choose who this entry is for.",
+  "entryChangeParty": "Change",
+  "entryNoMatch": "No one matches. Add them as new.",
+  "entryMethodLabel": "Paid by",
+  "methodCash": "Cash",
+  "methodUpi": "UPI",
+  "methodBankTransfer": "Bank transfer",
+  "entryDueDate": "Due date",
+  "entryAddDueDate": "Add a due date (optional)",
+  "entryRemoveDueDate": "Remove due date",
+  "entryNoteLabel": "Note (optional)",
+  "entryNoteHint": "e.g. rice, oil, monthly groceries",
+  "reviewThisEntry": "This entry",
+  "entryExcessAdvance": "This is more than is due. The extra {amount} will be kept as an advance.",
+  "@entryExcessAdvance": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  },
+  "entrySaved": "Saved. {balance}",
+  "@entrySaved": {
+    "placeholders": {
+      "balance": {"type": "String"}
+    }
+  },
+  "ledgerTitle": "Entries",
+  "ledgerEmpty": "No entries yet. Give credit or record a payment to start.",
+  "ledgerDue": "Due {date}",
+  "@ledgerDue": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "ledgerBalanceAfter": "Balance {amount}",
+  "@ledgerBalanceAfter": {
+    "placeholders": {
+      "amount": {"type": "String"}
+    }
+  }
 }

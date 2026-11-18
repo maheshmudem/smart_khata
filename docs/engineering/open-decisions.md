@@ -6,13 +6,11 @@ Things that code cannot settle. Each blocks the phase named; none blocks the nex
 
 | # | Decision | Blocks | Recommendation |
 |---|---|---|---|
-| 1 | **Money accounts in V1**: Cash only, or Cash plus optional Bank/UPI accounts (schema open decision 2, SK-0003) | Payments (E05) | Create "Cash" at setup; let the owner add bank/UPI accounts. The schema already supports it and UPI payments need somewhere to land |
 | 2 | **Cash refunds for returns at launch** or in V1.1 (schema open decision 3) | Returns (SK-0510) | Launch with returns as credit notes only; add cash refund in V1.1. Fewer flows to get wrong in the pilot |
 | 3 | **Cheque** as a payment method (FR-PAY-004) | Payments (E05) | Defer to P1. The schema allows the code; the UI will not offer it |
 | 4 | **Reference device and minimum Android version** | Performance tests, release | minSdk 24 (Android 7.0) is set (ADR-018). Pick one real mid-range phone that pilot merchants use as the reference |
 | 5 | **Support contact and privacy policy URL** | Help screen (WF-083), Play listing | None exists yet. The app will not ship a made-up contact |
 | 6 | **Play Console account and app listing** | Release | Create the developer account early; identity verification can take days |
-| 7 | **Shop time zone at setup** | Onboarding (E02) | Default to `Asia/Kolkata` without asking (V1 is India-only); store it on the shop row as the schema requires |
 
 ## Needs other people
 
@@ -38,3 +36,7 @@ Things that code cannot settle. Each blocks the phase named; none blocks the nex
 ## Decided during the foundation build
 
 See `docs/adr/`: ADR-015 (canonical schema and `.drift` files), ADR-016 (balance sign convention), ADR-017 (packages), ADR-018 (app ID, platforms, SDK levels), ADR-020 (extra append-only guards).
+
+## Decided in Phase 1
+
+ADR-021 (shop time zone, formerly decision 7), ADR-022 (reset app data instead of a logout), ADR-023 (money accounts for payments, formerly decision 1; automatic oldest-first allocation).

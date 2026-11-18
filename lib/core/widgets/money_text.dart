@@ -32,6 +32,28 @@ class MoneyText extends StatelessWidget {
   }
 }
 
+/// The supporting colour for a balance direction. Always shown with the
+/// direction label, never alone.
+Color balanceColor(BuildContext context, BalanceKind kind) {
+  final semantic = context.semanticColors;
+  return switch (kind) {
+    BalanceKind.customerOwes => semantic.receivable,
+    BalanceKind.youOweSupplier => semantic.payable,
+    BalanceKind.customerAdvance ||
+    BalanceKind.supplierAdvance => semantic.advance,
+    BalanceKind.settled => semantic.neutral,
+  };
+}
+
+/// The supporting icon for a balance direction.
+IconData balanceIcon(BalanceKind kind) => switch (kind) {
+  BalanceKind.customerOwes => Icons.south_west,
+  BalanceKind.youOweSupplier => Icons.north_east,
+  BalanceKind.customerAdvance ||
+  BalanceKind.supplierAdvance => Icons.savings_outlined,
+  BalanceKind.settled => Icons.check_circle_outline,
+};
+
 /// A balance with its direction in words, an icon and a supporting colour.
 ///
 /// The label carries the meaning ("Customer owes", "Customer advance"); the
@@ -54,14 +76,8 @@ class BalanceSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final semantic = context.semanticColors;
-    final (color, icon) = switch (kind) {
-      BalanceKind.customerOwes => (semantic.receivable, Icons.south_west),
-      BalanceKind.youOweSupplier => (semantic.payable, Icons.north_east),
-      BalanceKind.customerAdvance ||
-      BalanceKind.supplierAdvance => (semantic.advance, Icons.savings_outlined),
-      BalanceKind.settled => (semantic.neutral, Icons.check_circle_outline),
-    };
+    final color = balanceColor(context, kind);
+    final icon = balanceIcon(kind);
     final label = context.l10n.balanceLabel(kind);
     final formatted = MoneyFormatter.format(amount.abs());
 

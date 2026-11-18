@@ -18,8 +18,12 @@ class SmartKhataApp extends StatefulWidget {
     required this.settings,
     required this.initialLocale,
     required this.onboardingComplete,
+    required this.onAppReset,
     super.key,
   });
+
+  /// Restarts the app after "Reset app data" has erased the database.
+  final VoidCallback onAppReset;
 
   final SettingsRepository settings;
   final Locale initialLocale;
@@ -38,7 +42,10 @@ class _SmartKhataAppState extends State<SmartKhataApp> {
     settings: widget.settings,
     isComplete: widget.onboardingComplete,
   );
-  late final GoRouter _router = createAppRouter(onboarding: _onboardingCubit);
+  late final GoRouter _router = createAppRouter(
+    onboarding: _onboardingCubit,
+    onAppReset: widget.onAppReset,
+  );
 
   @override
   void dispose() {

@@ -17,6 +17,11 @@ void main() {
         (StorageFullFailure(), 'storage_full'),
         (DatabaseFailure(resultCode: 5), 'database'),
         (UnexpectedFailure(), 'unexpected'),
+        (BusinessRuleFailure(BusinessRule.partyArchived), 'rule_partyArchived'),
+        (
+          BusinessRuleFailure(BusinessRule.openingBalanceAlreadySet),
+          'rule_openingBalanceAlreadySet',
+        ),
       ];
       for (final (failure, code) in codes) {
         expect(failure.code, code);

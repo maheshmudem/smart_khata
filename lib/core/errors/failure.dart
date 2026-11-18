@@ -79,6 +79,28 @@ final class ConstraintFailure extends Failure {
 
 enum ConstraintKind { foreignKey, check, unique, trigger, other }
 
+/// The operation breaks a business rule that the owner can understand and
+/// fix, such as posting to an archived party.
+final class BusinessRuleFailure extends Failure {
+  const BusinessRuleFailure(this.rule);
+
+  final BusinessRule rule;
+
+  @override
+  String get code => 'rule_${rule.name}';
+
+  @override
+  List<Object?> get props => [code, rule];
+}
+
+enum BusinessRule {
+  /// Archived parties take no new postings until reactivated (FR-PAR-007).
+  partyArchived,
+
+  /// Each party account has at most one opening balance (FR-PAR-008).
+  openingBalanceAlreadySet,
+}
+
 /// The device has no room left to save.
 final class StorageFullFailure extends Failure {
   const StorageFullFailure();

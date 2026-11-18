@@ -58,3 +58,6 @@ key.properties
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Design screenshots (test_screenshots/screens_test.dart)
+/test_screenshots/out/

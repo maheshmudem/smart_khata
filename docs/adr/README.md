@@ -13,6 +13,9 @@ A decision that changes scope, data, accounting behaviour, security or a depende
 | [ADR-018](ADR-018-android-app-id-and-sdk-levels.md) | App ID, platforms, minSdk 24, targetSdk 36, OS backup off, no INTERNET | Accepted |
 | [ADR-019](ADR-019-backup-encryption.md) | Portable passphrase-encrypted backup archive | **Proposed** — needs security review |
 | [ADR-020](ADR-020-extra-append-only-guards.md) | Closings and audit log are append-only too; "reversed" is derived | Accepted |
+| [ADR-021](ADR-021-shop-time-zone.md) | Shop time zone is `Asia/Kolkata` in V1, read from the shop row | Accepted |
+| [ADR-022](ADR-022-reset-app-data.md) | "Reset app data" (delete the database files, two confirmations) instead of a logout | Accepted |
+| [ADR-023](ADR-023-money-accounts-and-allocation.md) | Cash + "Bank & UPI" accounts for payments; automatic oldest-first allocation | Accepted |
 
 ## Writing a new ADR
 

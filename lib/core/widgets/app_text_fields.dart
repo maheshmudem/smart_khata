@@ -79,6 +79,8 @@ class MoneyAmountField extends StatefulWidget {
     required this.onChanged,
     this.initialValue,
     this.errorText,
+    this.helperText,
+    this.isRequired = true,
     this.enabled = true,
     this.autofocus = false,
     this.textInputAction,
@@ -89,6 +91,11 @@ class MoneyAmountField extends StatefulWidget {
   final ValueChanged<Money?> onChanged;
   final Money? initialValue;
   final String? errorText;
+  final String? helperText;
+
+  /// Adds `*` to the label. Most amounts are required; an optional one
+  /// (opening cash) must not look required.
+  final bool isRequired;
   final bool enabled;
   final bool autofocus;
   final TextInputAction? textInputAction;
@@ -123,10 +130,11 @@ class _MoneyAmountFieldState extends State<MoneyAmountField> {
       style: AppTheme.amountStyle(theme.textTheme.headlineSmall),
       onChanged: (text) => widget.onChanged(Money.tryParse(text)),
       decoration: InputDecoration(
-        labelText: '${widget.label} *',
+        labelText: widget.isRequired ? '${widget.label} *' : widget.label,
         prefixText: '${MoneyFormatter.rupeeSymbol} ',
         prefixStyle: AppTheme.amountStyle(theme.textTheme.headlineSmall),
         errorText: widget.errorText,
+        helperText: widget.helperText,
       ),
     );
   }

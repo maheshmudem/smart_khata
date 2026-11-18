@@ -37,14 +37,21 @@ abstract final class AppTheme {
     return base.copyWith(
       textTheme: textTheme,
       extensions: [semantic],
-      scaffoldBackgroundColor: scheme.surface,
+      // Cards are lighter than the page so they read as raised without
+      // borders or shadows.
+      scaffoldBackgroundColor: scheme.surfaceContainerLow,
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.surface,
+        backgroundColor: scheme.surfaceContainerLow,
         foregroundColor: scheme.onSurface,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
-        scrolledUnderElevation: 2,
+        scrolledUnderElevation: 1,
         centerTitle: false,
-        titleTextStyle: textTheme.titleLarge?.copyWith(color: scheme.onSurface),
+        toolbarHeight: 64,
+        titleTextStyle: textTheme.headlineSmall?.copyWith(
+          color: scheme.onSurface,
+          fontWeight: FontWeight.w700,
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -73,18 +80,23 @@ abstract final class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: scheme.surfaceContainerHighest.withValues(alpha: 0.5),
+        fillColor: scheme.surfaceContainerHigh,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.lg,
         ),
-        border: OutlineInputBorder(
+        // Soft filled fields: no outline until focus or error.
+        border: const OutlineInputBorder(
           borderRadius: AppRadius.control,
-          borderSide: BorderSide(color: scheme.outline),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppRadius.control,
-          borderSide: BorderSide(color: scheme.outline),
+          borderSide: BorderSide(color: scheme.surfaceContainerHigh),
+        ),
+        disabledBorder: const OutlineInputBorder(
+          borderRadius: AppRadius.control,
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppRadius.control,
@@ -102,24 +114,96 @@ abstract final class AppTheme {
         errorMaxLines: 3,
         helperMaxLines: 3,
       ),
+      // Borderless tonal cards on a slightly darker page.
       cardTheme: CardThemeData(
         elevation: 0,
-        color: scheme.surfaceContainerLow,
+        color: scheme.surfaceContainerLowest,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: AppRadius.card,
-          side: BorderSide(color: scheme.outlineVariant),
-        ),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.card),
       ),
       navigationBarTheme: NavigationBarThemeData(
-        height: 72,
-        backgroundColor: scheme.surfaceContainer,
+        height: 80,
+        elevation: 0,
+        backgroundColor: scheme.surfaceContainerLowest,
+        surfaceTintColor: Colors.transparent,
         indicatorColor: scheme.primaryContainer,
+        indicatorShape: const StadiumBorder(),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        labelTextStyle: WidgetStatePropertyAll(textTheme.labelMedium),
+        iconTheme: WidgetStateProperty.resolveWith(
+          (states) => IconThemeData(
+            color: states.contains(WidgetState.selected)
+                ? scheme.primary
+                : scheme.onSurfaceVariant,
+          ),
+        ),
+        // labelSmall: long Telugu tab names must fit on one line.
+        labelTextStyle: WidgetStateProperty.resolveWith(
+          (states) => textTheme.labelSmall?.copyWith(
+            color: states.contains(WidgetState.selected)
+                ? scheme.primary
+                : scheme.onSurfaceVariant,
+            fontWeight: states.contains(WidgetState.selected)
+                ? FontWeight.w700
+                : FontWeight.w500,
+          ),
+        ),
+      ),
+      // Chips: white pills; the selected one is solid brand colour.
+      chipTheme: ChipThemeData(
+        shape: const StadiumBorder(),
+        // Unselected chips are outlined so they read as buttons on white
+        // cards too; the selected one is solid with no outline.
+        side: WidgetStateBorderSide.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? BorderSide.none
+              : BorderSide(color: scheme.outlineVariant),
+        ),
+        backgroundColor: scheme.surfaceContainerLowest,
+        selectedColor: scheme.primary,
+        checkmarkColor: scheme.onPrimary,
+        // White text on the selected (solid brand) chip, dark otherwise.
+        labelStyle: textTheme.labelLarge?.copyWith(
+          color: WidgetStateColor.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? scheme.onPrimary
+                : scheme.onSurface,
+          ),
+        ),
+        secondaryLabelStyle: textTheme.labelLarge?.copyWith(
+          color: scheme.onPrimary,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.xs,
+        ),
+      ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: SegmentedButton.styleFrom(
+          minimumSize: const Size(
+            AppSizes.minTouchTarget,
+            AppSizes.minTouchTarget,
+          ),
+          shape: const StadiumBorder(),
+          side: BorderSide(color: scheme.surfaceContainerLowest, width: 4),
+          backgroundColor: scheme.surfaceContainerLowest,
+          foregroundColor: scheme.onSurfaceVariant,
+          selectedBackgroundColor: scheme.primary,
+          selectedForegroundColor: scheme.onPrimary,
+          textStyle: textTheme.labelLarge,
+        ),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: scheme.primary,
+        foregroundColor: scheme.onPrimary,
+        elevation: 4,
+        highlightElevation: 6,
+        shape: const StadiumBorder(),
+        extendedTextStyle: textTheme.titleSmall,
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: scheme.surfaceContainerLow,
+        surfaceTintColor: Colors.transparent,
+        dragHandleColor: scheme.outlineVariant,
         showDragHandle: true,
         shape: const RoundedRectangleBorder(borderRadius: AppRadius.sheet),
       ),

@@ -1,6 +1,7 @@
 import 'package:smart_khata/core/date_time/clock.dart';
 import 'package:smart_khata/core/errors/failure.dart';
 import 'package:smart_khata/core/errors/result.dart';
+import 'package:smart_khata/core/ids/id_generator.dart';
 import 'package:smart_khata/core/logging/app_logger.dart';
 import 'package:smart_khata/features/settings/domain/settings_repository.dart';
 
@@ -13,6 +14,14 @@ class FakeClock implements Clock {
 
   @override
   DateTime nowUtc() => now;
+}
+
+/// Predictable IDs that sort in creation order like UUID v7: `id-0001`, ...
+class SequenceIdGenerator implements IdGenerator {
+  int _next = 0;
+
+  @override
+  String newId() => 'id-${(++_next).toString().padLeft(4, '0')}';
 }
 
 /// Collects log records so tests can assert on them.

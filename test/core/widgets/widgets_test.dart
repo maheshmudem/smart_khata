@@ -377,6 +377,24 @@ void main() {
       }
     });
 
+    test('each business rule has its own explanation', () {
+      expect(
+        en.failureMessage(
+          const BusinessRuleFailure(BusinessRule.partyArchived),
+        ),
+        en.errorPartyArchived,
+      );
+      expect(
+        en.failureMessage(
+          const BusinessRuleFailure(BusinessRule.openingBalanceAlreadySet),
+        ),
+        en.errorOpeningBalanceExists,
+      );
+      for (final rule in BusinessRule.values) {
+        expect(te.failureMessage(BusinessRuleFailure(rule)), isNotEmpty);
+      }
+    });
+
     test('a database failure is worded for saving or loading', () {
       const failure = DatabaseFailure();
       expect(en.failureMessage(failure), en.errorSaveFailed);

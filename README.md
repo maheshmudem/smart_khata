@@ -2,7 +2,7 @@
 
 An offline-first Android app that replaces the paper Khata book for Kirana and general stores in India: customer credit, supplier dues, payments, cash book, expenses, daily closing, reports and encrypted local backup. One shop, one owner, one phone. English and Telugu. No sign-in and no internet needed.
 
-**Status:** foundation built; features not started. See [Roadmap](#roadmap).
+**Status:** Phase 1 in progress: shop setup, parties, opening balances and the dashboard work on real data. See [Roadmap](#roadmap).
 
 ## Requirements
 
@@ -17,7 +17,7 @@ flutter pub get
 flutter run                 # debug build on a connected Android device
 ```
 
-First launch asks for a language and then opens the app shell. In a debug build, **More → Widget gallery** shows every design-system component.
+First launch asks for a language, then the shop name, then opens Home. **More → Reset app data** erases everything and starts over (there is no account, so no logout; see ADR-022). In a debug build, **More → Widget gallery** shows every design-system component.
 
 ## Everyday commands
 
@@ -56,8 +56,8 @@ Each phase ends with a review. Backlog IDs refer to [`docs/product/07_Implementa
 | Phase | Scope | Status |
 |---|---|---|
 | 0 | Foundation: architecture, design system, localization, schema v1, tests, CI/CD (E01) | Done |
-| 1 | Onboarding, shop setup, parties (E02, E03) | Next |
-| 2 | Ledger engine: credit, purchase, balances, reversal (E04) | |
+| 1 | Onboarding, shop setup, parties (E02, E03) | In progress: setup, Cash account, parties, opening balances done; app lock (SK-0204) pending |
+| 2 | Ledger engine: credit, purchase, balances, reversal (E04) | In progress: credit, purchase, payments, oldest-first allocation, ledger history done; reversal pending |
 | 3 | Payments, allocations, returns (E05) | |
 | 4 | Expenses, cash book, daily closing (E06, E07) | |
 | 5 | Dashboard, reports, statements, PDF/CSV (E08, E09) | |
